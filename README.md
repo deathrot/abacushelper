@@ -25,8 +25,8 @@ The app is split into the following components:
 
 The app can be containerized using the DockerFile supplied in the App folder, the commands are as follows:
 
-<docker build . -t abacus_helper:latest>
-<docker run -d -p 80:80 abacus_helper:latest>
+> docker build . -t abacus_helper:latest
+> docker run -d -p 80:80 abacus_helper:latest
 
 ## Contributions
 
