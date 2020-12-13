@@ -25,9 +25,9 @@ Create table IF NOT EXISTS abacus_books(
 	foreign key (AbacusLevelId) REFERENCES abacus_levels(Id) on delete cascade
 );
 
-Create table if not exists abacus_books_pages(
+Create table if not exists abacus_book_pages(
 	Id NVARCHAR(256) not null primary key,
-	AbacusBooksId NVARCHAR(256),
+	AbacusBookId NVARCHAR(256),
 	RecordName VARCHAR(256) not null,
 	RecordDescription VARCHAR(1024),
 	SortOrder integer,
@@ -35,7 +35,7 @@ Create table if not exists abacus_books_pages(
 	foreign key (AbacusBooksId) references abacus_books(Id) on delete cascade
 );
 
-Create table if not exists abacus_books_pages_questions(
+Create table if not exists abacus_book_page_questions(
 	Id NVARCHAR(256) not null primary key,
 	AbacusBooksPagesId NVARCHAR(256),
 	Question JSON NOT NULL,
