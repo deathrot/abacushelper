@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import AbacusAdmin from 'abacus/admin'
 
 const Home = (props) => {
 
   return (
-    <h1>Test</h1>
+    <div>
+      <h1>Test</h1>
+      <AbacusAdmin />
+    </div>
   );
 };
 
