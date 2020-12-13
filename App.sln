@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App", "src\App\App.csproj", "{2BD7E0C4-FAA1-4B5D-8514-876DD1B03749}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9063400A-0801-427D-BD53-991664E0E55E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "src\Logic\Logic.csproj", "{91FABF53-C81E-4800-A923-05960709F682}"
 EndProject
 Global
