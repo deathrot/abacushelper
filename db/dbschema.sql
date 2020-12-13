@@ -45,7 +45,7 @@ Create table if not exists abacus_books_pages_questions(
 );
 
 Delete from abacus_levels;
-s
+
 INSERT INTO abacus_levels(Id, RecordName, RecordDescription, SortOrder, ModifiedOn)
 VALUES ('ML3', 'Mega Level 3', 'Mega Level 3', 1, CURRENT_TIMESTAMP),
 ('ML4', 'Mega Level 4', 'Mega Level 4', 2, CURRENT_TIMESTAMP);
