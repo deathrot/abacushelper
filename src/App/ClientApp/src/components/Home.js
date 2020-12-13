@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AbacusAdmin from 'abacus/admin'
+import AbacusAdmin from './abacus/admin/AbacusAdmin'
 
 const Home = (props) => {
 

@@ -1,12 +1,4 @@
 
-SET FOREIGN_KEY_CHECKS = 0;
-
-Drop table IF EXISTS abacus_levels;
-Drop table IF EXISTS abacus_books;
-Drop table if exists abacus_books_pages;
-Drop table if exists abacus_books_pages_questions;
-SET FOREIGN_KEY_CHECKS = 1;
-
 Create table IF NOT EXISTS abacus_levels(
 	Id NVARCHAR(256) not null primary key,
 	RecordName VARCHAR(256) not null,
@@ -15,47 +7,45 @@ Create table IF NOT EXISTS abacus_levels(
 	ModifiedOn datetime not null
 );
 
-Create table IF NOT EXISTS abacus_books(
+Create table IF NOT EXISTS abacus_sub_levels(
 	Id NVARCHAR(256) not null primary key,
-	AbacusLevelId NVARCHAR(256),
 	RecordName VARCHAR(256) not null,
 	RecordDescription VARCHAR(1024),
 	SortOrder integer,
-	ModifiedOn datetime not null,
-	foreign key (AbacusLevelId) REFERENCES abacus_levels(Id) on delete cascade
+	ModifiedOn datetime not null
 );
 
-Create table if not exists abacus_book_pages(
+Create table if not exists abacus_questions(
 	Id NVARCHAR(256) not null primary key,
-	AbacusBookId NVARCHAR(256),
-	RecordName VARCHAR(256) not null,
-	RecordDescription VARCHAR(1024),
-	SortOrder integer,
-	ModifiedOn datetime not null,
-	foreign key (AbacusBooksId) references abacus_books(Id) on delete cascade
-);
-
-Create table if not exists abacus_book_page_questions(
-	Id NVARCHAR(256) not null primary key,
-	AbacusBooksPagesId NVARCHAR(256),
+	Severity INTEGER NOT NULL, 
 	Question JSON NOT NULL,
+	AbacusLevelId NVARCHAR(256),
 	SortOrder integer,
-	ModifiedOn datetime not null,
-	foreign key (AbacusBooksPagesId) references abacus_books_pages(Id) on delete cascade
+	ModifiedOn datetime not NULL,
+	foreign key (AbacusLevelId) references abacus_levels(Id) on delete CASCADE
 );
 
-Delete from abacus_levels;
 
-INSERT INTO abacus_levels(Id, RecordName, RecordDescription, SortOrder, ModifiedOn)
-VALUES ('ML3', 'Mega Level 3', 'Mega Level 3', 1, CURRENT_TIMESTAMP),
-('ML4', 'Mega Level 4', 'Mega Level 4', 2, CURRENT_TIMESTAMP);
+INSERT IGNORE INTO abacus_levels(Id, RecordName, RecordDescription, SortOrder, ModifiedOn)
+VALUES ('Lvl1', 'Spark 1', 'Spark 1', 1, CURRENT_TIMESTAMP),
+('Lvl2', 'Spark 2', 'Spark 2', 2, CURRENT_TIMESTAMP),
+('Lvl3', 'Spark 3', 'Spark 3', 3, CURRENT_TIMESTAMP),
+('Lvl4', 'Spark 4', 'Spark 4', 4, CURRENT_TIMESTAMP),
+('Lvl5', 'Spark 5', 'Spark 5', 5, CURRENT_TIMESTAMP),
+('ML1', 'Mega Level 1', 'Mega Level 1', 6, CURRENT_TIMESTAMP),
+('ML2', 'Mega Level 2', 'Mega Level 2', 7, CURRENT_TIMESTAMP),
+ ('ML3', 'Mega Level 3', 'Mega Level 3', 8, CURRENT_TIMESTAMP),
+('ML4', 'Mega Level 4', 'Mega Level 4', 9, CURRENT_TIMESTAMP),
+('ML5', 'Mega Level 5', 'Mega Level 5', 10, CURRENT_TIMESTAMP);
 
-INSERT INTO abacus_books(Id, AbacusLevelId, RecordName, RecordDescription, SortOrder, ModifiedOn)
-VALUES('ML3_A', 'ML3', 'Megal Level 3A', 'Megal Level 3A', 1, CURRENT_TIMESTAMP),
-('ML3_B', 'ML3', 'Megal Level 3B', 'Megal Level 3B', 2, CURRENT_TIMESTAMP);
-
-INSERT INTO abacus_books_pages(Id, AbacusBooksId, RecordName, RecordDescription, SortOrder, ModifiedOn)
-VALUES('ML3_A_1', 'ML3_A', 'Page 1', 'Page 1', 1, CURRENT_TIMESTAMP);
-
-INSERT INTO abacus_books_pages_questions(Id, AbacusBooksPagesId, Question, SortOrder, ModifiedOn)
-VALUES('ML3_A_1_1', 'ML3_A_1', '{ "type": "test" }', 1, CURRENT_TIMESTAMP);
+INSERT IGNORE INTO abacus_sub_levels(Id, RecordName, RecordDescription, SortOrder, ModifiedOn)
+VALUES ('SubLvl1', 'Level 1', 'Sub Level 1', 1, CURRENT_TIMESTAMP),
+('SubLvl2', 'Sub Level 2', 'Sub Level 2', 2, CURRENT_TIMESTAMP),
+('SubLvl3', 'Sub Level 3', 'Sub Level 3', 3, CURRENT_TIMESTAMP),
+('SubLvl4', 'Sub Level 4', 'Sub Level 4', 4, CURRENT_TIMESTAMP),
+('SubLvl5', 'Sub Level 5', 'Sub Level 5', 5, CURRENT_TIMESTAMP),
+('SubLvl6', 'Sub Level 6', 'Sub Level 6', 6, CURRENT_TIMESTAMP),
+('SubLvl7', 'Sub Level 7', 'Sub Level 7', 7, CURRENT_TIMESTAMP),
+('SubLvl8', 'Sub Level 8', 'Sub Level 8', 8, CURRENT_TIMESTAMP),
+('SubLvl9', 'Sub Level 9', 'Sub Level 9', 9, CURRENT_TIMESTAMP),
+('SubLvl10', 'Sub Level 10', 'Sub Level 10', 10, CURRENT_TIMESTAMP);
