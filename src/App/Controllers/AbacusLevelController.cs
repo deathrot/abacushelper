@@ -20,9 +20,13 @@ namespace App.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Logic.ViewModels.AbacusLevelVM>>> Get()
+        public async Task<IEnumerable<Logic.ViewModels.AbacusLevelVM>> Get()
         {
-            return null;
+            var dataFromDB = await Logic.DB.DBUtility.GetDataFromTable<Logic.DBModels.AbacusLevels>("abacus_levels", null);
+
+            var modelsForUI = Logic.Mappers.ObjectMapper.Instance.Mapper.Map<IEnumerable<Logic.ViewModels.AbacusLevelVM>>(dataFromDB);
+
+            return modelsForUI.OrderBy(x => x.sort);
         }
     }
 }
