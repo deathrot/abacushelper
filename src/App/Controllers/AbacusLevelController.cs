@@ -12,9 +12,9 @@ namespace App.Controllers
     public class AbacusLevelController : ControllerBase
     {
 
-        private readonly ILogger<QuestionController> _logger;
+        private readonly ILogger<AbacusLevelController> _logger;
 
-        public AbacusLevelController(ILogger<QuestionController> logger)
+        public AbacusLevelController(ILogger<AbacusLevelController> logger)
         {
             _logger = logger;
         }

@@ -9,23 +9,23 @@ namespace App.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class QuestionController : ControllerBase
+    public class QuestionsController : ControllerBase
     {
 
-        private readonly ILogger<QuestionController> _logger;
+        private readonly ILogger<QuestionsController> _logger;
 
-        public QuestionController(ILogger<QuestionController> logger)
+        public QuestionsController(ILogger<QuestionsController> logger)
         {
             _logger = logger;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Logic.DBModels.QuestionEntity>>> GetQuestions(string page)
+        public async Task<ActionResult<IEnumerable<Logic.DBModels.QuestionEntity>>> Get()
         {
             return null;
         }
 
-        [HttpGet]
+        /*[HttpGet]
         public async Task<ActionResult<Logic.DBModels.QuestionEntity>> GetRandomQuestion(string level)
         {
             return null;
@@ -35,6 +35,6 @@ namespace App.Controllers
         public ActionResult SaveQuestion(Logic.DBModels.QuestionEntity questionToSave)
         {
             return new OkResult();
-        }
+        }*/
     }
 }

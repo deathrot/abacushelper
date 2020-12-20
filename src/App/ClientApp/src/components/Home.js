@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import AbacusAdmin from './abacus/admin/AbacusAdmin'
+import Admin from './admin/admin'
 
 const Home = (props) => {
 
   return (
     <div>
-      <h1>Test</h1>
-      <AbacusAdmin />
+      <Admin />
     </div>
   );
 };
