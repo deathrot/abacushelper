@@ -1,0 +1,26 @@
+.admin_question {
+    margin: 5px;
+}
+
+.admin_question_header {
+    font-size: 20px;
+}
+
+.container {
+    margin: 5px;
+}
+
+.grid {
+    float:left;
+    width: 200px
+}
+
+.question_instance {
+    float:right; 
+    width: 500px
+}
+
+.spacer {
+    float: clear;
+    width: 100%
+}
