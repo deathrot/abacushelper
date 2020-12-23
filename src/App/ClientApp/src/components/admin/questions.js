@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component, useState, useEffect, useContext } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { createNewQuestion } from '../common/extension_methods';
 import Button from '@material-ui/core/Button';
@@ -8,13 +8,13 @@ import 'primereact/resources/themes/fluent-light/theme.css';
 import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
 import './questions.css';
+import AdminActions from "./context/admin_actions"
 import { makeStyles } from '@material-ui/core/styles';
 
 const Questions = (props) => {
-  const [questions, setQuestions] = useState(null);
-  const [nextId, setNextId] = useState(-1);
-  const [selectedQuestion, setSelectedQuestion] = useState(null);
-  const [selectedQuestionKey, setSelectedQuestionKey] = useState(null);
+  const {state, dispatch} = useContext();
+  //const [selectedQuestion, setSelectedQuestion] = useState(null);
+  //const [selectedQuestionKey, setSelectedQuestionKey] = useState(null);
 
   useEffect(() => {
     fetchQuestions();
@@ -24,13 +24,13 @@ const Questions = (props) => {
     const response = await fetch("Questions");
     const data = await response.json();
 
-    setQuestions(data);
+    dispatch(state, {type: AdminActions.SetState, payload: data})
   };
 
   const addNewQuestion = () => {
     const newQuestion = createNewQuestion(nextId);
-    setQuestions([...newQuestion]);
-    setNextId(nextId - 1);
+
+    dispatch(state, {type: AdminActions.AddQuestion, payload: newQuestion})    
   };
 
   return (
@@ -42,9 +42,9 @@ const Questions = (props) => {
         </div>
         <div>
           <div class="grid">
-            <DataTable value={questions} selectionKeys={selectedQuestionKey}
-                  onSelectionChange={(e) => setSelectedQuestionKey(e.value)}
-                    onSelect={e => setSelectedQuestion(e.node)} selectionMode="single">
+            <DataTable value={state.questions} selectionKeys={state.selectedQuestionId}
+                    onSelect={(e) => dispatch({type: AdminActions.SelectedQuestion, payload: e.value})}
+                      selectionMode="single">
                   <Column field="Id" header="Name" expander></Column>
                   <Column field="RecordName" header="Question"></Column>
             </DataTable>
