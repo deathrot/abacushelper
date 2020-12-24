@@ -1,8 +1,9 @@
 using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace Logic.DB
 {
-    public static class DBConnectionUtility
+    public class BaseDBConnectionUtility : Interfaces.IConnectionUtility
     {
 
         /// <summary>
@@ -15,9 +16,9 @@ namespace Logic.DB
             connectionString = connStr;
         }
 
-        public static MySqlConnection GetConnection()
+        public IDbConnection GetConnection()
         {
-           var connection = new MySql.Data.MySqlClient.MySqlConnection(connectionString.ConnectionString);
+           var connection = new MySql.Data.MySqlClient.MySqlConnection(connectionString.BaseDBConnectionString);
 
            return connection;
         }

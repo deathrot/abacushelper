@@ -4,15 +4,22 @@ namespace Logic.DB
     public class DBConnectionString
     {
         
-        public string ConnectionString
+        public string BaseDBConnectionString
         {
             get;
             private set;
         }
 
-        public DBConnectionString(string connectionString)
+        public string StudentDBConnectionString
         {
-            this.ConnectionString = connectionString;
+            get;
+            private set;
+        }
+
+        public DBConnectionString(string baseDBConnectionString, string studentDBConnectionString)
+        {
+            this.BaseDBConnectionString = baseDBConnectionString;
+            this.StudentDBConnectionString = studentDBConnectionString;
         }
 
     }
