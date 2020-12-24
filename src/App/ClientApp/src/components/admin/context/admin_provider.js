@@ -8,6 +8,7 @@ const initial_state = {
     selectedQuestion: null,
     hasChanges: false,
     newQuestions: [],
+    newId: -1,
     deletedQuestions: []
 };
 
@@ -27,6 +28,8 @@ export const AdminContextProvider = (props) => {
                 state.selectedQuestion = action.payload;
             case AdminActions.AddQuestion:
                 let q = action.payload;
+                q['id'] = state.newId;
+                state.newId -= 1;
                 state.questions[q.id] = q;
                 state.newQuestions.push(q);
             case AdminActions.DeleteQuestion:

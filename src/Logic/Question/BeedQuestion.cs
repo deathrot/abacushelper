@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using QuestionType = Logic.Enums.QuestionType;
 
 namespace Logic.Question
 {

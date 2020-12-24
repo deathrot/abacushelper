@@ -6,7 +6,7 @@ namespace Logic.DBModels
 {
     public class NamedDBEntity : DBEntity
     {
-        public string RecordName {get; set;}
-        public string RecordDescription {get; set;}
+        public string record_name {get; set;}
+        public string record_description {get; set;}
     }
 }

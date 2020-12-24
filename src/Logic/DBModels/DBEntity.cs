@@ -6,11 +6,13 @@ namespace Logic.DBModels
     {
         
         [Dapper.Contrib.Extensions.ExplicitKey]
-        public string Id {get; set;}
+        public string id {get; set;}
 
-        public DateTime ModifiedOn {get; set;}
+        public DateTime modified_on {get; set;}
         
-        public int SortOrder {get; set;}
+        public int sort_order {get; set;}
+
+        public bool is_deleted {get; set;}
         
     }
 }

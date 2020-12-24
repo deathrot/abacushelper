@@ -20,9 +20,10 @@ namespace App.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Logic.DBModels.QuestionEntity>>> Get()
+        public async Task<ActionResult<IEnumerable<Logic.ViewModels.AbacusLevelVM>>> Get()
         {
-            return null;
+            await Task.Delay(0);
+            return new Logic.DBModels.QuestionEntity[]{};
         }
 
         /*[HttpGet]

@@ -10,7 +10,7 @@ namespace Logic.Question
     public interface IQuestion
     {
 
-        QuestionType QuestionType { get;  }
+        Enums.QuestionType QuestionType { get;  }
 
         bool IsValid();
 

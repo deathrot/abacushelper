@@ -1,4 +1,5 @@
 using System;
+using EntityState = Logic.Enums.EntityState;
 
 namespace Logic.ViewModels
 {
@@ -7,11 +8,8 @@ namespace Logic.ViewModels
         public string id {get; set;}
 
         public DateTime modified_on {get; set;}
+
+        public EntityState EntityState {get; set;}
         
-        public int sort {get; set;}
-
-        public string name {get; set;}
-
-        public string desc {get; set;}
     }
 }
