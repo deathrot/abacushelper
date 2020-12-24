@@ -20,8 +20,7 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "^3.4.3",
     "reactstrap": "^6.3.0",
-    "rimraf": "^2.6.2",
-    "loadash": "^4.17.20"
+    "rimraf": "^2.6.2"
   },
   "devDependencies": {
     "ajv": "^6.9.1",

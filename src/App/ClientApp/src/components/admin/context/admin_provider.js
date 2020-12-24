@@ -1,20 +1,22 @@
-import React, { useReducer, useContext, setState, useEffect } from React;
+import React, { createContext, useReducer } from 'react';
 import AdminActions from './admin_actions';
 
-var _ = require("loadash");
+import _ from 'lodash';
 
-const initial_state = {questions: {},
-selectedQuestion: null,
-hasChanges: false,
-newQuestions: [],
-deletedQuestions: []};
+const initial_state = {
+    questions: {},
+    selectedQuestion: null,
+    hasChanges: false,
+    newQuestions: [],
+    deletedQuestions: []
+};
 
 export const AdminContext = createContext();
 
 export const AdminContextProvider = (props) => {
-    
+
     const [state, dispatch] = useReducer((state, action) => {
-        switch(action.type) {
+        switch (action.type) {
             case AdminActions.ClearState:
                 state.questions = null;
                 state.selectedQuestion = null;
@@ -28,17 +30,20 @@ export const AdminContextProvider = (props) => {
                 state.questions[q.id] = q;
                 state.newQuestions.push(q);
             case AdminActions.DeleteQuestion:
-                if (!_.isNull(state.selectedQuestion)){
+                if (!_.isNull(state.selectedQuestion)) {
                     delete state.questions[q.id];
                     state.newQuestions.pop(q);
                     state.deletedQuestions.push(q);
                 }
-            }
+        }
 
-          return state;
-        }, initial_state);
+        return state;
+    }, initial_state);
 
-    return (<AdminContext.Provider value={state, dispatch}>
+    return (<AdminContext.Provider value={{
+        state: state,
+        dispatch: dispatch
+    }} >
         {props.children}
     </AdminContext.Provider>);
 }

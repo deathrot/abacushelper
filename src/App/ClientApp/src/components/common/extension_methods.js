@@ -1,7 +1,7 @@
-export function createNewQuestion(id) {
+export function createNewQuestion() {
     const newQuestion = {
         Id: '',
-        DisplayName: "New pod " + id,
+        DisplayName: "_",
         Description: ''
     };
 
