@@ -2,8 +2,8 @@
 
 namespace Logic.DBModels
 {
-    [Dapper.Contrib.Extensions.Table("abacus_books_pages_questions")]
-    public class QuestionEntity : NamedDBEntity
+    [Dapper.Contrib.Extensions.Table("questions")]
+    public class QuestionEntity : NamedDBEntity, Interfaces.IDBEntity
     {
         public Severity severity {get; set;}
 

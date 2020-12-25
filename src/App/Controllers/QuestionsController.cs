@@ -20,10 +20,21 @@ namespace App.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Logic.ViewModels.AbacusLevelVM>>> Get()
+        public async Task<ActionResult<IEnumerable<Logic.ViewModels.QuestionVM>>> Get()
         {
             await Task.Delay(0);
-            return new Logic.DBModels.QuestionEntity[]{};
+            return new Logic.ViewModels.QuestionVM[]{};
+        }
+
+
+
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<Logic.ViewModels.QuestionVM>>> Save(IEnumerable<Logic.ViewModels.QuestionVM> entitesToUpdate,
+                                                                                        IEnumerable<Logic.ViewModels.QuestionVM> entitesToDelete,
+                                                                                        IEnumerable<Logic.ViewModels.QuestionVM> entitesToInsert)
+        {
+            await Task.Delay(0);
+            return new Logic.ViewModels.QuestionVM[] { };
         }
 
         /*[HttpGet]

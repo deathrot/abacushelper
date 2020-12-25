@@ -2,8 +2,8 @@
 
 namespace Logic.DBModels
 {
-    [Dapper.Contrib.Extensions.Table("abacus_books_pages_questions")]
-    public class QuestionTagEntity : DBEntity
+    [Dapper.Contrib.Extensions.Table("question_tags")]
+    public class QuestionTagEntity : DBEntity, Interfaces.IDBEntity
     {
         public string tag_id {get; set;}
 

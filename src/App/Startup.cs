@@ -20,13 +20,13 @@ namespace App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews();
 
-            string connectionString = Configuration.GetConnectionString("abacus");
+            Logic.DB.BaseDBConnectionUtility baseDB = new Logic.DB.BaseDBConnectionUtility(Configuration.GetConnectionString("baseDataDb"));
+            services.AddSingleton(baseDB.GetType(), baseDB);
 
-            Logic.DB.DBConnectionString str = new Logic.DB.DBConnectionString(connectionString);
-            Logic.DB.DBConnectionUtility.Initialize(str);
+            Logic.DB.StudentDBConnectionUtility studentDB = new Logic.DB.StudentDBConnectionUtility(Configuration.GetConnectionString("studentDb"));
+            services.AddSingleton(studentDB.GetType(), studentDB);
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
