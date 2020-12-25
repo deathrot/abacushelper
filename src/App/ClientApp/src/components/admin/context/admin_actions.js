@@ -3,4 +3,6 @@ export default class AdminActions {
     static SetState = "SetState";
     static AddQuestion = "AddQuestion";
     static SelectedQuestion = "SelectedQuestion";
+    static NameChanged = "NameChanged";
+    static DeleteQuestion = "DeleteQuestion";
 }

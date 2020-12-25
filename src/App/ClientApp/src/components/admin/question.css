@@ -14,13 +14,3 @@
     float:left;
     width: 200px
 }
-
-.question_instance {
-    float:right; 
-    width: 500px
-}
-
-.spacer {
-    float: clear;
-    width: 100%
-}

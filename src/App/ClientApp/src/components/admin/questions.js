@@ -1,4 +1,5 @@
 import React, { Component, useState, useEffect, useContext } from 'react';
+import Question from './question';
 import { DataTable } from 'primereact/datatable';
 import { createNewQuestion } from '../common/extension_methods';
 import Button from '@material-ui/core/Button';
@@ -16,6 +17,7 @@ import 'react-splitter-layout/lib/index.css';
 
 const Questions = (props) => {
     const { state, dispatch } = useContext(AdminContext);
+    const selectedQuestion = state && state.selectedQuestion;
     //const [selectedQuestion, setSelectedQuestion] = useState(null);
     //const [selectedQuestionKey, setSelectedQuestionKey] = useState(null);
 
@@ -30,9 +32,14 @@ const Questions = (props) => {
         dispatch({ type: AdminActions.SetState, payload: data })
     };
 
+    const deleteQuestion = (e) => {
+        e.preventDefault();
+
+        dispatch({ type: AdminActions.Delete })
+    }
+
     const addNewQuestion = (e) => {
         e.preventDefault();
-        debugger;
         const newQuestion = createNewQuestion();
 
         dispatch({ type: AdminActions.AddQuestion, payload: newQuestion })
@@ -54,19 +61,23 @@ const Questions = (props) => {
             <div class="container">
                 <div class="toolbar">
                     <Button variant="contained" color="secondary" onClick={(e) => addNewQuestion(e)}>Add</Button>
-                    {state.newId}
+                    <span class="spacer" />
+                    {selectedQuestion && 
+                        <Button variant="contained" color="secondary" onClick={(e) => deleteQuestion(e)}>Delete</Button>
+                    }
                 </div>
                 <div class="content">
-                    <SplitterLayout percentage="true" primaryMinSize="20" secondaryInitialSize="80">
+                    <SplitterLayout percentage="true" primaryMinSize="10" secondaryInitialSize="80">
                         <div class="grid">
                             <DataTable value={state.questions} selectionKeys={state.selectedQuestionId}
-                                onSelect={(e) => dispatch({ type: AdminActions.SelectedQuestion, payload: e.value })}
+                                selection={state.selectedQuestion}
+                                onSelectionChange={(e) => dispatch({type: AdminActions.SelectedQuestion, payload: e.value})}
                                 selectionMode="single">
                                 <Column header="Question" body={questionBodyTemplate}></Column>
                             </DataTable>
                         </div>
                         <div class="question_instance">
-
+                            <Question />
                         </div>
                     </SplitterLayout>
                 </div>

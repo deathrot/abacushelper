@@ -16,16 +16,14 @@
 }
 
 .question_instance {
-    float:right; 
-    width: 500px
-}
-
-.spacer {
-    float: clear;
-    width: 100%
+    margin-left: 10px;
 }
 
 .content {
     margin-top: 15px;
     width: 100%;
+}
+
+.spacer {
+    padding-left: 10px;
 }
