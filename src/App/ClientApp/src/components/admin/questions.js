@@ -54,6 +54,7 @@ const Questions = (props) => {
             <div class="container">
                 <div class="toolbar">
                     <Button variant="contained" color="secondary" onClick={(e) => addNewQuestion(e)}>Add</Button>
+                    {state.newId}
                 </div>
                 <div class="content">
                     <SplitterLayout percentage="true" primaryMinSize="20" secondaryInitialSize="80">
