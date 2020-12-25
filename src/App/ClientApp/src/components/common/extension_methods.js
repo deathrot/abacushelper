@@ -1,8 +1,9 @@
 export function createNewQuestion() {
     const newQuestion = {
         Id: '',
-        DisplayName: "_",
-        Description: ''
+        Name: "_",        
+        Description: '',
+        Tags: []        
     };
 
     return newQuestion;

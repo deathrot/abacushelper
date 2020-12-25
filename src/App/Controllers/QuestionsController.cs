@@ -14,39 +14,27 @@ namespace App.Controllers
 
         private readonly ILogger<QuestionsController> _logger;
 
-        public QuestionsController(ILogger<QuestionsController> logger)
+        private readonly Logic.DB.BaseDBConnectionUtility _connectionUtility;
+
+        public QuestionsController(ILogger<QuestionsController> logger, Logic.DB.BaseDBConnectionUtility connectionUtility)
         {
             _logger = logger;
+            _connectionUtility = connectionUtility;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Logic.ViewModels.QuestionVM>>> Get()
         {
             await Task.Delay(0);
+
             return new Logic.ViewModels.QuestionVM[]{};
         }
 
-
-
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<Logic.ViewModels.QuestionVM>>> Save(IEnumerable<Logic.ViewModels.QuestionVM> entitesToUpdate,
-                                                                                        IEnumerable<Logic.ViewModels.QuestionVM> entitesToDelete,
-                                                                                        IEnumerable<Logic.ViewModels.QuestionVM> entitesToInsert)
+        public async Task<ActionResult<Logic.Models.DBSaveResult>> Save(Logic.Models.QuestionSaveResult request)
         {
             await Task.Delay(0);
-            return new Logic.ViewModels.QuestionVM[] { };
-        }
-
-        /*[HttpGet]
-        public async Task<ActionResult<Logic.DBModels.QuestionEntity>> GetRandomQuestion(string level)
-        {
             return null;
         }
-
-        [HttpGet]
-        public ActionResult SaveQuestion(Logic.DBModels.QuestionEntity questionToSave)
-        {
-            return new OkResult();
-        }*/
     }
 }

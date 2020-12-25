@@ -11,6 +11,8 @@ import './questions.css';
 import AdminActions from "./context/admin_actions"
 import { makeStyles } from '@material-ui/core/styles';
 import { AdminContext } from "./context/admin_provider";
+import SplitterLayout from 'react-splitter-layout';
+import 'react-splitter-layout/lib/index.css';
 
 const Questions = (props) => {
     const { state, dispatch } = useContext(AdminContext);
@@ -25,37 +27,47 @@ const Questions = (props) => {
         const response = await fetch("Questions");
         const data = await response.json();
 
-        dispatch(state, { type: AdminActions.SetState, payload: data })
+        dispatch({ type: AdminActions.SetState, payload: data })
     };
 
-    const addNewQuestion = () => {
+    const addNewQuestion = (e) => {
+        e.preventDefault();
+        debugger;
         const newQuestion = createNewQuestion();
 
-        dispatch(state, { type: AdminActions.AddQuestion, payload: newQuestion })
+        dispatch({ type: AdminActions.AddQuestion, payload: newQuestion })
     };
+
+    const questionBodyTemplate = (rowData) => {
+        return (
+            <div>
+                <h4>{rowData.Name}</h4>
+                <div>L: {rowData.Level}, SL: {rowData.SubLevel}</div>
+                <div>Tags: {rowData.Tags.length}</div>
+            </div>
+        );
+    }
 
     return (
         <div class="admin_question">
             <div class="admin_question_header">Questions</div>
             <div class="container">
                 <div class="toolbar">
-                    <Button variant="contained" color="secondary" click={(e) => addNewQuestion()}>Add</Button>
+                    <Button variant="contained" color="secondary" onClick={(e) => addNewQuestion(e)}>Add</Button>
                 </div>
-                <div>
-                    <div class="grid">
-                        <DataTable value={state.questions} selectionKeys={state.selectedQuestionId}
-                            onSelect={(e) => dispatch({ type: AdminActions.SelectedQuestion, payload: e.value })}
-                            selectionMode="single">
-                            <Column field="Id" header="Name" expander></Column>
-                            <Column field="RecordName" header="Question"></Column>
-                        </DataTable>
-                    </div>
-                    <div class="question_instance">
+                <div class="content">
+                    <SplitterLayout percentage="true" primaryMinSize="20" secondaryInitialSize="80">
+                        <div class="grid">
+                            <DataTable value={state.questions} selectionKeys={state.selectedQuestionId}
+                                onSelect={(e) => dispatch({ type: AdminActions.SelectedQuestion, payload: e.value })}
+                                selectionMode="single">
+                                <Column header="Question" body={questionBodyTemplate}></Column>
+                            </DataTable>
+                        </div>
+                        <div class="question_instance">
 
-                    </div>
-                    <div class="spacer">
-                        &nbsp;
-          </div>
+                        </div>
+                    </SplitterLayout>
                 </div>
             </div>
         </div>

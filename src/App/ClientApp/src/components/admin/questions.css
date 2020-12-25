@@ -24,3 +24,8 @@
     float: clear;
     width: 100%
 }
+
+.content {
+    margin-top: 15px;
+    width: 100%;
+}

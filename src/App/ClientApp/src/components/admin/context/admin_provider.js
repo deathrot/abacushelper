@@ -17,6 +17,7 @@ export const AdminContext = createContext();
 export const AdminContextProvider = (props) => {
 
     const [state, dispatch] = useReducer((state, action) => {
+        debugger;
         switch (action.type) {
             case AdminActions.ClearState:
                 state.questions = null;
