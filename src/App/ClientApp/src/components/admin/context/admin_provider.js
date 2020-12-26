@@ -19,7 +19,8 @@ const stateReducer = (state, action) => {
         case AdminActions.ClearState:
             return {
                 ...state,
-                questions: null,
+                questionMap: {},
+                questions: [],
                 newId: -1,
                 selectedQuestion: null,
                 selectedQuestionId: null,
@@ -31,9 +32,11 @@ const stateReducer = (state, action) => {
             
             let map = {};
 
-            action.payload && _.each(action.payload, (x) => {
-                map[x.Id] = x;
-            });
+            if (action.payload) {
+                _.each(action.payload, (x) => {
+                    map[x.Id] = x;
+                });
+            }
 
             return {
                 ...state,
@@ -56,6 +59,8 @@ const stateReducer = (state, action) => {
             let q = action.payload;
             let id = state.newId;
             q['Id'] = state.newId;
+
+
             return {
                 ...state,
                 newId: state.newId - 1,
@@ -86,11 +91,13 @@ const stateReducer = (state, action) => {
                 hasChanges: true
             };
         case AdminActions.NameChanged:
-            let question = _.filter()
+            let question = state.questionMap[state.selectedQuestion.Id];
+            question.Name = action.payload;
+
             state.selectedQuestion.Name = action.payload;
             return {
                 ...state,
-                selectedQuestion: state.selectedQuestion
+                selectedQuestion: question
             };
     }
 

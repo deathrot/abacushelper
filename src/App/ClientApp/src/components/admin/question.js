@@ -10,27 +10,28 @@ import { AdminContext } from "./context/admin_provider";
 import { makeStyles } from '@material-ui/core/styles';
 import AdminActions from './context/admin_actions';
 
-const Question = (props) => {  
-  const {state, dispatch} = useContext(AdminContext);
-  const selectedQuestion = state.selectedQuestion;
+const Question = (props) => {
+    const selectedQuestion = props.question;
 
-  const handleNameChange = (e) => {
-    e.preventDefault();
-    console.log(e.target.value);
-    dispatch({type: AdminActions.NameChanged, payLoad: e.target.value});
-  }
+    const handleNameChange = (e) => {
+        selectedQuestion.Name = e.target.value;
+        e.preventDefault();
+    }
 
-  return (
-      <div>
-          Name: <TextField id="outlined-basic" label="Name" variant="outlined" 
-                  value={selectedQuestion && selectedQuestion.Name} 
-                    onChange={(e) => handleNameChange(e)} />
-          Question: {selectedQuestion && selectedQuestion['id']}
-          {selectedQuestion && selectedQuestion.question_type == "multiplication" &&
-            <div>Multiplication</div>
-          }
-      </div>
-  );
+    return (
+        <div>
+            { selectedQuestion &&
+                <div>
+                    <span>Name:</span> <TextField id="outlined-basic" variant="outlined"
+                    value={selectedQuestion.Name}
+                        onChange={(e) => handleNameChange(e)} />
+                {selectedQuestion.question_type == "multiplication" &&
+                        <div>Multiplication</div>
+                    }
+                </div>
+            }
+        </div>
+    );
 };
 
 export default Question;

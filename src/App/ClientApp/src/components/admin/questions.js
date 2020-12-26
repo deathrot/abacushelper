@@ -14,12 +14,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AdminContext } from "./context/admin_provider";
 import SplitterLayout from 'react-splitter-layout';
 import 'react-splitter-layout/lib/index.css';
+import uuid from 'react-uuid'
 
 const Questions = (props) => {
-    const { state, dispatch } = useContext(AdminContext);
-    const selectedQuestion = state && state.selectedQuestion;
+    //const { state, dispatch } = useContext(AdminContext);
+    //const selectedQuestion = state && state.selectedQuestion;
     //const [selectedQuestion, setSelectedQuestion] = useState(null);
     //const [selectedQuestionKey, setSelectedQuestionKey] = useState(null);
+    const [state, setState] = useState({ questions: [], selectedQuestion: null, selectedQuestionId: null });
 
     useEffect(() => {
         fetchQuestions();
@@ -29,20 +31,28 @@ const Questions = (props) => {
         const response = await fetch("Questions");
         const data = await response.json();
 
-        dispatch({ type: AdminActions.SetState, payload: data })
+        setState({...state, questions: data});
+        //dispatch({ type: AdminActions.SetState, payload: data })
     };
 
     const deleteQuestion = (e) => {
         e.preventDefault();
 
-        dispatch({ type: AdminActions.Delete })
+        //dispatch({ type: AdminActions.Delete })
     }
 
     const addNewQuestion = (e) => {
         e.preventDefault();
         const newQuestion = createNewQuestion();
+        newQuestion.Id = uuid();
 
-        dispatch({ type: AdminActions.AddQuestion, payload: newQuestion })
+;        setState({
+            ...state,
+            questions: [...state.questions, newQuestion],
+            selectedQuestion: newQuestion,
+            selectedQuestionId: newQuestion.Id
+        });
+        ///dispatch({ type: AdminActions.AddQuestion, payload: newQuestion })
     };
 
     const questionBodyTemplate = (rowData) => {
@@ -62,7 +72,7 @@ const Questions = (props) => {
                 <div class="toolbar">
                     <Button variant="contained" color="secondary" onClick={(e) => addNewQuestion(e)}>Add</Button>
                     <span class="spacer" />
-                    {selectedQuestion && 
+                    {state.selectedQuestion && 
                         <Button variant="contained" color="secondary" onClick={(e) => deleteQuestion(e)}>Delete</Button>
                     }
                 </div>
@@ -71,13 +81,13 @@ const Questions = (props) => {
                         <div class="grid">
                             <DataTable value={state.questions} selectionKeys={state.selectedQuestionId}
                                 selection={state.selectedQuestion}
-                                onSelectionChange={(e) => dispatch({type: AdminActions.SelectedQuestion, payload: e.value})}
+                                onSelectionChange={(e) => setState({...state, selectedQuestion: e.value, selectedQuestionId: e.value.Id})}
                                 selectionMode="single">
                                 <Column header="Question" body={questionBodyTemplate}></Column>
                             </DataTable>
                         </div>
                         <div class="question_instance">
-                            <Question />
+                            <Question question={state.selectedQuestion} />
                         </div>
                     </SplitterLayout>
                 </div>
