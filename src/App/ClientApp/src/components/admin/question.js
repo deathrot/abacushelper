@@ -11,27 +11,30 @@ import { makeStyles } from '@material-ui/core/styles';
 import AdminActions from './context/admin_actions';
 
 const Question = (props) => {
-    const selectedQuestion = props.question;
+
+    const [question, setQuestion] = useState(props.question);
 
     const handleNameChange = (e) => {
-        selectedQuestion.Name = e.target.value;
-        e.preventDefault();
+        setQuestion({ ...question, Name: e.target.value });
     }
 
     return (
         <div>
-            { selectedQuestion &&
+            {question &&
                 <div>
+                    <div>{question.Id}</div>
                     <span>Name:</span> <TextField id="outlined-basic" variant="outlined"
-                    value={selectedQuestion.Name}
+                        value={question.Name}
                         onChange={(e) => handleNameChange(e)} />
-                {selectedQuestion.question_type == "multiplication" &&
+
+                    {question.question_type == "multiplication" &&
                         <div>Multiplication</div>
                     }
+
+                    <Button variant="contained" color="secondary" onClick={(e) => props.handleUpdate(question)}>Update</Button>
                 </div>
             }
-        </div>
-    );
+    </div>);
 };
 
 export default Question;

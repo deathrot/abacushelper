@@ -3,7 +3,7 @@ export function createNewQuestion() {
         Id: '',
         Name: "_",        
         Description: '',
-        Tags: []        
+        Tags: []
     };
 
     return newQuestion;
