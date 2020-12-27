@@ -1,9 +1,9 @@
 const EntityState = {
     //Beed: "Beed ",
-    None: "None",
-    New: "New",
-    Deleted: "Deleted",
-    Modified: "Modified"
+    None: 0,
+    New: 1,
+    Deleted: 2,
+    Modified: 3
 }
 
 export default EntityState;

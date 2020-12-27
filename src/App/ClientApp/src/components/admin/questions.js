@@ -141,15 +141,15 @@ const Questions = (props) => {
     }
 
     const handleSave = async (e) => {
-      
-        let payLoad = { request: {
-                T: 200,
-                entitesToUpdate: modifiedQuestions,
-                entitesToDelete: deletedQuestions,
-                entitesToInsert: newQuestions
-        }};
-
-        let response = await axios.post("questions/save", {payLoad});
+        
+        let response = await axios({ method: "post", 
+        url: "questions/save",
+        data: {
+            T: 200,
+            entitesToUpdate: modifiedQuestions,
+            entitesToDelete: deletedQuestions,
+            entitesToInsert: newQuestions
+        }});
 
         console.log(response);
 
