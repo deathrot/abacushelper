@@ -83,7 +83,7 @@ const Questions = (props) => {
                     <div>
                         <h4>{rowData.Name}</h4>
                         <div>L: {rowData.Level}, SL: {rowData.SubLevel}</div>
-                        <div>Tags: {rowData.Tags.length}</div>
+                        <div>QT: {rowData.QuestionType}</div>
                     </div>
                 }
             </div>

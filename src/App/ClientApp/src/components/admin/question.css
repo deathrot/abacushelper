@@ -16,5 +16,13 @@
 }
 
 .input {
-    width: 200px;
+    width: 400px;
+}
+
+.update-button {
+    margin-top: 20px;
+}
+
+.input-wrapper {
+    padding-top: 10px
 }

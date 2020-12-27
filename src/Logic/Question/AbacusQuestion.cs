@@ -6,9 +6,9 @@ using QuestionType = Logic.Enums.QuestionType;
 
 namespace Logic.Question
 {
-    public class AbacusQuestion : IQuestion
+    public class AddSubQuestion : IQuestion
     {
-        public QuestionType QuestionType { get; } = QuestionType.Abacus;
+        public QuestionType QuestionType { get; } = QuestionType.AddSub;
 
         public List<SignedNumber> Numbers { get; set;  } = new List<SignedNumber>();
 

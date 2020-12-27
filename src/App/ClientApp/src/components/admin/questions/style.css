@@ -1,0 +1,15 @@
+.question_input {
+    float: left;
+    width: 200px
+}
+
+.question_output {
+    float: right;
+    width: 200px;
+    background-color: lightgray;
+}
+
+.clear {
+    float: clear;
+    
+}
