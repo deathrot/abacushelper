@@ -33,12 +33,12 @@ namespace Logic.Mappers
                 .ForMember(x => x.ModifiedOn, y => y.MapFrom(t => t.modified_on))
                 .ForMember(x => x.Name, y => y.MapFrom(t => t.record_name))
                 .ForMember(x => x.QuestionJSON, y => y.MapFrom(t => t.question))
-                .ForMember(x => x.QuestionType, y => y.MapFrom(t => t.question_type))
                 .ForMember(x => x.Severity, y => y.MapFrom(t => t.severity))
                 .ForMember(x => x.SortOrder, y => y.MapFrom(t => t.sort_order))
                 .ForMember(x => x.SubLevelId, y => y.MapFrom(t => t.sub_level_id))
                 .AfterMap((x, y) =>
                 {
+                    y.QuestionType = x.question_type.ToString();
                     y.EntityState = Enums.EntityState.None;
                 });
 
@@ -49,9 +49,12 @@ namespace Logic.Mappers
                 .ForMember(x => x.modified_on, y => y.MapFrom(t => t.ModifiedOn))
                 .ForMember(x => x.record_name, y => y.MapFrom(t => t.Name))
                 .ForMember(x => x.question, y => y.MapFrom(t => t.QuestionJSON))
-                .ForMember(x => x.question_type, y => y.MapFrom(t => t.QuestionType))
                 .ForMember(x => x.sort_order, y => y.MapFrom(t => t.SortOrder))
-                .ForMember(x => x.sub_level_id, y => y.MapFrom(t => t.SubLevelId));
+                .ForMember(x => x.sub_level_id, y => y.MapFrom(t => t.SubLevelId))
+                .AfterMap((x, y) =>
+                {
+                    y.question_type = (Enums.QuestionType)System.Enum.Parse<Enums.QuestionType>(x.QuestionType);
+                });
 
                 cfg.CreateMap<DBModels.SettingEntity, ViewModels.SettingVM>()
                 .ForMember(x => x.Id, y => y.MapFrom(t => t.id))

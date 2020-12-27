@@ -6,6 +6,7 @@ namespace Logic.Enums
         Abacus = 1,
         MentalCalculation = 2,
         Sequentials = 3,
-        PowerExcercise = 4,  
+        PowerExcercise = 4,
+        Multiplication = 5
     }
 }

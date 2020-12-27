@@ -1,5 +1,6 @@
-import React, { Component, useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Question from './question';
+import { InputText } from 'primereact/inputtext';
 import { DataTable } from 'primereact/datatable';
 import { createNewQuestion } from '../common/extension_methods';
 import Button from '@material-ui/core/Button';
@@ -24,9 +25,10 @@ const Questions = (props) => {
     //const [selectedQuestion, setSelectedQuestion] = useState(null);
     //const [selectedQuestionKey, setSelectedQuestionKey] = useState(null);
     const [questions, setQuestions] = useState([]);
+    const dt = useRef(null);
     const [selectedQuestion, setSelectedQuestion] = useState(null);
-    const [selectedQuestionId, setSelectedQuestionId] = useState(-1);
-
+    const [globalFilter, setGlobalFilter] = useState(null);
+    
     useEffect(() => {
         fetchQuestions();
     }, []);
@@ -39,36 +41,44 @@ const Questions = (props) => {
         //dispatch({ type: AdminActions.SetState, payload: data })
 
         let arr = [];
-        for (var i = 0; i < 10; i++) {
+
+        for (var i = 0; i < 10000; i++) {
             let a = createNewQuestion();
             a.Id = uuid();
 
             arr.push(a);
         }
-
         setQuestions(arr);
     };
 
     const deleteQuestion = (e) => {
         e.preventDefault();
 
+        let arr = _.remove(questions, (d) => {
+            return d.Id == selectedQuestion.Id;
+        });
+
+        setQuestions(arr);
+        setSelectedQuestion(_.head(arr));
+
         //dispatch({ type: AdminActions.Delete })
     }
 
     const addNewQuestion = (e) => {
         e.preventDefault();
-        const newQuestion = createNewQuestion();
-        newQuestion.Id = uuid();
+
+        let newQuestion = createNewQuestion();
+        let id = uuid();
+        newQuestion.Id = id;
 
         setQuestions([...questions, newQuestion]);
         setSelectedQuestion(newQuestion);
-        setSelectedQuestionId(newQuestion.Id);
-        ///dispatch({ type: AdminActions.AddQuestion, payload: newQuestion })
     };
+
 
     const questionBodyTemplate = (rowData) => {
         return (
-            <div>
+            <div class="question_row">
                 {rowData &&
                     <div>
                         <h4>{rowData.Name}</h4>
@@ -82,18 +92,19 @@ const Questions = (props) => {
 
     const handleUpdate = (newObj) => {
         let obj = newObj;
+        let id = obj.Id;
 
-        let arr = _.filter(questions, (d) => {
-            return d.Id != obj.Id;
+        let arr = [...questions];
+        let index = _.findIndex(arr, (d) => {
+            return d.Id == id;
         });
 
-        setQuestions([...arr, obj]);
-        setSelectedQuestion(obj);
-        setSelectedQuestionId(obj.Id);
-    }
+        arr[index].Name = newObj.Name;
+        arr[index].Level = newObj.Level;
+        arr[index].SubLevel = newObj.SubLevel;
+        arr[index].QuestionType = newObj.QuestionType;
 
-    const handleSelectionChange = (e) => {
-        setSelectedQuestion(e);
+        setQuestions(arr);
     }
 
     return (
@@ -106,15 +117,23 @@ const Questions = (props) => {
                     {selectedQuestion && 
                         <Button variant="contained" color="secondary" onClick={(e) => deleteQuestion(e)}>Delete</Button>
                     }
+                    <div>Total {questions.length}</div>
                 </div>
                 <div class="content">
-                    <SplitterLayout percentage="true" primaryMinSize="10" secondaryInitialSize="80">
+
+                    <SplitterLayout percentage="true" primaryMinSize="15" secondaryInitialSize="85">
                         <div class="grid">
-                            {questions.map(d => {
-                                return (<div key={d.Id} onClick={(e) => handleSelectionChange(d)}>
-                                    {d.Id} -- {d.Name}
-                                </div>);
-                            })}
+                            <div className="table-header">
+                                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Global Search" />
+                            </div>
+                            <DataTable ref={dt} value={questions} selection={selectedQuestion} onSelectionChange={(e) => setSelectedQuestion(e.value)}
+                                selectionMode="single"
+                                globalFilter={globalFilter} emptyMessage="No customers found."
+                                dataKey="Id" paginator rows={100} rowsPerPageOptions={[5, 10, 25]}
+                                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} questions">
+                                <Column field="Name" showHeader="false" body={questionBodyTemplate}></Column>
+                            </DataTable>
                         </div>
                         <div class="question_instance">
                             {selectedQuestion &&

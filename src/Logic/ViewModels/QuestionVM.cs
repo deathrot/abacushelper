@@ -13,7 +13,7 @@ namespace Logic.ViewModels
         
         public string QuestionJSON {get; set;}
 
-        public Enums.QuestionType QuestionType { get; set; }
+        public string QuestionType { get; set; }
 
         public List<string> Tags { get; set; } = new List<string>();
 

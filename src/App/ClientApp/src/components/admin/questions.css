@@ -10,13 +10,8 @@
     margin: 5px;
 }
 
-.grid {
-    float:left;
-    width: 200px
-}
-
 .question_instance {
-    margin-left: 10px;
+    margin: 10px;
 }
 
 .content {
@@ -26,4 +21,9 @@
 
 .spacer {
     padding-left: 10px;
+}
+
+.question_row {
+    width: 200px;
+    text-overflow: ellipsis;
 }
