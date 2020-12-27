@@ -1,7 +1,6 @@
 const QuestionType = {
-    Beed: "Beed ",
+    //Beed: "Beed ",
     AddSub: "AddSub",
-    MentalCalculation: "MentalCalculation",
     Sequentials: "Sequentials",
     PowerExcercise: "PowerExcercise",
     Multiplication: "Multiplication"

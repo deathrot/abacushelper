@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace App.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class QuestionsController : ControllerBase
     {
 
@@ -23,6 +23,7 @@ namespace App.Controllers
         }
 
         [HttpGet]
+        [Route("questions")]
         public async Task<ActionResult<IEnumerable<Logic.ViewModels.QuestionVM>>> Get()
         {
             await Task.Delay(0);
@@ -34,7 +35,7 @@ namespace App.Controllers
         public async Task<ActionResult<Logic.Models.DBSaveResult>> Save(Logic.Models.QuestionSaveResult request)
         {
             await Task.Delay(0);
-            return null;
+            return new Logic.Models.DBSaveResult(){ TotalRecordSaved = 10};
         }
     }
 }

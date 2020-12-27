@@ -1,30 +1,46 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
-import Box from '@material-ui/core/Box';
 import _ from 'lodash';
+import './style.css';
 
 const QuestionAddSub = (props) => {
 
-  const [question, setQuestion] = useState(props.question);
+  const [problem, setProblem] = useState(props.problem);
   const updateQuestionJSON = props.updateQuestionJSON;
 
   const handleKeyDown = (e) => {
     if (e.keyCode == 13) {
+      
+      let n = _.toNumber(e.target.value)
+      if(_.isNumber(n)){
+        let prob = problem ? {...problem} : {Numbers: []};
+        if(!prob.Numbers)
+        {
+          prob.Numbers = [];
+        }
 
+        let maxOrder = _.max(prob.Numbers, (d) => {
+          return d.SortOrder;
+        }) || 0;
+
+        prob.Numbers.push({Number: n, SortOrder: maxOrder++});
+        
+        setProblem(prob);
+
+        updateQuestionJSON(prob);
+      }
       e.target.value = '';
       e.preventDefault();
-      // put the login here
     }
-
-
   }
 
   return (
-    <div>
-      <div class="question_input">
+    <div class="problem">
+      <div class="problem_input">
         <TextField onKeyDown={handleKeyDown} />
       </div>
-      <div class="question_output">
+      <div class="problem_output_container">
+        {problem && problem.Numbers && _.map(problem.Numbers, (r) => <div class="problem_output">{r.Number}</div>)}
       </div>
       <div class="clear">
 

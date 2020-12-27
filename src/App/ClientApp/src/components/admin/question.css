@@ -26,3 +26,19 @@
 .input-wrapper {
     padding-top: 10px
 }
+
+.problem_def {
+    padding-left: 10px;
+    min-width: 500px;
+    vertical-align: top;
+}
+
+.problem_field {
+    padding-left: 10px;
+    min-width: 200px;
+    vertical-align: top;
+}
+
+.spacer {
+    min-width: 40px;
+}

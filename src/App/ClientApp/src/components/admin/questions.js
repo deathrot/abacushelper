@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Question from './question';
+import EntityState from '../common/entity_states';
 import { InputText } from 'primereact/inputtext';
 import { DataTable } from 'primereact/datatable';
 import { createNewQuestion } from '../common/extension_methods';
@@ -10,13 +11,11 @@ import 'primereact/resources/themes/fluent-light/theme.css';
 import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
 import './questions.css';
-import AdminActions from "./context/admin_actions"
-import { makeStyles } from '@material-ui/core/styles';
-import { AdminContext } from "./context/admin_provider";
 import SplitterLayout from 'react-splitter-layout';
 import 'react-splitter-layout/lib/index.css';
 import uuid from 'react-uuid';
 import _ from 'lodash';
+import axios from 'axios';
 
 
 const Questions = (props) => {
@@ -25,43 +24,66 @@ const Questions = (props) => {
     //const [selectedQuestion, setSelectedQuestion] = useState(null);
     //const [selectedQuestionKey, setSelectedQuestionKey] = useState(null);
     const [questions, setQuestions] = useState([]);
+    const [hasChanges, setHasChanges] = useState(false);
+
+    const [newQuestions, setNewQuestions] = useState([]);
+    const [deletedQuestions, setDeletedQuestions] = useState([]);
+    const [modifiedQuestions, setModifiedQuestions] = useState([]);
+
     const dt = useRef(null);
     const [selectedQuestion, setSelectedQuestion] = useState(null);
     const [globalFilter, setGlobalFilter] = useState(null);
-    
+
     useEffect(() => {
         fetchQuestions();
     }, []);
 
     const fetchQuestions = async () => {
-        /*const response = await fetch("Questions");
+        const response = await fetch("Questions");
         const data = await response.json();
 
-        setState(data);*/
-        //dispatch({ type: AdminActions.SetState, payload: data })
-
-        let arr = [];
-
-        for (var i = 0; i < 10000; i++) {
-            let a = createNewQuestion();
-            a.Id = uuid();
-
-            arr.push(a);
-        }
-        setQuestions(arr);
+        setHasChanges(false);
+        setSelectedQuestion(null);
+        setGlobalFilter('');
+        setNewQuestions([]);
+        setDeletedQuestions([]);
+        setModifiedQuestions([]);
+        setQuestions(data);
     };
 
     const deleteQuestion = (e) => {
         e.preventDefault();
 
-        let arr = _.remove(questions, (d) => {
+        let newArr = newQuestions;
+        if (_.remove(newArr, (d) => {
+            return d.Id == selectedQuestion.Id
+        }).length > 0)
+        {
+            setNewQuestions(newArr);
+        }
+
+        let delArr = [...deletedQuestions];
+        let modArr = [...modifiedQuestions];
+        if (selectedQuestion.EntityState != EntityState.New) {
+            setDeletedQuestions([...delArr, selectedQuestion]);
+            
+            let removedItems = _.remove(modArr, (d) => {
+                return d.Id == selectedQuestion.Id;
+            });
+
+            if (removedItems && removedItems.length > 0){ 
+                setModifiedQuestions([...modArr, selectedQuestion]);
+            }
+        }
+
+        let arr = [...questions];
+        _.remove(arr, (d) => {
             return d.Id == selectedQuestion.Id;
         });
-
-        setQuestions(arr);
+        setQuestions([...arr]);
         setSelectedQuestion(_.head(arr));
 
-        //dispatch({ type: AdminActions.Delete })
+        setHasChanges((newArr.length > 0 || delArr.length > 0 || modArr.length > 0));
     }
 
     const addNewQuestion = (e) => {
@@ -71,8 +93,12 @@ const Questions = (props) => {
         let id = uuid();
         newQuestion.Id = id;
 
+        setNewQuestions([...newQuestions, newQuestion]);
+        
         setQuestions([...questions, newQuestion]);
         setSelectedQuestion(newQuestion);
+        
+        setHasChanges(true);
     };
 
 
@@ -103,8 +129,34 @@ const Questions = (props) => {
         arr[index].Level = newObj.Level;
         arr[index].SubLevel = newObj.SubLevel;
         arr[index].QuestionType = newObj.QuestionType;
+        arr[index].QuestionJSON = newObj.QuestionJSON;
+        arr[index].EntityState = EntityState.Modified;
 
         setQuestions(arr);
+
+        if (_.findIndex(modifiedQuestions, (r) => {
+            return r.Id == newObj.Id;
+        }) == -1) {
+            setModifiedQuestions([...modifiedQuestions, arr[index]]);
+        }
+
+        setHasChanges(true);
+    }
+
+    const handleSave = async (e) => {
+      
+        let payLoad = {request: {
+                entitesToUpdate: modifiedQuestions,
+                entitesToDelete: deletedQuestions,
+                entitesToInsert: newQuestions
+            }
+        };
+
+        let response = await axios.post("questions/save", payLoad);
+
+        console.log(response);
+
+        e.preventDefault();
     }
 
     return (
@@ -112,12 +164,20 @@ const Questions = (props) => {
             <div class="admin_question_header">Questions</div>
             <div class="container">
                 <div class="toolbar">
+
+                    <span class="count">Total {questions.length}</span> 
+                    <span class="action_button">
                     <Button variant="contained" color="secondary" onClick={(e) => addNewQuestion(e)}>Add</Button>
                     <span class="spacer" />
-                    {selectedQuestion && 
+                    {selectedQuestion &&
                         <Button variant="contained" color="secondary" onClick={(e) => deleteQuestion(e)}>Delete</Button>
                     }
-                    <div>Total {questions.length}</div>
+                    </span>
+                    <span class="save_button">
+                    {hasChanges &&
+                        <Button variant="contained" color="primary" onClick={(e) => handleSave(e)}>Save</Button>
+                    }
+                    </span>
                 </div>
                 <div class="content">
 

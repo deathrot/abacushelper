@@ -36,7 +36,7 @@ const Question = (props) => {
     }
 
     const handleQuestionTypeChange = (e) => {
-        setQuestion({ ...question, QuestionType: e.target.value });
+        setQuestion({ ...question, QuestionType: e.target.value, QuestionJSON: {} });
     }
 
     const handleUpdateQuestionJSON = (e) => {
@@ -44,102 +44,110 @@ const Question = (props) => {
     }
 
     return (
-        <div>
-            {question &&
-                <div>
-                    <div class="input-wrapper">
-                        <TextField id="outlined-basic" variant="outlined"
-                            value={question.Name} label="Name" className="input"
-                            onChange={(e) => handleNameChange(e)} />
-                    </div>
-                    <div class="input-wrapper">
-                        <TextField
-                            id="level"
-                            select
-                            label="Level"
-                            className="input"
-                            value={question.Level || ''}
-                            onChange={handleLevelChange}
-                            helperText="level?">
-                            <MenuItem key="1" value="1">1</MenuItem>
-                            <MenuItem key="2" value="2">2</MenuItem>
-                            <MenuItem key="3" value="3">3</MenuItem>
-                            <MenuItem key="4" value="4">4</MenuItem>
-                            <MenuItem key="5" value="5">5</MenuItem>
-                            <MenuItem key="6" value="6">6</MenuItem>
-                            <MenuItem key="7" value="7">7</MenuItem>
-                            <MenuItem key="8" value="8">8</MenuItem>
-                            <MenuItem key="9" value="9">9</MenuItem>
-                            <MenuItem key="10" value="10">10</MenuItem>
-                        </TextField>
-                    </div>
-                    <div class="input-wrapper">
-                        <TextField
-                            id="sub-level"
-                            select
-                            className="input"
-                            label="Sub Level"
-                            value={question.SubLevel || ''}
-                            onChange={handleSubLevelChange}
-                            helperText="sub level?">
-                            <MenuItem key="1" value="1">1</MenuItem>
-                            <MenuItem key="2" value="2">2</MenuItem>
-                            <MenuItem key="3" value="3">3</MenuItem>
-                            <MenuItem key="4" value="4">4</MenuItem>
-                            <MenuItem key="5" value="5">5</MenuItem>
-                            <MenuItem key="6" value="6">6</MenuItem>
-                            <MenuItem key="7" value="7">7</MenuItem>
-                            <MenuItem key="8" value="8">8</MenuItem>
-                            <MenuItem key="9" value="9">9</MenuItem>
-                            <MenuItem key="10" value="10">10</MenuItem>
-                        </TextField>
-                    </div>
+        <table>
+            <tr>
+                <td class="problem_field">
+                    <h4>Details</h4>
+                    <div>
+                        {question &&
+                            <div>
+                                <div class="input-wrapper">
+                                    <TextField id="outlined-basic" variant="outlined"
+                                        value={question.Name} label="Name" className="input"
+                                        onChange={(e) => handleNameChange(e)} />
+                                </div>
+                                <div class="input-wrapper">
+                                    <TextField
+                                        id="level"
+                                        select
+                                        label="Level"
+                                        className="input"
+                                        value={question.Level || ''}
+                                        onChange={handleLevelChange}
+                                        helperText="level?">
+                                        <MenuItem key="1" value="1">1</MenuItem>
+                                        <MenuItem key="2" value="2">2</MenuItem>
+                                        <MenuItem key="3" value="3">3</MenuItem>
+                                        <MenuItem key="4" value="4">4</MenuItem>
+                                        <MenuItem key="5" value="5">5</MenuItem>
+                                        <MenuItem key="6" value="6">6</MenuItem>
+                                        <MenuItem key="7" value="7">7</MenuItem>
+                                        <MenuItem key="8" value="8">8</MenuItem>
+                                        <MenuItem key="9" value="9">9</MenuItem>
+                                        <MenuItem key="10" value="10">10</MenuItem>
+                                    </TextField>
+                                </div>
+                                <div class="input-wrapper">
+                                    <TextField
+                                        id="sub-level"
+                                        select
+                                        className="input"
+                                        label="Sub Level"
+                                        value={question.SubLevel || ''}
+                                        onChange={handleSubLevelChange}
+                                        helperText="sub level?">
+                                        <MenuItem key="1" value="1">1</MenuItem>
+                                        <MenuItem key="2" value="2">2</MenuItem>
+                                        <MenuItem key="3" value="3">3</MenuItem>
+                                        <MenuItem key="4" value="4">4</MenuItem>
+                                        <MenuItem key="5" value="5">5</MenuItem>
+                                        <MenuItem key="6" value="6">6</MenuItem>
+                                        <MenuItem key="7" value="7">7</MenuItem>
+                                        <MenuItem key="8" value="8">8</MenuItem>
+                                        <MenuItem key="9" value="9">9</MenuItem>
+                                        <MenuItem key="10" value="10">10</MenuItem>
+                                    </TextField>
+                                </div>
 
-                    <div class="input-wrapper">
-                        <TextField
-                            id="question-type"
-                            select
-                            className="input"
-                            label="Question Type"
-                            value={question.QuestionType || ''}
-                            onChange={handleQuestionTypeChange}
-                            helperText="question type?">
-                            {
-                                _.map(QuestionType, (r) => <MenuItem key={r} value={r}>{r}</MenuItem>)
-                            }
-                        </TextField>
-                    </div>
+                                <div class="input-wrapper">
+                                    <TextField
+                                        id="question-type"
+                                        select
+                                        className="input"
+                                        label="Question Type"
+                                        value={question.QuestionType || ''}
+                                        onChange={handleQuestionTypeChange}
+                                        helperText="question type?">
+                                        {
+                                            _.map(QuestionType, (r) => <MenuItem key={r} value={r}>{r}</MenuItem>)
+                                        }
+                                    </TextField>
+                                </div>
 
+                                <div class="update-button">
+                                    <Button variant="contained" color="secondary" onClick={(e) => props.handleUpdate(question)}>Update</Button>
+                                </div>
+                            </div>
+                        }
+                    </div >
+                </td>
+                <td class="spacer">
+                    
+                </td>
+                <td class="problem_def">
+                    <h4>Problem</h4>
                     {question.QuestionType == QuestionType.Multiplication &&
-                        <QuestionMultiplication id={question.Id} />
-                    }
-
-                    {question.QuestionType == QuestionType.Beed &&
-                        <QuestionBeeds id={question.Id} />
+                        <QuestionMultiplication id={question.Id}   updateQuestionJSON={handleUpdateQuestionJSON} problem={question.QuestionJSON}  />
                     }
 
                     {question.QuestionType == QuestionType.PowerExcercise &&
-                        <QuestionPowerExcercise id={question.Id} />
+                        <QuestionPowerExcercise id={question.Id}   updateQuestionJSON={handleUpdateQuestionJSON} problem={question.QuestionJSON}  />
                     }
 
                     {question.QuestionType == QuestionType.Sequentials &&
-                        <QuestionSequential id={question.Id} />
-                    }
-
-                    {question.QuestionType == QuestionType.MentalCalculation &&
-                        <QuestionMental id={question.Id} />
+                        <QuestionSequential id={question.Id}   updateQuestionJSON={handleUpdateQuestionJSON} problem={question.QuestionJSON}  />
                     }
 
                     {question.QuestionType == QuestionType.AddSub &&
-                        <QuestionAddSub id={question.Id} question={question.QuestionJSON} />
+                        <QuestionAddSub id={question.Id}  updateQuestionJSON={handleUpdateQuestionJSON} problem={question.QuestionJSON}  />
                     }
+                </td>
+                <td class="filler">
 
-                    <div class="update-button">
-                        <Button variant="contained" color="secondary" onClick={(e) => props.handleUpdate(question)}>Update</Button>
-                    </div>
-                </div>
-            }
-        </div >);
+                </td>
+            </tr>
+        </table>
+    );
 };
 
 export default Question;
