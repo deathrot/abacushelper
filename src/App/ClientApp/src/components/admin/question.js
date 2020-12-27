@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import QuestionType from '../common/question_types';
+import Severity from '../common/severity';
 import 'primeicons/primeicons.css';
 import 'primereact/resources/themes/fluent-light/theme.css';
 import 'primereact/resources/primereact.css';
@@ -41,6 +42,10 @@ const Question = (props) => {
 
     const handleUpdateQuestionJSON = (e) => {
         setQuestion({ ...question, QuestionJSON: e });
+    }
+
+    const handleSeverityChange = (e) => {
+        setQuestion({ ...question, Severity: e });
     }
 
     return (
@@ -98,7 +103,21 @@ const Question = (props) => {
                                         <MenuItem key="10" value="10">10</MenuItem>
                                     </TextField>
                                 </div>
-
+                                <div class="input-wrapper">
+                                    <TextField
+                                        id="question-type"
+                                        select
+                                        className="input"
+                                        label="Severity"
+                                        value={question.Severity || ''}
+                                        onChange={handleSeverityChange}
+                                        helperText="severity?">
+                                        {
+                                            _.map(Severity, (r) => <MenuItem key={r} value={r}>{r}</MenuItem>)
+                                        }
+                                    </TextField>
+                                </div>
+                                
                                 <div class="input-wrapper">
                                     <TextField
                                         id="question-type"

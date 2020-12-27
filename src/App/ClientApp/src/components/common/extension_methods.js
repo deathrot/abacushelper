@@ -10,7 +10,8 @@ export function createNewQuestion() {
         Level: 0,
         SubLevel: 0,
         QuestionType: '',
-        EntityState: EntityState.New
+        EntityState: EntityState.New,
+        Severity: ''
     };
 
     return newQuestion;

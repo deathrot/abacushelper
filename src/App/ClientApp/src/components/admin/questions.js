@@ -19,10 +19,6 @@ import axios from 'axios';
 
 
 const Questions = (props) => {
-    //const { state, dispatch } = useContext(AdminContext);
-    //const selectedQuestion = state && state.selectedQuestion;
-    //const [selectedQuestion, setSelectedQuestion] = useState(null);
-    //const [selectedQuestionKey, setSelectedQuestionKey] = useState(null);
     const [questions, setQuestions] = useState([]);
     const [hasChanges, setHasChanges] = useState(false);
 
@@ -131,6 +127,7 @@ const Questions = (props) => {
         arr[index].QuestionType = newObj.QuestionType;
         arr[index].QuestionJSON = newObj.QuestionJSON;
         arr[index].EntityState = EntityState.Modified;
+        arr[index].Severity = newObj.Severity;
 
         setQuestions(arr);
 
@@ -145,14 +142,14 @@ const Questions = (props) => {
 
     const handleSave = async (e) => {
       
-        let payLoad = {request: {
+        let payLoad = { request: {
+                T: 200,
                 entitesToUpdate: modifiedQuestions,
                 entitesToDelete: deletedQuestions,
                 entitesToInsert: newQuestions
-            }
-        };
+        }};
 
-        let response = await axios.post("questions/save", payLoad);
+        let response = await axios.post("questions/save", {payLoad});
 
         console.log(response);
 

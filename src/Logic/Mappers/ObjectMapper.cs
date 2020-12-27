@@ -33,13 +33,13 @@ namespace Logic.Mappers
                 .ForMember(x => x.ModifiedOn, y => y.MapFrom(t => t.modified_on))
                 .ForMember(x => x.Name, y => y.MapFrom(t => t.record_name))
                 .ForMember(x => x.QuestionJSON, y => y.MapFrom(t => t.question))
-                .ForMember(x => x.Severity, y => y.MapFrom(t => t.severity))
                 .ForMember(x => x.SortOrder, y => y.MapFrom(t => t.sort_order))
                 .ForMember(x => x.SubLevelId, y => y.MapFrom(t => t.sub_level_id))
                 .AfterMap((x, y) =>
                 {
                     y.QuestionType = x.question_type.ToString();
                     y.EntityState = Enums.EntityState.None;
+                    y.Severity = x.severity.ToString();
                 });
 
                 cfg.CreateMap<ViewModels.QuestionVM, DBModels.QuestionEntity>()
@@ -54,6 +54,7 @@ namespace Logic.Mappers
                 .AfterMap((x, y) =>
                 {
                     y.question_type = (Enums.QuestionType)System.Enum.Parse<Enums.QuestionType>(x.QuestionType);
+                    y.severity = (Enums.Severity)System.Enum.Parse<Enums.Severity>(x.Severity);
                 });
 
                 cfg.CreateMap<DBModels.SettingEntity, ViewModels.SettingVM>()

@@ -5,7 +5,7 @@ namespace Logic.ViewModels
     public class QuestionVM : Entity
     {
         
-        public Enums.Severity Severity {get; set;}
+        public string Severity {get; set;}
         
         public int LevelId {get; set;}
 
