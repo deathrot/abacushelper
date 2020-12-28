@@ -6,7 +6,7 @@ namespace Logic.DB
     public class BaseDBConnectionUtility : Interfaces.IConnectionUtility
     {
 
-        string connectionString;
+        public string connectionString {get; set;}
         public BaseDBConnectionUtility(string connectionString)
         {
             this.connectionString = connectionString;
