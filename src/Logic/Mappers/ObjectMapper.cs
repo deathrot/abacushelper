@@ -53,8 +53,8 @@ namespace Logic.Mappers
                 .ForMember(x => x.sub_level_id, y => y.MapFrom(t => t.SubLevelId))
                 .AfterMap((x, y) =>
                 {
-                    y.question_type = (Enums.QuestionType)System.Enum.Parse<Enums.QuestionType>(x.QuestionType);
-                    y.severity = (Enums.Severity)System.Enum.Parse<Enums.Severity>(x.Severity);
+                    y.question_type = (Enums.QuestionType)System.Enum.Parse<Enums.QuestionType>(x.QuestionType, true);
+                    y.severity = (Enums.Severity)System.Enum.Parse<Enums.Severity>(x.Severity, true);
                 });
 
                 cfg.CreateMap<DBModels.SettingEntity, ViewModels.SettingVM>()

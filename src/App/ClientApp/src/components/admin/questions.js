@@ -131,10 +131,12 @@ const Questions = (props) => {
 
         setQuestions(arr);
 
-        if (_.findIndex(modifiedQuestions, (r) => {
-            return r.Id == newObj.Id;
-        }) == -1) {
-            setModifiedQuestions([...modifiedQuestions, arr[index]]);
+        if(obj.EntityState != EntityState.New) {
+            if (_.findIndex(modifiedQuestions, (r) => {
+                return r.Id == newObj.Id;
+            }) == -1) {
+                setModifiedQuestions([...modifiedQuestions, arr[index]]);
+            }
         }
 
         setHasChanges(true);
@@ -150,8 +152,6 @@ const Questions = (props) => {
             entitesToDelete: deletedQuestions,
             entitesToInsert: newQuestions
         }});
-
-        console.log(response);
 
         e.preventDefault();
     }

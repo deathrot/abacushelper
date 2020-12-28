@@ -19,11 +19,14 @@ const QuestionAddSub = (props) => {
           prob.Numbers = [];
         }
 
-        let maxOrder = _.max(prob.Numbers, (d) => {
+        let nextOrder = _.max(prob.Numbers, (d) => {
           return d.SortOrder;
-        }) || 0;
+        });
 
-        prob.Numbers.push({Number: n, SortOrder: maxOrder++});
+        let maxOrder = nextOrder ? nextOrder.SortOrder : 0;
+
+        debugger;
+        prob.Numbers.push({ Number: n, SortOrder: maxOrder});
         
         setProblem(prob);
 

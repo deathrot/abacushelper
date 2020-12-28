@@ -9,8 +9,6 @@ namespace Logic.Models
 
         public int TotalRecordSentToSave { get; set; }
 
-        public int TotalRecordSaved { get; set; }
-
         public int TotalRecordInserted { get; set; }
 
         public int TotalRecordDeleted { get; set; }

@@ -32,10 +32,16 @@ namespace App.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Logic.Models.DBSaveResult>> Save([FromBody]Logic.Models.QuestionSaveResult request)
+        public async Task<ActionResult<Logic.Models.DBSaveResult>> Save([FromBody]Logic.Models.QuestionSaveRequest request)
         {
-            await Task.Delay(0);
-            return new Logic.Models.DBSaveResult(){ TotalRecordSaved = 10};
+            if ( request == null || request.IsEmpty)
+            {
+                return new Logic.Models.DBSaveResult();
+            }
+
+            Logic.Providers.QuestionsProvider provider = new Logic.Providers.QuestionsProvider();
+
+            return await provider.SaveResult(_connectionUtility, request);
         }
         
     }

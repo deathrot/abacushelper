@@ -45,7 +45,7 @@ const Question = (props) => {
     }
 
     const handleSeverityChange = (e) => {
-        setQuestion({ ...question, Severity: e });
+        setQuestion({ ...question, Severity: e.target.value });
     }
 
     return (
