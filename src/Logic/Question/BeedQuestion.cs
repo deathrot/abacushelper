@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using QuestionSubType = Logic.Enums.QuestionSubType;
 
 namespace Logic.Question
 {
     public class BeedQuestion : IQuestion
     {
-        public QuestionType QuestionType { get; } = QuestionType.Beed;
+        public QuestionSubType QuestionType { get; } = QuestionSubType.Beed;
 
         public List<SignedNumber> Numbers { get; set;  } = new List<SignedNumber>();
 

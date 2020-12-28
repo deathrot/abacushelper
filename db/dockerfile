@@ -1,0 +1,9 @@
+FROM mysql:latest
+
+ENV MYSQL_DATABASE abacus
+ENV MYSQL_USER abacus
+ENV MYSQL_PASSWORD abacus2020
+ENV MYSQL_ROOT_PASSWORD abacus2020
+
+COPY dbschema.sql /docker-entrypoint-initdb.d/
+

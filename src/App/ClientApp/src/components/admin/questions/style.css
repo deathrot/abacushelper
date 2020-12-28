@@ -1,0 +1,32 @@
+.problem_input {
+    float: left;
+    width: 200px
+}
+
+.problem_output_container {
+    font-size: 15px;
+    float: right;
+    min-height: 100px;
+    width: 200px;
+    background-color: #272c34;
+    margin-left: 20px;
+    color: #fff;
+}
+
+.problem_output {
+    font-weight: bold;
+    padding: 10px
+}
+
+.clear {
+    float: clear;
+}
+
+.problem {
+    width: 400px;
+    display: flex
+}
+
+.info_text {
+    font-style: italic;
+}

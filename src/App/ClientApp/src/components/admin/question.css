@@ -1,0 +1,44 @@
+.admin_question {
+    margin: 5px;
+}
+
+.admin_question_header {
+    font-size: 20px;
+}
+
+.container {
+    margin: 5px;
+}
+
+.grid {
+    float:left;
+    width: 200px
+}
+
+.input {
+    width: 400px;
+}
+
+.update-button {
+    margin-top: 20px;
+}
+
+.input-wrapper {
+    padding-top: 10px
+}
+
+.problem_def {
+    padding-left: 10px;
+    min-width: 500px;
+    vertical-align: top;
+}
+
+.problem_field {
+    padding-left: 10px;
+    min-width: 200px;
+    vertical-align: top;
+}
+
+.spacer {
+    min-width: 40px;
+}

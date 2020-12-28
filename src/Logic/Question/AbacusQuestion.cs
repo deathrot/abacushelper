@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using QuestionSubType = Logic.Enums.QuestionSubType;
 
 namespace Logic.Question
 {
-    public class AbacusQuestion : IQuestion
+    public class AddSubQuestion : IQuestion
     {
-        public QuestionType QuestionType { get; } = QuestionType.Abacus;
+        public QuestionSubType QuestionType { get; } = QuestionSubType.AddSub;
 
         public List<SignedNumber> Numbers { get; set;  } = new List<SignedNumber>();
 

@@ -1,0 +1,63 @@
+.admin_question {
+    margin: 20px;
+}
+
+.admin_question_header {
+    font-size: 20px;
+}
+
+.container {
+    margin: 5px;
+}
+
+.question_instance {
+    margin: 20px;
+}
+
+.question_instance_bg {
+    display: inline-block;
+}
+
+.content {
+    margin-top: 15px;
+    width: 100%;
+}
+
+.spacer {
+    padding-left: 10px;
+}
+
+.question_row {
+    width: 200px;
+    text-overflow: ellipsis;
+}
+
+.count {
+    vertical-align: middle;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.save_button {
+    margin-left: 20px;
+}
+
+.state_new {
+    font-style: italic;
+    color: green;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.state_modified {
+    font-style: italic;
+    color: orchid;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.toolbar {
+    margin: 10px
+}
