@@ -36,19 +36,17 @@ const Questions = (props) => {
 
     const fetchQuestions = async () => {
         const response = await fetch("Questions/get");
-        const data = await response.json();
+        const rawData = await response.json();
 
-        const transformedData = transformQuestionsFromServer(data);
+        const data = transformQuestionsFromServer(rawData);
         
-        debugger;
-
         setHasChanges(false);
         setSelectedQuestion(null);
         setGlobalFilter('');
         setNewQuestions([]);
         setDeletedQuestions([]);
         setModifiedQuestions([]);
-        setQuestions(transformedData);
+        setQuestions(data);
     };
 
     const deleteQuestion = (e) => {
@@ -62,9 +60,9 @@ const Questions = (props) => {
             setNewQuestions(newArr);
         }
 
-        let delArr = [...deletedQuestions];
-        let modArr = [...modifiedQuestions];
         if (selectedQuestion.entityState != EntityState.New) {
+            let delArr = [...deletedQuestions, selectedQuestion];
+            let modArr = [...modifiedQuestions];
             setDeletedQuestions([...delArr, selectedQuestion]);
             
             let removedItems = _.remove(modArr, (d) => {
@@ -74,6 +72,8 @@ const Questions = (props) => {
             if (removedItems && removedItems.length > 0){ 
                 setModifiedQuestions([...modArr, selectedQuestion]);
             }
+
+            setHasChanges(true);
         }
 
         let arr = [...questions];
@@ -83,7 +83,6 @@ const Questions = (props) => {
         setQuestions([...arr]);
         setSelectedQuestion(_.head(arr));
 
-        setHasChanges((newArr.length > 0 || delArr.length > 0 || modArr.length > 0));
     }
 
     const addNewQuestion = (e) => {

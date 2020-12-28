@@ -37,7 +37,7 @@ export function transformQuestionsFromServer(entities) {
         });
     }
     
-    return null;
+    return [];
 }
 
 const transformedQuestionFromServer = (d) => {

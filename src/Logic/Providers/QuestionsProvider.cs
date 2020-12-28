@@ -9,7 +9,7 @@ namespace Logic.Providers
 
         public async Task<Logic.ViewModels.QuestionVM[]> Get(Interfaces.IConnectionUtility connectionUtility) 
         {
-            var entities = await DB.DBUtility.GetData<DBModels.QuestionEntity>(connectionUtility, "select * from questions", null);
+            var entities = await DB.DBUtility.GetData<DBModels.QuestionEntity>(connectionUtility, "select * from questions where is_deleted = 0", null);
 
             return Mappers.ObjectMapper.Instance.Mapper.Map<Logic.ViewModels.QuestionVM[]>(entities);
         }
