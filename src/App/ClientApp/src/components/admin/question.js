@@ -2,7 +2,7 @@ import React, { Component, useState, useEffect, useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
-import QuestionType from '../common/question_types';
+import QuestionSubType from '../common/question_sub_types';
 import Severity from '../common/severity';
 import 'primeicons/primeicons.css';
 import 'primereact/resources/themes/fluent-light/theme.css';
@@ -42,8 +42,8 @@ const Question = (props) => {
         syncChanges(q);
     }
 
-    const handleQuestionTypeChange = (e) => {
-        let q = { ...question, questionType: e.target.value, questionJSON: {} };
+    const handleQuestionSubTypeChange = (e) => {
+        let q = { ...question, questionSubType: e.target.value, questionJSON: {} };
         setQuestion(q);
         syncChanges(q);
     }
@@ -72,11 +72,11 @@ const Question = (props) => {
                     <div>
                         {question &&
                             <div>
-                                <div class="input-wrapper">
+                                {false && <div class="input-wrapper">
                                     <TextField id="outlined-basic" variant="outlined"
                                         value={question.name} label="Name" className="input"
                                         onChange={(e) => handleNameChange(e)} />
-                                </div>
+                                </div>}
                                 <div class="input-wrapper">
                                     <TextField
                                         id="level"
@@ -121,7 +121,7 @@ const Question = (props) => {
                                 </div>
                                 <div class="input-wrapper">
                                     <TextField
-                                        id="question-type"
+                                        id="question-severity"
                                         select
                                         className="input"
                                         label="Severity"
@@ -136,15 +136,15 @@ const Question = (props) => {
                                 
                                 <div class="input-wrapper">
                                     <TextField
-                                        id="question-type"
+                                        id="question-sub-type"
                                         select
                                         className="input"
-                                        label="Question Type"
-                                        value={question.questionType || ''}
-                                        onChange={handleQuestionTypeChange}
-                                        helperText="question type?">
+                                        label="Question Sub Type"
+                                        value={question.questionSubType || ''}
+                                        onChange={handleQuestionSubTypeChange}
+                                        helperText="question sub type?">
                                         {
-                                            _.map(QuestionType, (r) => <MenuItem key={r} value={r}>{r}</MenuItem>)
+                                            _.map(QuestionSubType, (r) => <MenuItem key={r} value={r}>{r}</MenuItem>)
                                         }
                                     </TextField>
                                 </div>
@@ -157,19 +157,19 @@ const Question = (props) => {
                 </td>
                 <td class="problem_def">
                     <h4>Problem</h4>
-                    {question.questionType == QuestionType.Multiplication &&
+                    {question.questionSubType == QuestionSubType.Multiplication &&
                         <QuestionMultiplication id={question.Id}   updateQuestionJSON={handleUpdateQuestionJSON} problem={question.questionJSON}  />
                     }
 
-                    {question.questionType == QuestionType.PowerExcercise &&
+                    {question.questionSubType == QuestionSubType.PowerExcercise &&
                         <QuestionPowerExcercise id={question.Id}   updateQuestionJSON={handleUpdateQuestionJSON} problem={question.questionJSON}  />
                     }
 
-                    {question.questionType == QuestionType.Sequentials &&
+                    {question.questionSubType == QuestionSubType.Sequentials &&
                         <QuestionSequential id={question.Id}   updateQuestionJSON={handleUpdateQuestionJSON} problem={question.questionJSON}  />
                     }
 
-                    {question.questionType == QuestionType.AddSub &&
+                    {question.questionSubType == QuestionSubType.AddSub &&
                         <QuestionAddSub id={question.Id}  updateQuestionJSON={handleUpdateQuestionJSON} problem={question.questionJSON}  />
                     }
                 </td>

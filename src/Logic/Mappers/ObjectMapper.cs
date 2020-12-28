@@ -29,15 +29,16 @@ namespace Logic.Mappers
                 cfg.CreateMap<DBModels.QuestionEntity, ViewModels.QuestionVM>()
                 .ForMember(x => x.Id, y => y.MapFrom(t => t.id))
                 .ForMember(x => x.Description, y => y.MapFrom(t => t.record_description))
-                .ForMember(x => x.Level, y => y.MapFrom(t => t.level_id))
+                .ForMember(x => x.Level, y => y.MapFrom(t => t.level))
                 .ForMember(x => x.ModifiedOn, y => y.MapFrom(t => t.modified_on))
                 .ForMember(x => x.Name, y => y.MapFrom(t => t.record_name))
                 .ForMember(x => x.QuestionJSON, y => y.MapFrom(t => t.question))
                 .ForMember(x => x.SortOrder, y => y.MapFrom(t => t.sort_order))
-                .ForMember(x => x.SubLevel, y => y.MapFrom(t => t.sub_level_id))
+                .ForMember(x => x.SubLevel, y => y.MapFrom(t => t.sub_level))
                 .AfterMap((x, y) =>
                 {
                     y.QuestionType = x.question_type.ToString();
+                    y.QuestionSubType = x.question_sub_type.ToString();
                     y.EntityState = Enums.EntityState.None;
                     y.Severity = x.severity.ToString();
                 });
@@ -45,15 +46,16 @@ namespace Logic.Mappers
                 cfg.CreateMap<ViewModels.QuestionVM, DBModels.QuestionEntity>()
                 .ForMember(x => x.id, y => y.MapFrom(t => t.Id))
                 .ForMember(x => x.record_description, y => y.MapFrom(t => t.Description))
-                .ForMember(x => x.level_id, y => y.MapFrom(t => t.Level))
+                .ForMember(x => x.level, y => y.MapFrom(t => t.Level))
                 .ForMember(x => x.modified_on, y => y.MapFrom(t => t.ModifiedOn))
                 .ForMember(x => x.record_name, y => y.MapFrom(t => t.Name))
                 .ForMember(x => x.question, y => y.MapFrom(t => t.QuestionJSON))
                 .ForMember(x => x.sort_order, y => y.MapFrom(t => t.SortOrder))
-                .ForMember(x => x.sub_level_id, y => y.MapFrom(t => t.SubLevel))
+                .ForMember(x => x.sub_level, y => y.MapFrom(t => t.SubLevel))
                 .AfterMap((x, y) =>
                 {
                     y.question_type = (Enums.QuestionType)System.Enum.Parse<Enums.QuestionType>(x.QuestionType, true);
+                    y.question_sub_type = (Enums.QuestionSubType)System.Enum.Parse<Enums.QuestionSubType>(x.QuestionSubType, true);
                     y.severity = (Enums.Severity)System.Enum.Parse<Enums.Severity>(x.Severity, true);
                 });
 

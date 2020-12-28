@@ -33,6 +33,9 @@ const QuestionMultiplication = (props) => {
     <div class="problem">
       <div class="problem_input">
         <TextField label="Multiplication Table" onKeyDown={handleStartKeyDown} />
+        <div class="info_text">
+          (Enter to add the number to create the multiplication table)
+        </div>
       </div>
       <div class="problem_output_container">
         {problem && problem.Numbers && problem.Numbers.length == 1 && problem.Numbers[0] && 

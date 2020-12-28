@@ -15,6 +15,8 @@ namespace Logic.ViewModels
 
         public string QuestionType { get; set; }
 
+        public string QuestionSubType { get; set; }
+
         public List<string> Tags { get; set; } = new List<string>();
 
         public int SortOrder {get; set;}

@@ -51,7 +51,8 @@ const QuestionSequential = (props) => {
   return (
     <div class="problem">
       <div class="problem_input">
-        <TextField label="Start" onKeyDown={handleStartKeyDown} /> <span> - </span> <TextField label="End" onKeyDown={handleEndKeyDown} />
+        <TextField label="Start" onKeyDown={handleStartKeyDown} /> <span>  </span> <TextField label="End" onKeyDown={handleEndKeyDown} />
+        <div class="info_text">(Enter to add both min and max for a valid input)</div>
       </div>
       <div class="problem_output_container">
         {problem && problem.Numbers && problem.Numbers.length == 2 && problem.Numbers[0] && problem.Numbers[1] && problem.Numbers[0].Number && problem.Numbers[1].Number && 

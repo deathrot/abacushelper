@@ -10,7 +10,8 @@ export function createNewQuestion() {
         questionJSON: '',
         level: 0,
         subLevel: 0,
-        questionType: '',
+        questionType: 'Math',
+        questionSubType: '',
         entityState: EntityState.New,
         severity: ''
     };

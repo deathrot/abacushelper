@@ -42,6 +42,9 @@ const QuestionAddSub = (props) => {
     <div class="problem">
       <div class="problem_input">
         <TextField onKeyDown={handleKeyDown} />
+        <div class="info_text">
+          (Enter to add a number and esc to clear)
+        </div>
       </div>
       <div class="problem_output_container">
         {problem && problem.Numbers && _.map(problem.Numbers, (r) => <div class="problem_output">{r.Number}</div>)}

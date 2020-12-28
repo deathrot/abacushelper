@@ -1,4 +1,4 @@
-const QuestionType = {
+const QuestionSubType = {
     //Beed: "Beed ",
     AddSub: "AddSub",
     Sequentials: "Sequentials",
@@ -6,4 +6,4 @@ const QuestionType = {
     Multiplication: "Multiplication"
 }
 
-export default QuestionType;
+export default QuestionSubType;

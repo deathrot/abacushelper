@@ -68,14 +68,14 @@ const Questions = (props) => {
         if (selectedQuestion.entityState != EntityState.New) {
             let delArr = [...deletedQuestions, selectedQuestion];
             let modArr = [...modifiedQuestions];
-            setDeletedQuestions([...delArr, selectedQuestion]);
+            setDeletedQuestions(delArr);
             
             let removedItems = _.remove(modArr, (d) => {
                 return d.id == selectedQuestion.id;
             });
-
+            
             if (removedItems && removedItems.length > 0){ 
-                setModifiedQuestions([...modArr, selectedQuestion]);
+                setModifiedQuestions([...modArr]);
             }
         }
 
@@ -120,14 +120,16 @@ const Questions = (props) => {
         arr[index].name = newObj.name;
         arr[index].level = newObj.level;
         arr[index].subLevel = newObj.subLevel;
-        arr[index].questionType = newObj.questionType;
+        arr[index].questionSubType = newObj.questionSubType;
         arr[index].questionJSON = newObj.questionJSON;
-        arr[index].entityState = EntityState.Modified;
         arr[index].severity = newObj.severity;
 
         setQuestions(arr);
 
         if(obj.entityState != EntityState.New) {
+            
+            arr[index].entityState = EntityState.Modified;
+
             if (_.findIndex(modifiedQuestions, (r) => {
                 return r.id == newObj.id;
             }) == -1) {
@@ -175,6 +177,7 @@ const Questions = (props) => {
                         {rowData.entityState == EntityState.Modified && <div class="state_modified">M</div>}
                         <div>L: {rowData.level}, SL: {rowData.subLevel}</div>
                         <div>QT: {rowData.questionType}</div>
+                        <div>QST: {rowData.questionSubType}</div>
                     </div>
                 }
             </div>
@@ -221,14 +224,12 @@ const Questions = (props) => {
                             <DataTable ref={dt} value={questions} selection={selectedQuestion} onSelectionChange={(e) => setSelectedQuestion(e.value)}
                                 selectionMode="single"
                                 globalFilter={globalFilter} emptyMessage="No customers found."
-                                dataKey="id" paginator rows={100} rowsPerPageOptions={[5, 10, 25]}
-                                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} questions">
+                                dataKey="id">
                                 <Column field="name" showHeader="false" body={questionBodyTemplate}></Column>
                             </DataTable>
                         </div>
-                        <div class="question_instance">
-                            <div class="question_instance_bg">
+                        <div class="question_instance_bg">
+                            <div class="question_instance">
                             {selectedQuestion &&
                                 <Question key={selectedQuestion.id} question={selectedQuestion} handleUpdate={handleUpdate} />
                             }

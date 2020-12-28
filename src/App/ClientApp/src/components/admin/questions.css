@@ -15,7 +15,6 @@
 }
 
 .question_instance_bg {
-    background-color: #ebedf0;
     display: inline-block;
 }
 
@@ -57,4 +56,8 @@
     color: orchid;
     font-weight: bold;
     font-size: 12px;
+}
+
+.toolbar {
+    margin: 10px
 }

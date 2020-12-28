@@ -16,9 +16,10 @@ Create table IF NOT EXISTS settings(
 Create table IF NOT EXISTS questions(
 	id VARCHAR(256) not null primary key,
 	severity INTEGER NOT NULL, 
-	level_id INTEGER NOT NULL, 
-	sub_level_id INTEGER NOT NULL, 
+	level INTEGER NOT NULL, 
+	sub_level INTEGER NOT NULL, 
 	question_type INTEGER NOT NULL,
+	question_sub_type INTEGER NOT NULL,
 	record_name VARCHAR(256),
 	record_description VARCHAR(512),
 	question JSON NOT NULL,

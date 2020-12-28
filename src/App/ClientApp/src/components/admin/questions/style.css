@@ -26,3 +26,7 @@
     width: 400px;
     display: flex
 }
+
+.info_text {
+    font-style: italic;
+}

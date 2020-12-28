@@ -37,6 +37,7 @@ const QuestionPowerExcercise = (props) => {
     <div class="problem">
       <div class="problem_input">
         <TextField label="Number" onKeyDown={handleKeyDown} />
+        <div class="info_text">(Enter to add number)</div>
       </div>
       <div class="problem_output_container">
         {problem && problem.Numbers && problem.Numbers.length == 1 && problem.Numbers[0].Number && 

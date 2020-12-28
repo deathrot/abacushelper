@@ -9,9 +9,11 @@ namespace Logic.DBModels
 
         public Enums.QuestionType question_type {get; set;}
 
-        public int level_id {get; set;}
+        public Enums.QuestionSubType question_sub_type {get; set;}
 
-        public int sub_level_id {get; set;}
+        public int level {get; set;}
+
+        public int sub_level {get; set;}
 
         public string question {get; set;}
     }
