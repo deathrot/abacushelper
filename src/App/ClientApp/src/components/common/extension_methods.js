@@ -49,5 +49,7 @@ const transformedQuestionFromServer = (d) => {
 const transformedQuestionForSave = (d) => {
     let newObj = {...d};
     newObj.questionJSON = JSON.stringify(newObj.questionJSON);
+    newObj.level = _.toNumber(newObj.level);
+    newObj.subLevel = _.toNumber(newObj.subLevel);
     return newObj;
 }

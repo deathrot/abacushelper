@@ -9,7 +9,10 @@ const QuestionAddSub = (props) => {
   const updateQuestionJSON = props.updateQuestionJSON;
 
   const handleKeyDown = (e) => {
-    if (e.keyCode == 13) {
+    if (e.keyCode == 27 && problem) {
+      setProblem({Numbers: []});
+    }
+    else if (e.keyCode == 13) {
       
       let n = _.toNumber(e.target.value)
       if(_.isNumber(n)){
@@ -24,8 +27,6 @@ const QuestionAddSub = (props) => {
         });
 
         let maxOrder = nextOrder ? nextOrder.SortOrder : 0;
-
-        debugger;
         prob.Numbers.push({ Number: n, SortOrder: maxOrder});
         
         setProblem(prob);

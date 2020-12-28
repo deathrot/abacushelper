@@ -15,7 +15,7 @@ namespace Logic.Models
 
         public int TotalRecordUpdated { get; set; }
 
-        public Dictionary<string, string> InsertKeyMap { get; set; } = new Dictionary<string, string>();
+        public bool Success { get; set; }
 
     }
 }

@@ -16,12 +16,14 @@ import 'react-splitter-layout/lib/index.css';
 import uuid from 'react-uuid';
 import _ from 'lodash';
 import axios from 'axios';
-
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const Questions = (props) => {
-    const [questions, setQuestions] = useState([]);
+    
     const [hasChanges, setHasChanges] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
+    const [questions, setQuestions] = useState([]);
     const [newQuestions, setNewQuestions] = useState([]);
     const [deletedQuestions, setDeletedQuestions] = useState([]);
     const [modifiedQuestions, setModifiedQuestions] = useState([]);
@@ -35,6 +37,8 @@ const Questions = (props) => {
     }, []);
 
     const fetchQuestions = async () => {
+        setIsLoading(true);
+
         const response = await fetch("Questions/get");
         const rawData = await response.json();
 
@@ -47,6 +51,7 @@ const Questions = (props) => {
         setDeletedQuestions([]);
         setModifiedQuestions([]);
         setQuestions(data);
+        setIsLoading(false);
     };
 
     const deleteQuestion = (e) => {
@@ -72,8 +77,6 @@ const Questions = (props) => {
             if (removedItems && removedItems.length > 0){ 
                 setModifiedQuestions([...modArr, selectedQuestion]);
             }
-
-            setHasChanges(true);
         }
 
         let arr = [...questions];
@@ -83,7 +86,12 @@ const Questions = (props) => {
         setQuestions([...arr]);
         setSelectedQuestion(_.head(arr));
 
+        updateHasChangesFlag();
     }
+
+    const updateHasChangesFlag = () => {
+        setHasChanges(newQuestions.length > 0 || modifiedQuestions.length > 0 || deletedQuestions.length > 0);
+    };
 
     const addNewQuestion = (e) => {
         e.preventDefault();
@@ -99,21 +107,6 @@ const Questions = (props) => {
         
         setHasChanges(true);
     };
-
-
-    const questionBodyTemplate = (rowData) => {
-        return (
-            <div class="question_row">
-                {rowData &&
-                    <div>
-                        <h4>{rowData.name}</h4>
-                        <div>L: {rowData.level}, SL: {rowData.subLevel}</div>
-                        <div>QT: {rowData.questionType}</div>
-                    </div>
-                }
-            </div>
-        );
-    }
 
     const handleUpdate = (newObj) => {
         let obj = newObj;
@@ -146,7 +139,10 @@ const Questions = (props) => {
     }
 
     const handleSave = async (e) => {
-        
+        setIsLoading(true);
+
+        e.preventDefault();
+
         let response = await axios({ method: "post", 
         url: "questions/save",
         data: {
@@ -155,16 +151,53 @@ const Questions = (props) => {
             entitesToInsert: transformQuestionsForSave(newQuestions)
         }});
 
-        e.preventDefault();
+        if(response.data.success) {
+            setNewQuestions([]);
+            setModifiedQuestions([]);
+            setDeletedQuestions([]);
+
+            _.each(questions, (d) =>{
+                d.entityState = EntityState.None;
+            });
+
+            setHasChanges(false);
+        }
+
+        setIsLoading(false);
+    }
+
+    const questionBodyTemplate = (rowData) => {
+        return (
+            <div class="question_row">
+                {rowData &&
+                    <div>
+                        {rowData.entityState == EntityState.New && <div class="state_new">N</div>}
+                        {rowData.entityState == EntityState.Modified && <div class="state_modified">M</div>}
+                        <div>L: {rowData.level}, SL: {rowData.subLevel}</div>
+                        <div>QT: {rowData.questionType}</div>
+                    </div>
+                }
+            </div>
+        );
     }
 
     return (
         <div class="admin_question">
             <div class="admin_question_header">Questions</div>
             <div class="container">
+                <div>
+                    <span class="count">Total {questions.length},</span>
+                    <span class="count">New {newQuestions.length},</span>
+                    <span class="count">Modified {modifiedQuestions.length},</span>
+                    <span class="count">Deleted {deletedQuestions.length}</span> 
+                </div>
+                {isLoading && 
+                <div style={{width: '800px', height: '600px', paddingTop: '10px', position: 'absolute', left: '100', right: '100'}}>
+                    <LinearProgress  />
+                </div>}
+                {!isLoading && 
+                <>
                 <div class="toolbar">
-
-                    <span class="count">Total {questions.length}</span> 
                     <span class="action_button">
                     <Button variant="contained" color="secondary" onClick={(e) => addNewQuestion(e)}>Add</Button>
                     <span class="spacer" />
@@ -179,7 +212,7 @@ const Questions = (props) => {
                     </span>
                 </div>
                 <div class="content">
-
+                    
                     <SplitterLayout percentage="true" primaryMinSize="15" secondaryInitialSize="85">
                         <div class="grid">
                             <div classname="table-header">
@@ -195,12 +228,16 @@ const Questions = (props) => {
                             </DataTable>
                         </div>
                         <div class="question_instance">
+                            <div class="question_instance_bg">
                             {selectedQuestion &&
                                 <Question key={selectedQuestion.id} question={selectedQuestion} handleUpdate={handleUpdate} />
                             }
+                            </div>
                         </div>
                     </SplitterLayout>
                 </div>
+                </>
+                }
             </div>
         </div>
     );

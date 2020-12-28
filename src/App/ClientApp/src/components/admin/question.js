@@ -25,27 +25,43 @@ const Question = (props) => {
     const [question, setQuestion] = useState(props.question);
 
     const handleNameChange = (e) => {
-        setQuestion({ ...question, name: e.target.value });
+        let q = { ...question, name: e.target.value };
+        setQuestion(q);
+        syncChanges(q);
     }
 
     const handleLevelChange = (e) => {
-        setQuestion({ ...question, level: e.target.value });
+        let q = { ...question, level: e.target.value };
+        setQuestion(q);
+        syncChanges(q);
     }
 
     const handleSubLevelChange = (e) => {
-        setQuestion({ ...question, subLevel: e.target.value });
+        let q = { ...question, subLevel: e.target.value };
+        setQuestion(q);
+        syncChanges(q);
     }
 
     const handleQuestionTypeChange = (e) => {
-        setQuestion({ ...question, questionType: e.target.value, questionJSON: {} });
+        let q = { ...question, questionType: e.target.value, questionJSON: {} };
+        setQuestion(q);
+        syncChanges(q);
     }
 
     const handleUpdateQuestionJSON = (e) => {
-        setQuestion({ ...question, questionJSON: e });
+        let q = { ...question, questionJSON: e };
+        setQuestion(q);
+        syncChanges(q);
     }
 
     const handleSeverityChange = (e) => {
-        setQuestion({ ...question, severity: e.target.value });
+        let q = { ...question, severity: e.target.value };
+        setQuestion(q);
+        syncChanges(q);
+    }
+
+    const syncChanges = (q) => {
+        props.handleUpdate(q)
     }
 
     return (
@@ -131,10 +147,6 @@ const Question = (props) => {
                                             _.map(QuestionType, (r) => <MenuItem key={r} value={r}>{r}</MenuItem>)
                                         }
                                     </TextField>
-                                </div>
-
-                                <div class="update-button">
-                                    <Button variant="contained" color="secondary" onClick={(e) => props.handleUpdate(question)}>Update</Button>
                                 </div>
                             </div>
                         }

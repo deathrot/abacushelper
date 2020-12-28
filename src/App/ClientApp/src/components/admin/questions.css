@@ -14,6 +14,11 @@
     margin: 20px;
 }
 
+.question_instance_bg {
+    background-color: #ebedf0;
+    display: inline-block;
+}
+
 .content {
     margin-top: 15px;
     width: 100%;
@@ -38,4 +43,18 @@
 
 .save_button {
     margin-left: 20px;
+}
+
+.state_new {
+    font-style: italic;
+    color: green;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.state_modified {
+    font-style: italic;
+    color: orchid;
+    font-weight: bold;
+    font-size: 12px;
 }

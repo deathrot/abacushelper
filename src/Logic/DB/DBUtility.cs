@@ -47,15 +47,13 @@ namespace Logic.DB
             return data;
         }
 
-        public static async Task<Models.DBSaveResult> Insert<T>(Interfaces.IConnectionUtility connUtility, IEnumerable<T> entitesToInsert)
+        public static async Task<int> Insert<T>(Interfaces.IConnectionUtility connUtility, IEnumerable<T> entitesToInsert)
             where T : class, Interfaces.IDBEntity
         {
-            Models.DBSaveResult result = new Models.DBSaveResult();
+            int result = 0;
 
             if (entitesToInsert == null || entitesToInsert.Count() == 0)
                 return result;
-
-            result.TotalRecordSentToSave = entitesToInsert.Count();
 
             foreach (var entity in entitesToInsert)
             {
@@ -64,18 +62,10 @@ namespace Logic.DB
 
             using (var conn = connUtility.GetConnection())
             {
-                int totalRecordsSaved = 0;
-
                 foreach (var entity in entitesToInsert)
                 {
-                    string id = Guid.NewGuid().ToString();
-                    result.InsertKeyMap.Add(entity.id, id);
-
-                    entity.id = id;
-                    totalRecordsSaved += await conn.InsertAsync<T>(entity);
+                    result += await conn.InsertAsync<T>(entity);
                 }
-
-                result.TotalRecordInserted = totalRecordsSaved;
             }
 
             return result;

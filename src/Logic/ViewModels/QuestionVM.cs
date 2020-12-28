@@ -7,9 +7,9 @@ namespace Logic.ViewModels
         
         public string Severity {get; set;}
         
-        public int LevelId {get; set;}
+        public int Level {get; set;}
 
-        public int SubLevelId{ get; set;} 
+        public int SubLevel { get; set;} 
         
         public string QuestionJSON {get; set;}
 
