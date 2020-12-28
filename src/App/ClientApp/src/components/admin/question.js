@@ -25,27 +25,27 @@ const Question = (props) => {
     const [question, setQuestion] = useState(props.question);
 
     const handleNameChange = (e) => {
-        setQuestion({ ...question, Name: e.target.value });
+        setQuestion({ ...question, name: e.target.value });
     }
 
     const handleLevelChange = (e) => {
-        setQuestion({ ...question, Level: e.target.value });
+        setQuestion({ ...question, level: e.target.value });
     }
 
     const handleSubLevelChange = (e) => {
-        setQuestion({ ...question, SubLevel: e.target.value });
+        setQuestion({ ...question, subLevel: e.target.value });
     }
 
     const handleQuestionTypeChange = (e) => {
-        setQuestion({ ...question, QuestionType: e.target.value, QuestionJSON: {} });
+        setQuestion({ ...question, questionType: e.target.value, questionJSON: {} });
     }
 
     const handleUpdateQuestionJSON = (e) => {
-        setQuestion({ ...question, QuestionJSON: e });
+        setQuestion({ ...question, questionJSON: e });
     }
 
     const handleSeverityChange = (e) => {
-        setQuestion({ ...question, Severity: e.target.value });
+        setQuestion({ ...question, severity: e.target.value });
     }
 
     return (
@@ -58,7 +58,7 @@ const Question = (props) => {
                             <div>
                                 <div class="input-wrapper">
                                     <TextField id="outlined-basic" variant="outlined"
-                                        value={question.Name} label="Name" className="input"
+                                        value={question.name} label="Name" className="input"
                                         onChange={(e) => handleNameChange(e)} />
                                 </div>
                                 <div class="input-wrapper">
@@ -67,7 +67,7 @@ const Question = (props) => {
                                         select
                                         label="Level"
                                         className="input"
-                                        value={question.Level || ''}
+                                        value={question.level || ''}
                                         onChange={handleLevelChange}
                                         helperText="level?">
                                         <MenuItem key="1" value="1">1</MenuItem>
@@ -88,7 +88,7 @@ const Question = (props) => {
                                         select
                                         className="input"
                                         label="Sub Level"
-                                        value={question.SubLevel || ''}
+                                        value={question.subLevel || ''}
                                         onChange={handleSubLevelChange}
                                         helperText="sub level?">
                                         <MenuItem key="1" value="1">1</MenuItem>
@@ -109,7 +109,7 @@ const Question = (props) => {
                                         select
                                         className="input"
                                         label="Severity"
-                                        value={question.Severity || ''}
+                                        value={question.severity || ''}
                                         onChange={handleSeverityChange}
                                         helperText="severity?">
                                         {
@@ -124,7 +124,7 @@ const Question = (props) => {
                                         select
                                         className="input"
                                         label="Question Type"
-                                        value={question.QuestionType || ''}
+                                        value={question.questionType || ''}
                                         onChange={handleQuestionTypeChange}
                                         helperText="question type?">
                                         {
@@ -145,20 +145,20 @@ const Question = (props) => {
                 </td>
                 <td class="problem_def">
                     <h4>Problem</h4>
-                    {question.QuestionType == QuestionType.Multiplication &&
-                        <QuestionMultiplication id={question.Id}   updateQuestionJSON={handleUpdateQuestionJSON} problem={question.QuestionJSON}  />
+                    {question.questionType == QuestionType.Multiplication &&
+                        <QuestionMultiplication id={question.Id}   updateQuestionJSON={handleUpdateQuestionJSON} problem={question.questionJSON}  />
                     }
 
-                    {question.QuestionType == QuestionType.PowerExcercise &&
-                        <QuestionPowerExcercise id={question.Id}   updateQuestionJSON={handleUpdateQuestionJSON} problem={question.QuestionJSON}  />
+                    {question.questionType == QuestionType.PowerExcercise &&
+                        <QuestionPowerExcercise id={question.Id}   updateQuestionJSON={handleUpdateQuestionJSON} problem={question.questionJSON}  />
                     }
 
-                    {question.QuestionType == QuestionType.Sequentials &&
-                        <QuestionSequential id={question.Id}   updateQuestionJSON={handleUpdateQuestionJSON} problem={question.QuestionJSON}  />
+                    {question.questionType == QuestionType.Sequentials &&
+                        <QuestionSequential id={question.Id}   updateQuestionJSON={handleUpdateQuestionJSON} problem={question.questionJSON}  />
                     }
 
-                    {question.QuestionType == QuestionType.AddSub &&
-                        <QuestionAddSub id={question.Id}  updateQuestionJSON={handleUpdateQuestionJSON} problem={question.QuestionJSON}  />
+                    {question.questionType == QuestionType.AddSub &&
+                        <QuestionAddSub id={question.Id}  updateQuestionJSON={handleUpdateQuestionJSON} problem={question.questionJSON}  />
                     }
                 </td>
                 <td class="filler">

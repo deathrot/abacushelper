@@ -18,7 +18,7 @@ Create table IF NOT EXISTS questions(
 	severity INTEGER NOT NULL, 
 	level_id INTEGER NOT NULL, 
 	sub_level_id INTEGER NOT NULL, 
-	question_type_id INTEGER NOT NULL,
+	question_type INTEGER NOT NULL,
 	record_name VARCHAR(256),
 	record_description VARCHAR(512),
 	question JSON NOT NULL,

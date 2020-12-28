@@ -3,7 +3,7 @@ import Question from './question';
 import EntityState from '../common/entity_states';
 import { InputText } from 'primereact/inputtext';
 import { DataTable } from 'primereact/datatable';
-import { createNewQuestion } from '../common/extension_methods';
+import { createNewQuestion, transformQuestionsForSave, transformQuestionsFromServer } from '../common/extension_methods';
 import Button from '@material-ui/core/Button';
 import { Column } from 'primereact/column';
 import 'primeicons/primeicons.css';
@@ -35,8 +35,12 @@ const Questions = (props) => {
     }, []);
 
     const fetchQuestions = async () => {
-        const response = await fetch("Questions");
+        const response = await fetch("Questions/get");
         const data = await response.json();
+
+        const transformedData = transformQuestionsFromServer(data);
+        
+        debugger;
 
         setHasChanges(false);
         setSelectedQuestion(null);
@@ -44,7 +48,7 @@ const Questions = (props) => {
         setNewQuestions([]);
         setDeletedQuestions([]);
         setModifiedQuestions([]);
-        setQuestions(data);
+        setQuestions(transformedData);
     };
 
     const deleteQuestion = (e) => {
@@ -52,7 +56,7 @@ const Questions = (props) => {
 
         let newArr = newQuestions;
         if (_.remove(newArr, (d) => {
-            return d.Id == selectedQuestion.Id
+            return d.id == selectedQuestion.id
         }).length > 0)
         {
             setNewQuestions(newArr);
@@ -60,11 +64,11 @@ const Questions = (props) => {
 
         let delArr = [...deletedQuestions];
         let modArr = [...modifiedQuestions];
-        if (selectedQuestion.EntityState != EntityState.New) {
+        if (selectedQuestion.entityState != EntityState.New) {
             setDeletedQuestions([...delArr, selectedQuestion]);
             
             let removedItems = _.remove(modArr, (d) => {
-                return d.Id == selectedQuestion.Id;
+                return d.id == selectedQuestion.id;
             });
 
             if (removedItems && removedItems.length > 0){ 
@@ -74,7 +78,7 @@ const Questions = (props) => {
 
         let arr = [...questions];
         _.remove(arr, (d) => {
-            return d.Id == selectedQuestion.Id;
+            return d.id == selectedQuestion.id;
         });
         setQuestions([...arr]);
         setSelectedQuestion(_.head(arr));
@@ -87,7 +91,7 @@ const Questions = (props) => {
 
         let newQuestion = createNewQuestion();
         let id = uuid();
-        newQuestion.Id = id;
+        newQuestion.id = id;
 
         setNewQuestions([...newQuestions, newQuestion]);
         
@@ -103,9 +107,9 @@ const Questions = (props) => {
             <div class="question_row">
                 {rowData &&
                     <div>
-                        <h4>{rowData.Name}</h4>
-                        <div>L: {rowData.Level}, SL: {rowData.SubLevel}</div>
-                        <div>QT: {rowData.QuestionType}</div>
+                        <h4>{rowData.name}</h4>
+                        <div>L: {rowData.level}, SL: {rowData.subLevel}</div>
+                        <div>QT: {rowData.questionType}</div>
                     </div>
                 }
             </div>
@@ -114,26 +118,26 @@ const Questions = (props) => {
 
     const handleUpdate = (newObj) => {
         let obj = newObj;
-        let id = obj.Id;
+        let id = obj.id;
 
         let arr = [...questions];
         let index = _.findIndex(arr, (d) => {
-            return d.Id == id;
+            return d.id == id;
         });
 
-        arr[index].Name = newObj.Name;
-        arr[index].Level = newObj.Level;
-        arr[index].SubLevel = newObj.SubLevel;
-        arr[index].QuestionType = newObj.QuestionType;
-        arr[index].QuestionJSON = newObj.QuestionJSON;
-        arr[index].EntityState = EntityState.Modified;
-        arr[index].Severity = newObj.Severity;
+        arr[index].name = newObj.name;
+        arr[index].level = newObj.level;
+        arr[index].subLevel = newObj.subLevel;
+        arr[index].questionType = newObj.questionType;
+        arr[index].questionJSON = newObj.questionJSON;
+        arr[index].entityState = EntityState.Modified;
+        arr[index].severity = newObj.severity;
 
         setQuestions(arr);
 
-        if(obj.EntityState != EntityState.New) {
+        if(obj.entityState != EntityState.New) {
             if (_.findIndex(modifiedQuestions, (r) => {
-                return r.Id == newObj.Id;
+                return r.id == newObj.id;
             }) == -1) {
                 setModifiedQuestions([...modifiedQuestions, arr[index]]);
             }
@@ -147,10 +151,9 @@ const Questions = (props) => {
         let response = await axios({ method: "post", 
         url: "questions/save",
         data: {
-            T: 200,
-            entitesToUpdate: modifiedQuestions,
-            entitesToDelete: deletedQuestions,
-            entitesToInsert: newQuestions
+            entitesToUpdate: transformQuestionsForSave(modifiedQuestions),
+            entitesToDelete: transformQuestionsForSave(deletedQuestions),
+            entitesToInsert: transformQuestionsForSave(newQuestions)
         }});
 
         e.preventDefault();
@@ -180,21 +183,21 @@ const Questions = (props) => {
 
                     <SplitterLayout percentage="true" primaryMinSize="15" secondaryInitialSize="85">
                         <div class="grid">
-                            <div className="table-header">
+                            <div classname="table-header">
                                 <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Global Search" />
                             </div>
                             <DataTable ref={dt} value={questions} selection={selectedQuestion} onSelectionChange={(e) => setSelectedQuestion(e.value)}
                                 selectionMode="single"
                                 globalFilter={globalFilter} emptyMessage="No customers found."
-                                dataKey="Id" paginator rows={100} rowsPerPageOptions={[5, 10, 25]}
+                                dataKey="id" paginator rows={100} rowsPerPageOptions={[5, 10, 25]}
                                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} questions">
-                                <Column field="Name" showHeader="false" body={questionBodyTemplate}></Column>
+                                <Column field="name" showHeader="false" body={questionBodyTemplate}></Column>
                             </DataTable>
                         </div>
                         <div class="question_instance">
                             {selectedQuestion &&
-                                <Question key={selectedQuestion.Id} question={selectedQuestion} handleUpdate={handleUpdate} />
+                                <Question key={selectedQuestion.id} question={selectedQuestion} handleUpdate={handleUpdate} />
                             }
                         </div>
                     </SplitterLayout>

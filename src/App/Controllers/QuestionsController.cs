@@ -23,12 +23,12 @@ namespace App.Controllers
         }
 
         [HttpGet]
-        [Route("questions")]
+        [Route("")]
         public async Task<ActionResult<IEnumerable<Logic.ViewModels.QuestionVM>>> Get()
         {
-            await Task.Delay(0);
+            Logic.Providers.QuestionsProvider provider = new Logic.Providers.QuestionsProvider();
 
-            return new Logic.ViewModels.QuestionVM[]{};
+            return await provider.Get(_connectionUtility);
         }
 
         [HttpPost]

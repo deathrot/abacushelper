@@ -6,6 +6,14 @@ namespace Logic.Providers
 {
     public class QuestionsProvider
     {
+
+        public async Task<Logic.ViewModels.QuestionVM[]> Get(Interfaces.IConnectionUtility connectionUtility) 
+        {
+            var entities = await DB.DBUtility.GetData<DBModels.QuestionEntity>(connectionUtility, "select * from questions", null);
+
+            return Mappers.ObjectMapper.Instance.Mapper.Map<Logic.ViewModels.QuestionVM[]>(entities);
+        }
+
         public async Task<Logic.Models.DBSaveResult> SaveResult(Interfaces.IConnectionUtility connectionUtility, Models.QuestionSaveRequest saveRequest)
         {
             var result = new Logic.Models.DBSaveResult();
