@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App", "src\App\App.csproj", "{2BD7E0C4-FAA1-4B5D-8514-876DD1B03749}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App", "src\App\App.csproj", "{2BD7E0C4-FAA1-4B5D-8514-876DD1B03749}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "src\Logic\Logic.csproj", "{91FABF53-C81E-4800-A923-05960709F682}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "src\Logic\Logic.csproj", "{91FABF53-C81E-4800-A923-05960709F682}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentPortal", "src\StudentPortal\StudentPortal.csproj", "{FEEE8D50-E11D-49D9-AEE4-4D51DC820AC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,14 +23,15 @@ Global
 		{91FABF53-C81E-4800-A923-05960709F682}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91FABF53-C81E-4800-A923-05960709F682}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91FABF53-C81E-4800-A923-05960709F682}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEEE8D50-E11D-49D9-AEE4-4D51DC820AC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEEE8D50-E11D-49D9-AEE4-4D51DC820AC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEEE8D50-E11D-49D9-AEE4-4D51DC820AC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEEE8D50-E11D-49D9-AEE4-4D51DC820AC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D0051474-17A3-4AA7-A361-4CD094CF0CCD}
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{91FABF53-C81E-4800-A923-05960709F682} = {9063400A-0801-427D-BD53-991664E0E55E}
 	EndGlobalSection
 EndGlobal
