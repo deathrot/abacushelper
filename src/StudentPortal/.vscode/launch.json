@@ -5,11 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "App",
+            "name": "StudentPortal",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/netcoreapp3.0/App.dll",
+            "program": "${workspaceFolder}/bin/Debug/net5.0/StudentPortal.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
