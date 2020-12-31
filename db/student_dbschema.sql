@@ -35,7 +35,7 @@ Create table IF NOT EXISTS users(
 );
 
 Create table IF NOT EXISTS sessions(
-	id varchar(256) not null primary key,
+	id varchar(36) not null primary key,
 	userid VARCHAR(36) not null,
 	login_time datetime not null,
 	last_activity_time datetime not null,
@@ -46,7 +46,7 @@ Create table IF NOT EXISTS sessions(
 );
 
 Create table IF NOT EXISTS session_archives(
-	id varchar(256) not null primary key,
+	id varchar(36) not null primary key,
 	userid VARCHAR(36) not null,
 	login_time datetime not null,
 	last_activity_time datetime not null,
