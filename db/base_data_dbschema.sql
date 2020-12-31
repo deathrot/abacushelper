@@ -1,10 +1,15 @@
+CREATE DATABASE IF NOT EXISTS base_data;
+
+USE base_data; 
+
+
 DROP TABLE IF EXISTS settings;
 DROP TABLE IF EXISTS question_tags;
 DROP TABLE IF EXISTS tags;
 DROP TABLE IF EXISTS questions;
 
 Create table IF NOT EXISTS settings(
-	id VARCHAR(36) not null primary key,
+	id varchar(36) not null primary key,
 	setting_name VARCHAR(256) not null,
 	setting_data_type VARCHAR(256) not null,
 	setting_value VARCHAR(256) not null,
@@ -14,7 +19,7 @@ Create table IF NOT EXISTS settings(
 );
 
 Create table IF NOT EXISTS questions(
-	id VARCHAR(36) not null primary key,
+	id varchar(36) not null primary key,
 	severity INTEGER NOT NULL, 
 	level INTEGER NOT NULL, 
 	sub_level INTEGER NOT NULL, 
@@ -29,16 +34,16 @@ Create table IF NOT EXISTS questions(
 );
 
 Create table IF NOT EXISTS tags(
-	id VARCHAR(36) not null primary key,	
-	tag_name VARCHAR(256),
+	id VARCHAR(64) not null primary key,	
+	tag_name VARCHAR(64),
 	is_deleted boolean NOT NULL default(FALSE),
 	modified_on datetime not NULL
 );
 
 Create table IF NOT EXISTS question_tags(
-	id VARCHAR(36) not null primary key,
-	question_id VARCHAR(256) not null,
-	tag_id VARCHAR(256) not null,
+	id varchar(36) NOT NULL PRIMARY KEY,       
+	question_id varchar(36) not null,
+	tag_id VARCHAR(64) not null,
 	is_deleted boolean NOT NULL default(FALSE),
 	modified_on datetime not null,
 	foreign key (question_id) references questions(id),

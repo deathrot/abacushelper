@@ -9,8 +9,6 @@ namespace Logic.DBModels
         public string id {get; set;}
 
         public DateTime modified_on {get; set;}
-        
-        public int sort_order {get; set;}
 
         public bool is_deleted {get; set;}
         

@@ -16,5 +16,8 @@ namespace Logic.DBModels
         public int sub_level {get; set;}
 
         public string question {get; set;}
+
+        public int sort_order {get; set;}
+
     }
 }
