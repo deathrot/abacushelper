@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS tags;
 DROP TABLE IF EXISTS questions;
 
 Create table IF NOT EXISTS settings(
-	id VARCHAR(256) not null primary key,
+	id VARCHAR(36) not null primary key,
 	setting_name VARCHAR(256) not null,
 	setting_data_type VARCHAR(256) not null,
 	setting_value VARCHAR(256) not null,
@@ -14,7 +14,7 @@ Create table IF NOT EXISTS settings(
 );
 
 Create table IF NOT EXISTS questions(
-	id VARCHAR(256) not null primary key,
+	id VARCHAR(36) not null primary key,
 	severity INTEGER NOT NULL, 
 	level INTEGER NOT NULL, 
 	sub_level INTEGER NOT NULL, 
@@ -29,14 +29,14 @@ Create table IF NOT EXISTS questions(
 );
 
 Create table IF NOT EXISTS tags(
-	id VARCHAR(256) not null primary key,	
+	id VARCHAR(36) not null primary key,	
 	tag_name VARCHAR(256),
 	is_deleted boolean NOT NULL default(FALSE),
 	modified_on datetime not NULL
 );
 
 Create table IF NOT EXISTS question_tags(
-	id VARCHAR(256) not null primary key,
+	id VARCHAR(36) not null primary key,
 	question_id VARCHAR(256) not null,
 	tag_id VARCHAR(256) not null,
 	is_deleted boolean NOT NULL default(FALSE),
