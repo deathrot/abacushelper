@@ -108,6 +108,50 @@ namespace Logic.Mappers
                 .ForMember(x => x.tag_name, y => y.MapFrom(t => t.TagName))
                 .ForMember(x => x.modified_on, y => y.MapFrom(t => t.ModifiedOn));
 
+                cfg.CreateMap<ViewModels.UserVM, DBModels.UserEntity>()
+                .ForMember(x => x.id, y => y.MapFrom(t => t.Id))
+                .ForMember(x => x.is_confirmed, y => y.MapFrom(t => t.IsConfirmed))
+                .ForMember(x => x.is_deleted, y => y.MapFrom(t => t.IsDeleted))
+                .ForMember(x => x.is_locked_out, y => y.MapFrom(t => t.IsLockedOut))
+                .ForMember(x => x.last_login_on, y => y.MapFrom(t => t.LastLoginOn))
+                .ForMember(x => x.last_log_out, y => y.MapFrom(t => t.LastLogOut))
+                .ForMember(x => x.modified_on, y => y.MapFrom(t => t.ModifiedOn))
+                .ForMember(x => x.num_of_failed_password_attempt, y => y.MapFrom(t => t.NumberOfFailedPasswordAttempt))
+                .ForMember(x => x.user_email, y => y.MapFrom(t => t.UserEmail));
+
+                cfg.CreateMap<DBModels.UserEntity, ViewModels.UserVM>()
+                .ForMember(x => x.Id, y => y.MapFrom(t => t.id))
+                .ForMember(x => x.IsConfirmed, y => y.MapFrom(t => t.is_confirmed))
+                .ForMember(x => x.IsDeleted, y => y.MapFrom(t => t.is_deleted))
+                .ForMember(x => x.IsLockedOut, y => y.MapFrom(t => t.is_locked_out))
+                .ForMember(x => x.LastLoginOn, y => y.MapFrom(t => t.last_login_on))
+                .ForMember(x => x.LastLogOut, y => y.MapFrom(t => t.last_log_out))
+                .ForMember(x => x.ModifiedOn, y => y.MapFrom(t => t.modified_on))
+                .ForMember(x => x.NumberOfFailedPasswordAttempt, y => y.MapFrom(t => t.num_of_failed_password_attempt))
+                .ForMember(x => x.UserEmail, y => y.MapFrom(t => t.user_email));
+
+
+                cfg.CreateMap<ViewModels.SessionVM, DBModels.SessionsEntity>()
+                .ForMember(x => x.id, y => y.MapFrom(t => t.Id))
+                .ForMember(x => x.session_token, y => y.MapFrom(t => t.SessionToken))
+                .ForMember(x => x.last_activity_time, y => y.MapFrom(t => t.LastActivityTime))
+                .ForMember(x => x.is_deleted, y => y.MapFrom(t => t.IsDeleted))
+                .ForMember(x => x.login_time, y => y.MapFrom(t => t.LoginTime))
+                .ForMember(x => x.modified_on, y => y.MapFrom(t => t.ModifiedOn))
+                .ForMember(x => x.next_login_timeout, y => y.MapFrom(t => t.NextLoginTimeout))
+                .ForMember(x => x.user_id, y => y.MapFrom(t => t.UserId));
+
+
+                cfg.CreateMap<DBModels.SessionsEntity, ViewModels.SessionVM>()
+                .ForMember(x => x.Id, y => y.MapFrom(t => t.id))
+                .ForMember(x => x.SessionToken, y => y.MapFrom(t => t.session_token))
+                .ForMember(x => x.LastActivityTime, y => y.MapFrom(t => t.last_activity_time))
+                .ForMember(x => x.IsDeleted, y => y.MapFrom(t => t.is_deleted))
+                .ForMember(x => x.LoginTime, y => y.MapFrom(t => t.login_time))
+                .ForMember(x => x.ModifiedOn, y => y.MapFrom(t => t.modified_on))
+                .ForMember(x => x.NextLoginTimeout, y => y.MapFrom(t => t.next_login_timeout))
+                .ForMember(x => x.UserId, y => y.MapFrom(t => t.user_id));
+
             });
 
             return config;

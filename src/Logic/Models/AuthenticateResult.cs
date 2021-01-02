@@ -2,14 +2,18 @@ using System;
 
 namespace Logic.Models
 {
-    public class AuthenticateResult : DBModels.SessionsEntity
+    public class AuthenticateResult : Interfaces.IDBEntity
     {
         public bool password_check_passed {get; set;}
 
-        public bool user_is_deleted { get; set; }
+        public bool is_deleted { get; set; }
 
-        public bool user_is_locked {get; set; }
-        
+        public bool is_locked_out { get; set; }
+
+        public string id { get; set; }
+
+        public DateTime modified_on { get; set; }
+
         public Enums.AuthenticateResultType ResultType {
             get
             {
@@ -19,10 +23,10 @@ namespace Logic.Models
                 if ( is_deleted){
                     return Enums.AuthenticateResultType.UserIsDeleted;
                 }
-                if ( user_is_locked){
+                if ( is_locked_out){
                     return Enums.AuthenticateResultType.UserIsLockedOut;
                 }
-                if (string.IsNullOrEmpty(userid)){
+                if (string.IsNullOrEmpty(id)){
                     return Enums.AuthenticateResultType.UserDoesNotExists;
                 }
 

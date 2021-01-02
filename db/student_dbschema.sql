@@ -2,6 +2,11 @@ CREATE DATABASE IF NOT EXISTS STUDENTS;
 
 USE STUDENTS;
 
+DROP TABLE IF EXISTS students;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS sessions;
+DROP TABLE IF EXISTS session_archives;
+
 Create table IF NOT EXISTS students(
 	id varchar(36) not null primary key,
 	student_first_name VARCHAR(256) not null,
@@ -22,9 +27,8 @@ Create table IF NOT EXISTS students(
 
 Create table IF NOT EXISTS users(
 	id varchar(36) not null primary key,
-	user_email VARCHAR(256) not null,
+	user_email VARCHAR(256) not null unique,
 	login_password blob,
-    login_secret blob,
     last_login_on datetime,
     last_log_out datetime, 
     is_locked_out boolean not null,
@@ -36,7 +40,8 @@ Create table IF NOT EXISTS users(
 
 Create table IF NOT EXISTS sessions(
 	id varchar(36) not null primary key,
-	userid VARCHAR(36) not null,
+	user_id VARCHAR(36) not null,
+	session_token  VARCHAR(256) not null,
 	login_time datetime not null,
 	last_activity_time datetime not null,
 	login_method INTEGER NOT NULL,
@@ -45,11 +50,15 @@ Create table IF NOT EXISTS sessions(
 	modified_on datetime not null
 );
 
+Create Index IX_Sessions_SessionToken on sessions(session_token);
+
 Create table IF NOT EXISTS session_archives(
 	id varchar(36) not null primary key,
-	userid VARCHAR(36) not null,
+	user_id VARCHAR(36) not null,
+	session_token  VARCHAR(256) not null,
 	login_time datetime not null,
 	last_activity_time datetime not null,
+	login_method INTEGER NOT NULL,
 	log_out_time datetime not null,
 	is_deleted boolean NOT NULL default(FALSE),
 	modified_on datetime not null

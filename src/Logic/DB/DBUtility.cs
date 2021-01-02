@@ -46,10 +46,9 @@ namespace Logic.DB
         }
 
         public static async Task<T> GetScalar<T>(Interfaces.IConnectionUtility connUtility, string sql, Dictionary<string, object> parameters)
-            where T : class, Interfaces.IDBEntity
         {
             if (string.IsNullOrEmpty(sql))
-                return null;
+                return default(T);
 
             return await GetScalar<T>(connUtility.GetConnection(), sql, parameters);
         }
@@ -64,10 +63,10 @@ namespace Logic.DB
             return data;
         }
 
-        public static async Task<int> Insert<T>(Interfaces.IConnectionUtility connUtility, IEnumerable<T> entitesToInsert)
+        public static async Task<object> Insert<T>(Interfaces.IConnectionUtility connUtility, IEnumerable<T> entitesToInsert)
             where T : class, Interfaces.IDBEntity
         {
-            int result = 0;
+            object result = 0;
 
             if (entitesToInsert == null || entitesToInsert.Count() == 0)
                 return result;
@@ -80,7 +79,7 @@ namespace Logic.DB
             return result;
         }
 
-        public static async Task<int> Insert<T>(System.Data.IDbConnection connection, IEnumerable<T> entitesToInsert)
+        public static async Task<object> Insert<T>(System.Data.IDbConnection connection, IEnumerable<T> entitesToInsert)
             where T : class, Interfaces.IDBEntity
         {
             int result = 0;
@@ -90,7 +89,7 @@ namespace Logic.DB
 
             foreach (var entity in entitesToInsert)
             {
-                entity.modified_on = DateTime.Now;
+                entity.modified_on = DateTime.UtcNow;
             }
 
             foreach (var entity in entitesToInsert)
@@ -110,7 +109,7 @@ namespace Logic.DB
             foreach(var entity in entitiesToDelete)
             {
                 entity.is_deleted = true;
-                entity.modified_on = DateTime.Now;
+                entity.modified_on = DateTime.UtcNow;
             }
 
             using (var conn = connUtility.GetConnection())
@@ -134,7 +133,7 @@ namespace Logic.DB
             
             foreach (var entity in entitiesToUpdate)
             {
-                entity.modified_on = DateTime.Now;
+                entity.modified_on = DateTime.UtcNow;
             }
 
             using (var conn = connUtility.GetConnection())

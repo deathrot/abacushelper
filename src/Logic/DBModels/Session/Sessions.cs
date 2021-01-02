@@ -6,7 +6,7 @@ namespace Logic.DBModels
     public class SessionsEntity : DBEntity, Interfaces.IDBEntity
     {
 
-        public string userid {get; set;}
+        public string user_id {get; set;}
 	    
         public DateTime login_time {get; set;}
     	
@@ -15,6 +15,8 @@ namespace Logic.DBModels
         public DateTime next_login_timeout {get; set;}
 
         public Enums.LoginMethod login_method {get; set;}
+
+        public string session_token { get; set; }
 
     }
 }

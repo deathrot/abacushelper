@@ -7,7 +7,9 @@ namespace Logic.ViewModels
     {
 
         public string UserId {get; set;}
-	    
+
+        public string SessionToken { get; set; }
+
         public DateTime LoginTime {get; set;}
     	
         public DateTime LastActivityTime {get; set;}

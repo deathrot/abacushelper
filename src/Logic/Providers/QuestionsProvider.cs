@@ -55,7 +55,12 @@ namespace Logic.Providers
                         result.TotalRecordSentToSave += itemsToInsert.Length;
                         if (itemsToInsert != null && itemsToInsert.Length > 0)
                         {
-                            result.TotalRecordInserted += await DB.DBUtility.Insert<DBModels.QuestionEntity>(connectionUtility, itemsToInsert);
+                            object i = await DB.DBUtility.Insert<DBModels.QuestionEntity>(connectionUtility, itemsToInsert);
+
+                            if ( i == null && !string.IsNullOrEmpty(i.ToString()))
+                            {
+                                result.TotalRecordInserted += 1;
+                            }
                         }
                     }
                 }
