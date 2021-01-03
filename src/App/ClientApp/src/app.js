@@ -5,14 +5,13 @@ import Home from './components/home';
 
 import './custom.css'
 
-export default class App extends Component {
-  static displayName = App.name;
+const App = (props) => {
 
-  render () {
     return (
-      <Layout>
-        <Route exact path='/' component={Home} />
-      </Layout>
+        <Layout>
+            <Route exact path='/' component={Home} />
+        </Layout>
     );
-  }
 }
+
+export default App;
