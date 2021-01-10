@@ -68,3 +68,48 @@
 2021-01-03 11:32:57.0742 Info Adding target FileTarget(Name=allfile)
 2021-01-03 11:32:57.1034 Info Adding target FileTarget(Name=ownFile-web)
 2021-01-03 11:32:57.1913 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=46, FilePath=C:\Users\sharm\source\repos\abacushelper\src\StudentPortal\bin\Debug\net5.0\nlog.config
+2021-01-09 18:35:36.9591 Info Message Template Auto Format enabled
+2021-01-09 18:35:37.0102 Info Loading assembly: NLog.Web.AspNetCore
+2021-01-09 18:35:37.1942 Info Adding target FileTarget(Name=allfile)
+2021-01-09 18:35:37.2459 Info Adding target FileTarget(Name=ownFile-web)
+2021-01-09 18:35:37.3462 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=46, FilePath=C:\Users\sharm\source\repos\abacushelper\src\StudentPortal\bin\Debug\net5.0\nlog.config
+2021-01-09 19:19:17.4913 Info Message Template Auto Format enabled
+2021-01-09 19:19:17.5378 Info Loading assembly: NLog.Web.AspNetCore
+2021-01-09 19:19:17.6757 Info Adding target FileTarget(Name=allfile)
+2021-01-09 19:19:17.7158 Info Adding target FileTarget(Name=ownFile-web)
+2021-01-09 19:19:17.8074 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=46, FilePath=C:\Users\sharm\source\repos\abacushelper\src\StudentPortal\bin\Debug\net5.0\nlog.config
+2021-01-09 19:28:40.1980 Info Message Template Auto Format enabled
+2021-01-09 19:28:40.2394 Info Loading assembly: NLog.Web.AspNetCore
+2021-01-09 19:28:40.3950 Info Adding target FileTarget(Name=allfile)
+2021-01-09 19:28:40.4335 Info Adding target FileTarget(Name=ownFile-web)
+2021-01-09 19:28:40.5388 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=46, FilePath=C:\Users\sharm\source\repos\abacushelper\src\StudentPortal\bin\Debug\net5.0\nlog.config
+2021-01-09 19:30:55.8235 Info Message Template Auto Format enabled
+2021-01-09 19:30:55.8693 Info Loading assembly: NLog.Web.AspNetCore
+2021-01-09 19:30:56.0433 Info Adding target FileTarget(Name=allfile)
+2021-01-09 19:30:56.0714 Info Adding target FileTarget(Name=ownFile-web)
+2021-01-09 19:30:56.1728 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=46, FilePath=C:\Users\sharm\source\repos\abacushelper\src\StudentPortal\bin\Debug\net5.0\nlog.config
+2021-01-09 19:40:13.8600 Info Message Template Auto Format enabled
+2021-01-09 19:40:13.9017 Info Loading assembly: NLog.Web.AspNetCore
+2021-01-09 19:40:14.0457 Info Adding target FileTarget(Name=allfile)
+2021-01-09 19:40:14.0942 Info Adding target FileTarget(Name=ownFile-web)
+2021-01-09 19:40:14.1901 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=46, FilePath=C:\Users\sharm\source\repos\abacushelper\src\StudentPortal\bin\Debug\net5.0\nlog.config
+2021-01-09 19:52:23.5589 Info Message Template Auto Format enabled
+2021-01-09 19:52:23.6118 Info Loading assembly: NLog.Web.AspNetCore
+2021-01-09 19:52:23.8268 Info Adding target FileTarget(Name=allfile)
+2021-01-09 19:52:23.8640 Info Adding target FileTarget(Name=ownFile-web)
+2021-01-09 19:52:23.9651 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=46, FilePath=C:\Users\sharm\source\repos\abacushelper\src\StudentPortal\bin\Debug\net5.0\nlog.config
+2021-01-09 20:04:30.7307 Info Message Template Auto Format enabled
+2021-01-09 20:04:30.8502 Info Loading assembly: NLog.Web.AspNetCore
+2021-01-09 20:04:31.2171 Info Adding target FileTarget(Name=allfile)
+2021-01-09 20:04:31.2885 Info Adding target FileTarget(Name=ownFile-web)
+2021-01-09 20:04:31.4944 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=46, FilePath=C:\Users\sharm\source\repos\abacushelper\src\StudentPortal\bin\Debug\net5.0\nlog.config
+2021-01-09 20:06:09.7253 Info Message Template Auto Format enabled
+2021-01-09 20:06:09.8667 Info Loading assembly: NLog.Web.AspNetCore
+2021-01-09 20:06:10.1649 Info Adding target FileTarget(Name=allfile)
+2021-01-09 20:06:10.2405 Info Adding target FileTarget(Name=ownFile-web)
+2021-01-09 20:06:10.4988 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=46, FilePath=C:\Users\sharm\source\repos\abacushelper\src\StudentPortal\bin\Debug\net5.0\nlog.config
+2021-01-09 21:01:34.8704 Info Message Template Auto Format enabled
+2021-01-09 21:01:35.0053 Info Loading assembly: NLog.Web.AspNetCore
+2021-01-09 21:01:35.2987 Info Adding target FileTarget(Name=allfile)
+2021-01-09 21:01:35.3782 Info Adding target FileTarget(Name=ownFile-web)
+2021-01-09 21:01:35.5607 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=46, FilePath=C:\Users\sharm\source\repos\abacushelper\src\StudentPortal\bin\Debug\net5.0\nlog.config
