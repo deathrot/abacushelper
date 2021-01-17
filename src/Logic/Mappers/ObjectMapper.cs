@@ -152,6 +152,35 @@ namespace Logic.Mappers
                 .ForMember(x => x.NextLoginTimeout, y => y.MapFrom(t => t.next_login_timeout))
                 .ForMember(x => x.UserId, y => y.MapFrom(t => t.user_id));
 
+                
+                cfg.CreateMap<DBModels.StudentEntity, ViewModels.StudentVM>()
+                .ForMember(x => x.Id, y => y.MapFrom(t => t.id))
+                .ForMember(x => x.IsDeleted, y => y.MapFrom(t => t.is_deleted))
+                .ForMember(x => x.ModifiedOn, y => y.MapFrom(t => t.modified_on))
+                .ForMember(x => x.IsLockedOut, y => y.MapFrom(t => t.is_locked_out))
+                .ForMember(x => x.StudentName, y => y.MapFrom(t => t.student_name))
+                .ForMember(x => x.StudentDisplayName, y => y.MapFrom(t => t.student_display_name))
+                .ForMember(x => x.StartingLevelId, y => y.MapFrom(t => t.starting_level_id))
+                .ForMember(x => x.StartingSubLevelId, y => y.MapFrom(t => t.starting_sub_level_id))
+                .ForMember(x => x.CurrentLevelId, y => y.MapFrom(t => t.current_level_id))
+                .ForMember(x => x.CurrentSubLevelId, y => y.MapFrom(t => t.current_sub_level_id))
+                .ForMember(x => x.LastLoginOn, y => y.MapFrom(t => t.last_login_on))
+                .ForMember(x => x.LastLogOut, y => y.MapFrom(t => t.last_log_out));
+
+                
+                cfg.CreateMap<ViewModels.StudentVM,DBModels.StudentEntity>()
+                .ForMember(x => x.id, y => y.MapFrom(t => t.Id))
+                .ForMember(x => x.is_deleted, y => y.MapFrom(t => t.IsDeleted))
+                .ForMember(x => x.modified_on, y => y.MapFrom(t => t.ModifiedOn))
+                .ForMember(x => x.is_locked_out, y => y.MapFrom(t => t.IsLockedOut))
+                .ForMember(x => x.student_name, y => y.MapFrom(t => t.StudentName))
+                .ForMember(x => x.student_display_name, y => y.MapFrom(t => t.StudentDisplayName))
+                .ForMember(x => x.starting_level_id, y => y.MapFrom(t => t.StartingLevelId))
+                .ForMember(x => x.starting_sub_level_id, y => y.MapFrom(t => t.StartingSubLevelId))
+                .ForMember(x => x.current_level_id, y => y.MapFrom(t => t.CurrentLevelId))
+                .ForMember(x => x.current_sub_level_id, y => y.MapFrom(t => t.CurrentSubLevelId))
+                .ForMember(x => x.last_login_on, y => y.MapFrom(t => t.LastLoginOn))
+                .ForMember(x => x.last_log_out, y => y.MapFrom(t => t.LastLogOut));
             });
 
             return config;

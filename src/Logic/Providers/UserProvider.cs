@@ -1,11 +1,41 @@
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Logic.Providers
 {
     public class UserProvider
     {
+        public async Task<bool> CheckEmailAlreadyRegistered(Logic.Interfaces.IConnectionUtility connectionUtility, string emailAddressToCheck)
+        {
+            var totalusers = await Logic.DB.DBUtility.GetScalar<int>(connectionUtility, @"Select COUNT(1) From students Where student_email = @email AND is_deleted = 0", 
+                new Dictionary<string, object>{
+                    {"email", emailAddressToCheck}
+                });
+
+            if ( totalusers > 0)
+            {
+                return true;
+            }
+            
+            return false;
+        }
+        public async Task<bool> CheckDisplayNameAlreadyUsed(Logic.Interfaces.IConnectionUtility connectionUtility, string displayName)
+        {
+            var totalusers = await Logic.DB.DBUtility.GetScalar<int>(connectionUtility, "Select COUNT(1) From students Where student_display_name = @displayName AND is_deleted = 0", 
+                new Dictionary<string, object>{
+                    {"displayName", displayName}
+            });
+
+            if ( totalusers > 0)
+            {
+                return true;
+            }
+            
+            return false;
+        }
+
 
         public async Task<Logic.ViewModels.UserVM> GetUser(Interfaces.IConnectionUtility connectionUtility, string email_address)
         {
