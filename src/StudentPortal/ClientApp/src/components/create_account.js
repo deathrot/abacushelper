@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import CheckIcon from '@material-ui/icons/Check';
-import ClearIcon from '@material-ui/icons/Clear';
-import { green, red } from '@material-ui/core/colors';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import PasswordStrengthBar from 'react-password-strength-bar';
 import LoadingOverlay from 'react-loading-overlay';
 import { ToastContainer, toast } from 'react-toastify';
+import AvailiabilityComponent from '../common/availiability_component';
+import AvailiabilityEnum from '../common/availability_enum';
+import {checkEmailAvailiability, checkDisplayNameAvailiability} from './avaliability_checker';
+import { useHistory } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import './create_account.css';
 import _ from 'lodash';
@@ -16,6 +16,7 @@ import axios from 'axios';
 import { isValidName, isValidDisplayName, isValidEmail, passwordChecker, sanitzieString } from '../common/validation_utils';
 
 const CreateAccount = (props) => {
+    const history = useHistory();
     const [name, setName] = useState('');
     const [nameError, setNameError] = useState(false);
 
@@ -77,41 +78,53 @@ const CreateAccount = (props) => {
     const handleRegister = (e) => {
         e.preventDefault();
 
-        //if (repasswordError || passwordError || displayNameError || emailError || nameError) {
-          //  return;
-        //}
+        
+        debugger;
+        setCreatingAccount(true);
+        navigateToLogin();
+
+        /*if (repasswordError || passwordError || displayNameError || emailError || nameError || _.isEmpty(repassword)) {
+            return;
+        }
 
         setCreatingAccount(true);
-
-        sendCreateAccountRequest();
+        sendCreateAccountRequest();*/
     }
 
     const sendCreateAccountRequest = async () => {
-        setLastEmailCheckedForAvailability(email);
         axios.post("createaccount/createaccount",
             getAccountPayLoad())
         .then((result) => {
             let data = result.data;
-            console.log(data);
+            
             setDisplayNameError(data.displayNameError);
-            setEmailAvailability(!data.emailAvailiability ? 1 : 2);
             setEmailError(data.emailError);
             setPasswordError(data.passwordError);
-            setDisplayNameAvailability(!data.displayNameAvailiability ? 1 : 2);
             setNameError(data.nameError);
             
+            setDisplayNameAvailability(data.displayNameAvaliability);
+            setEmailAvailability(data.emailAvailiability);
+            
             if (data.validationSuccess) {
-                toast.success('Student profile created');
+                toast.success('Student profile created...navigating to the login page');
+                navigateToLogin();
             }
             else {
                 toast.error('Student profile could be created because of errors');
+                setCreatingAccount(false);
             }
-            setCreatingAccount(false);
         })
         .catch((error) => {
             toast.error('Unexpected error on server...please try again');
             setCreatingAccount(false);
         });
+    }
+
+    const navigateToLogin = () => {
+        const timerId = setTimeout(() => {
+            history.push({ pathname: '/Login', state: {email: email} });
+            clearTimeout(timerId);
+        }, 2000);
     }
 
     const getAccountPayLoad = () => {
@@ -133,29 +146,6 @@ const CreateAccount = (props) => {
         }
     }
 
-    const checkEmailAvaliability = async () => {
-        if (email.trim() == lastEmailCheckedForAvailability) {
-            setCheckingEmailAvailability(false);
-            return;
-        }
-
-        if (email.length > 0 && !emailError) {
-            setLastEmailCheckedForAvailability(email);
-            let response = await axios({
-                method: "post",
-                url: "createaccount/CheckEmailAvailiability",
-                data: email
-            });
-
-            setEmailAvailability(!response.data ? 2 : 1);
-        }
-        else {
-            setEmailAvailability(0);
-        }
-
-        setCheckingEmailAvailability(false);
-    }
-
     const handleDisplayNameFocusOut = (e) => {
         if (displayName.length > 0 && !displayNameError) {
             setCheckingDisplayNameAvailability(true);
@@ -166,6 +156,24 @@ const CreateAccount = (props) => {
         }
     }
 
+    const checkEmailAvaliability = async () => {
+        if (email.trim() == lastEmailCheckedForAvailability) {
+            setCheckingEmailAvailability(false);
+            return;
+        }
+
+        if (email.length > 0 && !emailError) {
+            setLastEmailCheckedForAvailability(email);
+            let value = await checkEmailAvailiability(email);
+            setEmailAvailability(value);
+        }
+        else {
+            setEmailAvailability(AvailiabilityEnum.None);
+        }
+
+        setCheckingEmailAvailability(false);
+    }
+
     const checkDisplayNameAvaliability = async () => {
         if (displayName.trim() == lastDisplayNameCheckedForAvailability) {
             setCheckingDisplayNameAvailability(false);
@@ -174,16 +182,12 @@ const CreateAccount = (props) => {
 
         if (displayName.length > 0 && !displayNameError) {
             setLastDisplayNameCheckedForAvailability(displayName);
-            let response = await axios({
-                method: "post",
-                url: "createaccount/CheckDisplayNameAvaliability",
-                data: email
-            });
+            let value = await checkDisplayNameAvailiability(displayName);
 
-            setDisplayNameAvailability(response.data ? 2 : 1);
+            setDisplayNameAvailability(value);
         }
         else {
-            setDisplayNameAvailability(0);
+            setDisplayNameAvailability(AvailiabilityEnum.Unknown);
         }
 
         setCheckingDisplayNameAvailability(false);
@@ -219,11 +223,7 @@ const CreateAccount = (props) => {
                         error={displayNameError ? true : false}
                         value={displayName} onChange={(e) => handleDisplayNameChange(e.target.value)}
                         helperText="friendly display name that others can see...should not contain spaces or special characters" variant="outlined"></TextField>
-                    <div class="middle">
-                        {checkingDisplayNameAvailability && <CircularProgress size="1.5rem" />}
-                        {!checkingDisplayNameAvailability && displayNameAvailability == 2 && <CheckIcon style={{ color: green[500] }} />}
-                        {!checkingDisplayNameAvailability && displayNameAvailability == 1 && <ClearIcon style={{ color: red[500] }} />}
-                    </div>
+                        <AvailiabilityComponent availabilityFlag={displayNameAvailability} checkingAvailability={checkingDisplayNameAvailability} />
                 </div>
                 <div class="input">
                     <TextField label="Email:"
@@ -238,11 +238,7 @@ const CreateAccount = (props) => {
                         value={email} onChange={(e) => handleEmailChange(e.target.value)}
                         width="75%"
                         helperText="enter your email address...this will be your login ad as well" variant="outlined"></TextField>
-                    <span class="middle">
-                        {checkingEmailAvailability && <CircularProgress size="1.5rem" />}
-                        {!checkingEmailAvailability && emailAvailability == 2 && <CheckIcon style={{ color: green[500] }} />}
-                        {!checkingEmailAvailability && emailAvailability == 1 && <ClearIcon style={{ color: red[500] }} />}
-                    </span>
+                        <AvailiabilityComponent availabilityFlag={emailAvailability} checkingAvailability={checkingEmailAvailability} />
                 </div>
                 <div class="input">
                     <TextField label="Password:"

@@ -15,14 +15,15 @@ namespace Logic.Validators
 
         public bool PasswordError {get; set;}
 
-        public bool EmailAvailiability {get; set;}
+        public Enums.AvailiabilityEnum EmailAvailiability {get; set;} = Enums.AvailiabilityEnum.None;
 
-        public bool DisplayNameAvaliability {get; set;}
+        public Enums.AvailiabilityEnum DisplayNameAvaliability {get; set;} = Enums.AvailiabilityEnum.None;
 
         public bool HasError {
             get
             {
-                return EmailError || DisplayNameError || PasswordError || NameError || !EmailAvailiability || !DisplayNameAvaliability;
+                return EmailError || DisplayNameError || PasswordError || NameError || EmailAvailiability != Enums.AvailiabilityEnum.Available 
+                    || DisplayNameAvaliability != Enums.AvailiabilityEnum.Available;
             }
         }
 

@@ -22,21 +22,49 @@ namespace StudentPortal.Controllers
         }
 
         [HttpPost]
-        public async Task<bool> CheckDisplayNameAvaliability(string displayName)
+        public async Task<Logic.Enums.AvailiabilityEnum> CheckDisplayNameAvaliability(Logic.Models.AvailiabilityInput displayName)
         {
+            if ( string.IsNullOrEmpty(displayName.EntityToCheck) || string.IsNullOrEmpty(displayName.EntityToCheck.Trim()))
+                return Logic.Enums.AvailiabilityEnum.None;
+
             Logic.Providers.UserProvider provider = new Logic.Providers.UserProvider();
-            var result = await provider.CheckDisplayNameAlreadyUsed(_connectionUtility, displayName);
-            
-            return !result;
+            try
+            {
+                var result = await provider.CheckDisplayNameAlreadyUsed(_connectionUtility, displayName.EntityToCheck);
+
+                if (result)
+                {
+                    return Logic.Enums.AvailiabilityEnum.NotAvailable;
+                }
+
+                return Logic.Enums.AvailiabilityEnum.Available;
+            }
+            catch{
+                return Logic.Enums.AvailiabilityEnum.Unknown;
+            }
         }
 
         [HttpPost]
-        public async Task<bool> CheckEmailAvailiability(string emailAddressToCheck)
+        public async Task<Logic.Enums.AvailiabilityEnum> CheckEmailAvailiability(Logic.Models.AvailiabilityInput emailAddressToCheck)
         {
+            if ( string.IsNullOrEmpty(emailAddressToCheck.EntityToCheck) || string.IsNullOrEmpty(emailAddressToCheck.EntityToCheck.Trim()))
+                return Logic.Enums.AvailiabilityEnum.None;
+
             Logic.Providers.UserProvider provider = new Logic.Providers.UserProvider();
-            var result = await provider.CheckEmailAlreadyRegistered(_connectionUtility, emailAddressToCheck);
-            
-            return !result;
+            try
+            {
+                var result = await provider.CheckEmailAlreadyRegistered(_connectionUtility, emailAddressToCheck.EntityToCheck);
+
+                if (result)
+                {
+                    return Logic.Enums.AvailiabilityEnum.NotAvailable;
+                }
+
+                return Logic.Enums.AvailiabilityEnum.Available;
+            }
+            catch{
+                return Logic.Enums.AvailiabilityEnum.Unknown;
+            }
         }
 
         [HttpPost]

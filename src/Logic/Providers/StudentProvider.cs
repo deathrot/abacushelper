@@ -26,22 +26,36 @@ namespace Logic.Providers
         {
             student.Id = Guid.NewGuid().ToString();
 
-            var id = await DB.DBUtility.Insert<DBModels.StudentEntity>(connection, 
-                new DBModels.StudentEntity[]{ Mappers.ObjectMapper.Instance.Mapper.Map<DBModels.StudentEntity>(student)});
-
-            Guid r;
-            if ( id != null && Guid.TryParse(id.ToString(), out r))
+            using(var conn = connection.GetConnection())
             {
-                var userEntity = new DBModels.UserEntity();
-                userEntity.id = student.Id;
-                userEntity.user_email = student.StudentEmail;
-                userEntity.is_confirmed = true;
-                userEntity.is_locked_out = false;
-                userEntity.num_of_failed_password_attempt = 0;
+                conn.Open();
+                var tran = conn.BeginTransaction();
+                try
+                {
+                    await DB.DBUtility.Insert<DBModels.StudentEntity>(tran.Connection, 
+                        new DBModels.StudentEntity[]{ Mappers.ObjectMapper.Instance.Mapper.Map<DBModels.StudentEntity>(student)});
 
-                var createUserResult = await CreateUser(connection, userEntity, student.Password);
+                    var userEntity = new DBModels.UserEntity();
+                    userEntity.id = student.Id;
+                    userEntity.user_email = student.StudentEmail;
+                    userEntity.is_confirmed = true;
+                    userEntity.is_locked_out = false;
+                    userEntity.num_of_failed_password_attempt = 0;
 
-                return createUserResult.Success;
+                    var createUserResult = await CreateUser(tran.Connection, userEntity, student.Password);
+
+                    tran.Commit();
+
+                    return createUserResult.Success;
+                }
+                catch
+                {
+                    tran.Rollback();
+                }
+                finally
+                {
+                    tran.Dispose();
+                }
             }
 
             return false;

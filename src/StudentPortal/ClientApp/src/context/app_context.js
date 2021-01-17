@@ -6,7 +6,7 @@ import _ from 'lodash';
 const initial_state = {
     sesison_token: null,
     user_name: null,
-    isLoggedIn: null
+    isLoggedIn: false
 };
 
 const stateReducer = (state, action) => {

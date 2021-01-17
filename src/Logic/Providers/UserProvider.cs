@@ -58,30 +58,29 @@ namespace Logic.Providers
             return null;
         }
 
-        public async Task<Logic.Models.CreateUserResult> CreateUser(Interfaces.IConnectionUtility connectionUtility, DBModels.UserEntity userEntity, string password)
+        public async Task<Logic.Models.CreateUserResult> CreateUser(System.Data.IDbConnection conn, DBModels.UserEntity userEntity, string password)
         {
             var result = new Logic.Models.CreateUserResult();
-            using (var conn = connectionUtility.GetConnection())
+
+            try
             {
-                try
+                result.Success = true;
+
+                var entity = await getUser(conn, userEntity.user_email);
+
+                if (entity != null)
                 {
-                    result.Success = true;
+                    result.Success = false;
+                    result.Reason = Enums.CreateUserReason.UserAlreadyExist;
+                    return result;
+                }
 
-                    var entity = await getUser(conn, userEntity.user_email);
+                var parameters = new System.Collections.Generic.Dictionary<string, object>();
+                parameters.Add("user_email", userEntity.user_email);
+                parameters.Add("login_password", password);
+                parameters.Add("token", Constants.Constants.TOKEN_TEXT);
 
-                    if (entity != null)
-                    {
-                        result.Success = false;
-                        result.Reason = Enums.CreateUserReason.UserAlreadyExist;
-                        return result;
-                    }
-
-                    var parameters = new System.Collections.Generic.Dictionary<string, object>();
-                    parameters.Add("user_email", userEntity.user_email);
-                    parameters.Add("login_password", password);
-                    parameters.Add("token", Constants.Constants.TOKEN_TEXT);
-
-                    string createdUserId = await DB.DBUtility.GetScalar<string>(conn, @"
+                string createdUserId = await DB.DBUtility.GetScalar<string>(conn, @"
                     SET @UUID = UUID();
                     
                     INSERT INTO USERS(id, user_email, login_password, last_login_on, last_log_out, is_locked_out, is_confirmed, 
@@ -91,20 +90,27 @@ namespace Logic.Providers
                     SELECT @UUID;
                     ", parameters);
 
-                    Guid uuid;
-                    if (createdUserId != null && Guid.TryParse(createdUserId, out uuid))
-                    {
-                        result.UserId = createdUserId.ToString();
-                        result.Success = true;
-                    }
-                }
-                finally
+                Guid uuid;
+                if (createdUserId != null && Guid.TryParse(createdUserId, out uuid))
                 {
-
+                    result.UserId = createdUserId.ToString();
+                    result.Success = true;
                 }
+            }
+            finally
+            {
+
             }
 
             return result;
+        }
+
+        public async Task<Logic.Models.CreateUserResult> CreateUser(Interfaces.IConnectionUtility connectionUtility, DBModels.UserEntity userEntity, string password)
+        {
+            using (var conn = connectionUtility.GetConnection())
+            {
+                return await CreateUser(conn, userEntity, password);
+            }
         }
 
         private async Task<Models.AuthenticateResult> authenticate(System.Data.IDbConnection connection, string email, string password)
@@ -191,13 +197,21 @@ namespace Logic.Providers
                 try
                 {
                     var entity = await authenticate(conn, email, password);
+
+                    if ( entity == null) {
+                        return new ViewModels.AuthenticateResultVM{
+                             ResultType = Enums.AuthenticateResultType.UserDoesNotExists,
+                             Session = null
+                        };
+                    }
+
                     DBModels.SessionsEntity sessionEntity = null;
 
-                    if ( entity.ResultType == Enums.AuthenticateResultType.Success)
+                    if (entity.ResultType == Enums.AuthenticateResultType.Success)
                     {
                         sessionEntity = await createSession(conn, entity.id, provider.GetToken(), sessionTimeoutInSeconds.Value);
                     }
-                    else if ( entity.ResultType == Enums.AuthenticateResultType.PasswordDoesNotMatch)
+                    else if (entity.ResultType == Enums.AuthenticateResultType.PasswordDoesNotMatch)
                     {
                         await increasePasswordFailCount(conn, entity.id);
                     }
