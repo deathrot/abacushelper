@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Linq;
 using QuestionSubType = Logic.Enums.QuestionSubType;
 
 namespace Logic.Question
 {
-    public class BeedQuestion : IQuestion
+    public class AddSubQuestion : IQuestion
     {
-        public QuestionSubType QuestionSubType { get; } = QuestionSubType.Beed;
+        public QuestionSubType QuestionSubType { get; } = QuestionSubType.AddSub;
 
-        public List<SignedNumber> Numbers { get; } = new List<SignedNumber>();
+        public List<SignedNumber> Numbers { get; set;  } = new List<SignedNumber>();
 
         public decimal Calculate()
         {
@@ -22,12 +24,12 @@ namespace Logic.Question
 
         public bool IsValid()
         {
-            if ( Numbers.Count == 0 || Numbers.Any(x => x.Number < 0))
+            if ( Numbers.Count > 0)
             {
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
         }
     }
 }

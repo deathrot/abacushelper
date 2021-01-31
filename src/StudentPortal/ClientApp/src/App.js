@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router';
-import { Layout } from './components/Layout';
+import { Layout } from './components/layout';
 import CreateAccount from './components/create_account';
 import Login from './components/login';
 import Home from './components/home';
@@ -13,17 +13,17 @@ import './custom.css'
 const App = (props) => {
 
     return (
-        <Layout>
-            <AppContextProvider>
+        <AppContextProvider>
+            <Layout>
                 <Switch>
                     <Route exact path="/" component={Home} />
-                    <Route path='/CreateAccount' component={CreateAccount}  />
+                    <Route path='/register' component={CreateAccount} />
                     <Route path='/login' component={Login} />
                     <Route path='/forgotpassword' component={ForgotPassword} />
                     <Route component={Page404} />
                 </Switch>
-            </AppContextProvider>
-        </Layout>
+            </Layout>
+        </AppContextProvider>
     );
 };
 

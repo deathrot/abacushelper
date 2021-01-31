@@ -78,17 +78,8 @@ const CreateAccount = (props) => {
     const handleRegister = (e) => {
         e.preventDefault();
 
-        
-        debugger;
         setCreatingAccount(true);
-        navigateToLogin();
-
-        /*if (repasswordError || passwordError || displayNameError || emailError || nameError || _.isEmpty(repassword)) {
-            return;
-        }
-
-        setCreatingAccount(true);
-        sendCreateAccountRequest();*/
+        sendCreateAccountRequest();
     }
 
     const sendCreateAccountRequest = async () => {

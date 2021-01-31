@@ -10,13 +10,13 @@ namespace StudentPortal.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    public class LoginController : ControllerBase
+    public class QuizController : ControllerBase
     {
         private readonly ILogger<LoginController> _logger;
         private readonly Logic.DB.StudentDBConnectionUtility _connectionUtility;
         private readonly Logic.Interfaces.ISessionCacheProvider _sessionCacneProvider;
 
-        public LoginController(ILogger<LoginController> logger, Logic.DB.StudentDBConnectionUtility connectionUtility, 
+        public QuizController(ILogger<LoginController> logger, Logic.DB.StudentDBConnectionUtility connectionUtility, 
                                 Logic.Interfaces.ISessionCacheProvider sessionCacneProvider)
         {
             _logger = logger;

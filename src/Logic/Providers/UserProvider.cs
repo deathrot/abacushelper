@@ -77,17 +77,16 @@ namespace Logic.Providers
 
                 var parameters = new System.Collections.Generic.Dictionary<string, object>();
                 parameters.Add("user_email", userEntity.user_email);
+                parameters.Add("id", userEntity.id);
                 parameters.Add("login_password", password);
                 parameters.Add("token", Constants.Constants.TOKEN_TEXT);
 
                 string createdUserId = await DB.DBUtility.GetScalar<string>(conn, @"
-                    SET @UUID = UUID();
-                    
                     INSERT INTO USERS(id, user_email, login_password, last_login_on, last_log_out, is_locked_out, is_confirmed, 
                     num_of_failed_password_attempt, is_deleted, modified_on)
-                    VALUES(@UUID, @user_email, AES_ENCRYPT(@login_password, @token), NULL, NULL, FALSE, TRUE, 0, FALSE, UTC_TIMESTAMP());
+                    VALUES(@id, @user_email, AES_ENCRYPT(@login_password, @token), NULL, NULL, FALSE, TRUE, 0, FALSE, UTC_TIMESTAMP());
 
-                    SELECT @UUID;
+                    SELECT @id;
                     ", parameters);
 
                 Guid uuid;
@@ -126,8 +125,11 @@ namespace Logic.Providers
 
             string authenticateSQL = @"
                 
-                Select id, is_deleted, is_locked_out, IF(cast(aes_decrypt(login_password, @token) as char(50)) = @password, TRUE, FALSE) as 'password_check_passed'
-                From users where user_email = @email;
+                Select u.id, u.is_deleted, u.is_locked_out, s.student_display_name 'display_name', 
+                IF(cast(aes_decrypt(u.login_password, @token) as char(50)) = @password, TRUE, FALSE) as 'password_check_passed'
+                From users u
+                inner join students s ON s.id = u.id
+                where u.user_email = @email;
 
             ";
 
@@ -157,29 +159,36 @@ namespace Logic.Providers
             await DB.DBUtility.GetScalar<int>(conn, increasePasswordFailCountSql, parameters);
         }
 
-        async Task<DBModels.SessionsEntity> createSession(System.Data.IDbConnection conn, string user_id, 
+        async Task<DBModels.SessionViewEntity> createSession(System.Data.IDbConnection conn, string user_id, 
                                                             string session_token, int sessionTimeoutInSeconds)
         {
             DateTime utc = DateTime.UtcNow;
-            var session = new DBModels.SessionsEntity
-            {
-                id = Guid.NewGuid().ToString(),
-                session_token = session_token,
-                last_activity_time = utc,
-                login_method = Enums.LoginMethod.Web,
-                login_time = utc,
-                next_login_timeout = utc.AddSeconds(sessionTimeoutInSeconds),
-                user_id = user_id
-            };
             
-            object insertedSessionId = await DB.DBUtility.Insert<DBModels.SessionsEntity>(conn, new[] { session });
+            var sessionEntity = await DB.DBUtility.GetData<DBModels.SessionViewEntity>(conn, @"
+                insert into sessions(id, user_id, session_token, login_time, last_activity_time, login_method, 
+                    next_login_timeout, is_deleted, modified_on)
+                select uuid(), @user_id, @session_token, @login_time, @login_time, @login_method, 
+                    @next_login_timeout, 0, @login_time;
 
-            if (insertedSessionId != null && !string.IsNullOrEmpty(insertedSessionId.ToString()))
+                Select * From sessions_view
+                Where user_id = @user_id and session_token = @session_token;
+
+            ", new Dictionary<string, object>()
             {
-                return session;
+                {"session_token", session_token },
+                {"last_activity_time", utc },
+                {"login_method", Enums.LoginMethod.Web },
+                {"login_time", utc },
+                {"next_login_timeout", utc.AddSeconds(sessionTimeoutInSeconds) },
+                {"user_id", user_id }
+            });
+
+            if ( sessionEntity == null || sessionEntity.Count() != 1)
+            {
+                return null;
             }
 
-            return null;
+            return sessionEntity.ElementAt(0);
         }
 
 
@@ -205,7 +214,7 @@ namespace Logic.Providers
                         };
                     }
 
-                    DBModels.SessionsEntity sessionEntity = null;
+                    DBModels.SessionViewEntity sessionEntity = null;
 
                     if (entity.ResultType == Enums.AuthenticateResultType.Success)
                     {
@@ -406,24 +415,47 @@ namespace Logic.Providers
             return result;
         }
 
-        public async Task<bool> RenewSession(Interfaces.IConnectionUtility connectionUtility, ViewModels.SessionVM session, int? timeoutInSeconds = null)
+        public async Task<DBModels.SessionsEntity> GetSessionModel(Interfaces.IConnectionUtility connectionUtility, string sessionToken)
+        {
+            using (var conn = connectionUtility.GetConnection())
+            {
+                return await GetSessionModel(conn, sessionToken);
+            }
+        }
+
+        public async Task<DBModels.SessionsEntity> GetSessionModel(System.Data.IDbConnection connection, string sessionToken)
+        {
+            var sessionList = await Logic.DB.DBUtility.GetData<DBModels.SessionsEntity>(connection, "Select * From sessions where session_token = @token", new Dictionary<string, object>()
+            {
+                { "token", sessionToken }
+            });
+
+            if ( sessionList != null && sessionList.Count() == 1)
+            {
+                return sessionList.ElementAt(0);
+            }
+
+            return null;
+        }
+
+        public async Task<DateTime?> RenewSession(Interfaces.IConnectionUtility connectionUtility, ViewModels.SessionVM session, int? timeoutInSeconds = null)
+        {
+            using(var connection = connectionUtility.GetConnection())
+            {
+                return await RenewSession(connection, session, timeoutInSeconds);
+            }
+        }
+
+        public async Task<DateTime?> RenewSession(System.Data.IDbConnection conn, ViewModels.SessionVM session, int? timeoutInSeconds = null)
         {
             if (session == null)
-                return false;
+                return null;
 
             timeoutInSeconds = timeoutInSeconds ?? Constants.Constants.SESSION_TIMEOUT_IN_SECONDS;
 
-            using (var conn = connectionUtility.GetConnection())
+            try
             {
-                try
-                {
-                    var sessionResult = await IsSessionValid(conn, session.SessionToken, session.UserId);
-                    if (!sessionResult.IsValid)
-                    {
-                        return false;
-                    }
-
-                    string logoutSql = @"
+                string logoutSql = @"
                         Update sessions
                         SET next_login_timeout = @next_login_timeout,
                         modified_on = UTC_TIMESTAMP()
@@ -432,25 +464,26 @@ namespace Logic.Providers
                         Select ROW_COUNT();
                     ";
 
-                    var parameters = new System.Collections.Generic.Dictionary<string, object>();
-                    parameters.Add("@user_id", session.UserId);
-                    parameters.Add("@sessionid", session.Id);
-                    parameters.Add("@next_login_timeout", sessionResult.NextLoginTimeout.Value.AddSeconds(timeoutInSeconds.Value));
+                var sessionTimeOut = DateTime.UtcNow.AddSeconds(timeoutInSeconds.Value);
 
-                    int result = await DB.DBUtility.GetScalar<int>(conn, logoutSql, parameters);
+                var parameters = new System.Collections.Generic.Dictionary<string, object>();
+                parameters.Add("@user_id", session.UserId);
+                parameters.Add("@sessionid", session.Id);
+                parameters.Add("@next_login_timeout", sessionTimeOut);
 
-                    if (result == 1)
-                    {
-                        return true;
-                    }
-                }
-                finally
+                int result = await DB.DBUtility.GetScalar<int>(conn, logoutSql, parameters);
+
+                if (result == 1)
                 {
-
+                    return sessionTimeOut;
                 }
             }
+            finally
+            {
 
-            return false;
+            }
+
+            return null;
         }
 
     }

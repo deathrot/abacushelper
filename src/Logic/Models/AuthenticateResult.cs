@@ -12,6 +12,8 @@ namespace Logic.Models
 
         public string id { get; set; }
 
+        public string display_name { get; set; }
+
         public DateTime modified_on { get; set; }
 
         public Enums.AuthenticateResultType ResultType {

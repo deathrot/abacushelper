@@ -13,7 +13,7 @@ namespace LogicTests
             return Guid.NewGuid().ToString();
         }
 
-        public bool IsSessionValid(string token)
+        public bool IsSessionValid(Logic.ViewModels.SessionVM session, string token)
         {
             return true;
         }

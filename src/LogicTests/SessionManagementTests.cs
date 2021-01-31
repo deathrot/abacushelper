@@ -164,9 +164,9 @@ namespace LogicTests
 
             await Task.Delay(5000);
 
-            bool renewSession = await provider.RenewSession(studentConnectionUtility, loginResult.Session, 10);
+            var renewSession = await provider.RenewSession(studentConnectionUtility, loginResult.Session, 10);
 
-            Assert.IsFalse(renewSession);
+            Assert.IsFalse(renewSession.HasValue);
 
             Assert.Pass();
         }

@@ -8,12 +8,13 @@ namespace Logic.Models
 {
     public class LoginSessionProvider : Logic.Interfaces.ISessionTokenProvider
     {
+        
         public string GetToken()
         {
             return Guid.NewGuid().ToString();
         }
 
-        public bool IsSessionValid(string token)
+        public bool IsSessionValid(ViewModels.SessionVM vm, string token)
         {
             return true;
         }

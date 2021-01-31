@@ -6,20 +6,28 @@ import _ from 'lodash';
 const initial_state = {
     sesison_token: null,
     user_name: null,
-    isLoggedIn: false
+    isLoggedIn: false,
+    
 };
 
 const stateReducer = (state, action) => {
     switch (action.type) {
         case AppContextActions.Logout:
-            break;
+            return { ...state, sessionToken: null,
+                displayName: null, 
+                userId: null, 
+                isLoggedIn: false };
         case AppContextActions.Login:
-            break;
+            let session = action.payload.session;
+            return { ...state, sessionToken: session.sessionToken, 
+                    displayName: session.displayName, 
+                    email: session.emailAddress, 
+                    userId: session.userId, 
+                    isLoggedIn: true };
     }
 
     return state;
 }
-
 
 export const AppContext = createContext(initial_state);
 

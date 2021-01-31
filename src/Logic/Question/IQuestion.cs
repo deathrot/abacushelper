@@ -10,7 +10,9 @@ namespace Logic.Question
     public interface IQuestion
     {
 
-        Enums.QuestionSubType QuestionType { get;  }
+        Enums.QuestionSubType QuestionSubType { get; }
+
+        List<SignedNumber> Numbers { get; }
 
         bool IsValid();
 

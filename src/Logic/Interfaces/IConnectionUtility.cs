@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Logic.Interfaces
 {
+    [Logic.ServicesExtensions.Service]
     public interface IConnectionUtility
     {
 

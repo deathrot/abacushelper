@@ -131,7 +131,7 @@ namespace Logic.Mappers
                 .ForMember(x => x.UserEmail, y => y.MapFrom(t => t.user_email));
 
 
-                cfg.CreateMap<ViewModels.SessionVM, DBModels.SessionsEntity>()
+                cfg.CreateMap<ViewModels.SessionVM, DBModels.SessionViewEntity>()
                 .ForMember(x => x.id, y => y.MapFrom(t => t.Id))
                 .ForMember(x => x.session_token, y => y.MapFrom(t => t.SessionToken))
                 .ForMember(x => x.last_activity_time, y => y.MapFrom(t => t.LastActivityTime))
@@ -139,10 +139,13 @@ namespace Logic.Mappers
                 .ForMember(x => x.login_time, y => y.MapFrom(t => t.LoginTime))
                 .ForMember(x => x.modified_on, y => y.MapFrom(t => t.ModifiedOn))
                 .ForMember(x => x.next_login_timeout, y => y.MapFrom(t => t.NextLoginTimeout))
+                .ForMember(x => x.additional_session_data, y => y.MapFrom(t => t.AdditionalSessionData))
+                .ForMember(x => x.student_display_name, y => y.MapFrom(t => t.DisplayName))
+                .ForMember(x => x.student_email, y => y.MapFrom(t => t.EmailAddress))
                 .ForMember(x => x.user_id, y => y.MapFrom(t => t.UserId));
 
 
-                cfg.CreateMap<DBModels.SessionsEntity, ViewModels.SessionVM>()
+                cfg.CreateMap<DBModels.SessionViewEntity, ViewModels.SessionVM>()
                 .ForMember(x => x.Id, y => y.MapFrom(t => t.id))
                 .ForMember(x => x.SessionToken, y => y.MapFrom(t => t.session_token))
                 .ForMember(x => x.LastActivityTime, y => y.MapFrom(t => t.last_activity_time))
@@ -150,6 +153,9 @@ namespace Logic.Mappers
                 .ForMember(x => x.LoginTime, y => y.MapFrom(t => t.login_time))
                 .ForMember(x => x.ModifiedOn, y => y.MapFrom(t => t.modified_on))
                 .ForMember(x => x.NextLoginTimeout, y => y.MapFrom(t => t.next_login_timeout))
+                .ForMember(x => x.AdditionalSessionData, y => y.MapFrom(t => t.additional_session_data))
+                .ForMember(x => x.DisplayName, y => y.MapFrom(t => t.student_display_name))
+                .ForMember(x => x.EmailAddress, y => y.MapFrom(t => t.student_email))
                 .ForMember(x => x.UserId, y => y.MapFrom(t => t.user_id));
 
                 

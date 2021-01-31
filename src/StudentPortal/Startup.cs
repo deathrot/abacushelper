@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Logic.ServicesExtensions;
 
 namespace StudentPortal
 {
@@ -19,14 +20,17 @@ namespace StudentPortal
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = System.TimeSpan.FromSeconds(10 * 60);
+                options.Cookie.HttpOnly = true;
+            });
+
+            services.AddServices(Configuration.GetConnectionString("studentDb"), Configuration.GetConnectionString("baseDataDb"));
+
             services.AddControllersWithViews();
-
-            Logic.DB.BaseDBConnectionUtility baseDB = new Logic.DB.BaseDBConnectionUtility(Configuration.GetConnectionString("baseDataDb"));
-            services.AddSingleton(baseDB.GetType(), baseDB);
-
-            Logic.DB.StudentDBConnectionUtility studentDB = new Logic.DB.StudentDBConnectionUtility(Configuration.GetConnectionString("studentDb"));
-            services.AddSingleton(studentDB.GetType(), studentDB);
-
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -37,6 +41,7 @@ namespace StudentPortal
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -50,6 +55,8 @@ namespace StudentPortal
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

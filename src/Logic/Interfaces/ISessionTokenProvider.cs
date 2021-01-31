@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Logic.Interfaces
 {
+
+    [Logic.ServicesExtensions.Service]
     public interface ISessionTokenProvider
     {
 
@@ -19,7 +21,7 @@ namespace Logic.Interfaces
         /// Confirms if session is valid
         /// </summary>
         /// <returns></returns>
-        bool IsSessionValid(string token);
+        bool IsSessionValid(Logic.ViewModels.SessionVM session, string token);
 
     }
 }

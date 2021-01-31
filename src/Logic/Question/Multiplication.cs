@@ -6,25 +6,25 @@ using QuestionSubType = Logic.Enums.QuestionSubType;
 
 namespace Logic.Question
 {
-    public class AddSubQuestion : IQuestion
+    public class MultiplicationQuestion : IQuestion
     {
-        public QuestionSubType QuestionType { get; } = QuestionSubType.AddSub;
+        public QuestionSubType QuestionSubType { get; } = QuestionSubType.Multiplication;
 
         public List<SignedNumber> Numbers { get; set;  } = new List<SignedNumber>();
 
         public decimal Calculate()
         {
-            decimal result = 0;
-            foreach(var t in Numbers.OrderBy(x => x.SortOrder))
+            decimal result = 1;
+            foreach(var n in Numbers.OrderBy(x => x.SortOrder))
             {
-                result += t.Number;
+                result *= n.Number;
             }
             return result;
         }
 
         public bool IsValid()
         {
-            if ( Numbers.Count > 0)
+            if ( Numbers.Count > 1)
             {
                 return true;
             }
