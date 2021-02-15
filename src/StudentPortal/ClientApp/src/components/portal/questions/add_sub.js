@@ -12,14 +12,15 @@ import { getEllapsedSeconds } from '../utility_methods';
 const calculateAnswer = (data) => {
     if ( !_.isUndefined(data) && !_.isUndefined(data.numbers) && data.numbers.length > 0){
         let count = 0;
-        _.forEach(data.numbers, (d) => { count = count+d;});
+        _.forEach(data.numbers, (d) => { count = count+d.number;});
         return count;
     }
 
     return null;
 }
 
-const AddSub = ({data}) => {
+const AddSub = ({onQuestionAnswered, data}) => {
+    const onQuestionAnsweredEvent = onQuestionAnswered;
     const [answer, setAnswer] = useState();
     const [answerValid, setAnswerValid] = useState(false);
     const [start, setStart] = useState(null);
@@ -27,18 +28,26 @@ const AddSub = ({data}) => {
     const correctAnswer = calculateAnswer(data);
 
     useEffect(() => {
+
+        setTotalSeconds(totalSeconds);
+        setAnswerValid(false);
+        setAnswer('');
         setStart(Date.now());
-    }, []);
+    }, [data]);
     
     const handleAnswerKeyDown = (e) => {
         if(e.key === 'Enter'){
-            debugger;
-            setTotalSeconds(getEllapsedSeconds(start));
+
+            let totalSecondsTaken = getEllapsedSeconds(start);
+
+            setTotalSeconds(totalSecondsTaken);
 
             if ( answer == correctAnswer ) {
+                onQuestionAnsweredEvent({result: true, totalSeconds: totalSecondsTaken});
                 setAnswerValid(true);
             }
             else {
+                onQuestionAnsweredEvent({result: false, totalSeconds: totalSecondsTaken});
                 setAnswerValid(false);
             }
         }
@@ -48,13 +57,13 @@ const AddSub = ({data}) => {
         <React.Fragment>
         {data && data.numbers &&
             <div class="container question_container">   
-            {data.numbers.map((item) => {
+            {_.sortBy(data.numbers, 'sortBy').map((item) => {
                 return <div class="row">
                     <div class="col-xs sign">
-                        {item >= 0 ? '+' : '-' }
+                        {item.number >= 0 ? '+' : '-' }
                     </div>
                     <div class="col-sm number">
-                        {Math.abs(item)}
+                        {Math.abs(item.number)}
                     </div>
                     <div class="col-xxl">
                         &nbsp;

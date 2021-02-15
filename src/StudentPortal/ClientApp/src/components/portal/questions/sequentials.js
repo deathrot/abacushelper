@@ -12,7 +12,8 @@ import { getEllapsedSeconds } from '../utility_methods';
 const calculateAnswer = (data) => {
     if ( !_.isUndefined(data) && !_.isUndefined(data.numbers)){
         let count = 0;
-        for(let i=1;i<=data.numbers[0];i++) {
+
+        for(let i=1;i<=data.numbers[0].number;i++) {
             count +=i; 
         }
         return count;
@@ -21,7 +22,8 @@ const calculateAnswer = (data) => {
     return null;
 }
 
-const Sequentials = ({data}) => {
+const Sequentials = ({onQuestionAnswered, data}) => {
+    const onQuestionAnsweredEvent = onQuestionAnswered;
     const [answer, setAnswer] = useState();
     const [answerValid, setAnswerValid] = useState(false);
     const [start, setStart] = useState(null);
@@ -34,12 +36,17 @@ const Sequentials = ({data}) => {
     
     const handleAnswerKeyDown = (e) => {
         if(e.key === 'Enter'){
-            setTotalSeconds(getEllapsedSeconds(start));
+
+            let totalSecondsTaken = getEllapsedSeconds(start);
+
+            setTotalSeconds(totalSecondsTaken);
 
             if ( answer == correctAnswer ) {
+                onQuestionAnsweredEvent({result: true, totalSeconds: totalSecondsTaken});
                 setAnswerValid(true);
             }
             else {
+                onQuestionAnsweredEvent({result: false, totalSeconds: totalSecondsTaken});
                 setAnswerValid(false);
             }
         }
@@ -49,7 +56,7 @@ const Sequentials = ({data}) => {
         <React.Fragment>
         {data && data.numbers && 
             <div class="container question_container">   
-            {_.map(Array(data.numbers[0]), (item, index) => {
+            {_.map(Array(data.numbers[0].number), (item, index) => {
                 return <div class="row">
                     <div class="col-xs sign">
                         {(index+1) >= 0 ? '+' : '-' }

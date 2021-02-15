@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Providers
 {
+    [ServicesExtensions.Service]
     public class QuestionsProvider
     {
 

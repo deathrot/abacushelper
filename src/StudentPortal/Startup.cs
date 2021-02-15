@@ -29,7 +29,7 @@ namespace StudentPortal
             });
 
             services.AddServices(Configuration.GetConnectionString("studentDb"), Configuration.GetConnectionString("baseDataDb"));
-
+            
             services.AddControllersWithViews();
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

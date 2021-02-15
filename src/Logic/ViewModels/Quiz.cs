@@ -8,17 +8,19 @@ namespace Logic.ViewModels
 
         public decimal MinLevel {get; set;}
 
-        public QuizQuestion[] Questions {get; set;}
+        public List<QuizQuestion> Questions {get; set;} = new List<QuizQuestion>();
    }
 
     public class QuizQuestion
     {
+        public decimal Level {get; set;}
+
         public Logic.Enums.QuestionType QuestionType {get; set;}
 
         public Logic.Enums.QuestionSubType QuestionSubType {get; set;}
 
         public int SortOrder {get; set;}
 
-        public List<Logic.Question.IQuestion> Questions {get; set;} = new List<Question.IQuestion>();
+        public Logic.Question.IQuestion Question {get; set;}
     }
 }

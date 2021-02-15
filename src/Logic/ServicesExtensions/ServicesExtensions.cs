@@ -14,6 +14,7 @@ namespace Logic.ServicesExtensions
         {
             services.AddSingleton(typeof(Interfaces.ISessionCacheProvider), new SessionCache.SessionCacheProvider());
             services.AddScoped<Interfaces.ISessionBL, Business.SessionBL>();
+            services.AddScoped<Interfaces.IQuizProvider, Providers.QuizProvider>();
 
             services.AddSingleton<DB.StudentDBConnectionUtility>(new DB.StudentDBConnectionUtility(studentDB));
             services.AddSingleton<DB.BaseDBConnectionUtility>(new DB.BaseDBConnectionUtility(baseDB));

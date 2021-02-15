@@ -10,13 +10,14 @@ import { getEllapsedSeconds } from '../utility_methods';
 
 const calculateAnswer = (data) => {
     if (!_.isUndefined(data) && !_.isUndefined(data.numbers)){
-        return data.numbers[0] * data.numbers[1];
+        return data.numbers[0].number * data.numbers[1].number;
     }
 
     return null;
 }
 
-const Multiplication = ({data}) => {
+const Multiplication = ({onQuestionAnswered, data}) => {
+    const onQuestionAnsweredEvent = onQuestionAnswered;
     const [answer, setAnswer] = useState();
     const [answerValid, setAnswerValid] = useState(false);
     const [start, setStart] = useState(null);
@@ -29,12 +30,17 @@ const Multiplication = ({data}) => {
     
     const handleAnswerKeyDown = (e) => {
         if(e.key === 'Enter'){
-            setTotalSeconds(getEllapsedSeconds(start));
+
+            let totalSecondsTaken = getEllapsedSeconds(start);
+
+            setTotalSeconds(totalSecondsTaken);
 
             if ( answer == correctAnswer ) {
+                onQuestionAnsweredEvent({result: true, totalSeconds: totalSecondsTaken});
                 setAnswerValid(true);
             }
             else {
+                onQuestionAnsweredEvent({result: false, totalSeconds: totalSecondsTaken});
                 setAnswerValid(false);
             }
         }
@@ -48,7 +54,7 @@ const Multiplication = ({data}) => {
                 <div class="col-xs sign">
                 </div>
                 <div class="col-sm number">
-                    <span>{data.numbers[0]}</span> <span>X</span> <span>{data.numbers[1]}</span>
+                    <span>{data.numbers[0].number}</span> <span>X</span> <span>{data.numbers[1].number}</span>
                 </div>
                 <div class="col-xxl">
                     &nbsp;

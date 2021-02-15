@@ -14,9 +14,6 @@ const Portal = (props) => {
     return (
         <div>
             <h3>Portal</h3>
-            <p>
-                Student portal for {state.displayName}
-            </p>
             <div>
                 <Quiz />
             </div>

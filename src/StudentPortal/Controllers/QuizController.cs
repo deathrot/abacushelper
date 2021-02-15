@@ -15,43 +15,22 @@ namespace StudentPortal.Controllers
         private readonly ILogger<LoginController> _logger;
         private readonly Logic.DB.StudentDBConnectionUtility _connectionUtility;
         private readonly Logic.Interfaces.ISessionCacheProvider _sessionCacneProvider;
+        private readonly Logic.Interfaces.IQuizProvider _quizProvider;
 
         public QuizController(ILogger<LoginController> logger, Logic.DB.StudentDBConnectionUtility connectionUtility, 
-                                Logic.Interfaces.ISessionCacheProvider sessionCacneProvider)
+                                Logic.Interfaces.ISessionCacheProvider sessionCacneProvider,
+                                Logic.Interfaces.IQuizProvider quizProvider)
         {
             _logger = logger;
+            _quizProvider = quizProvider;
             _connectionUtility = connectionUtility;
             _sessionCacneProvider = sessionCacneProvider;
         }
-
-        [HttpPost]
-        public async Task<Logic.ViewModels.AuthenticateResultVM> InitiateLogin(Logic.Models.LoginRequest request)
-        {
-            if ( request == null || string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password)){
-                return new Logic.ViewModels.AuthenticateResultVM();
-            }
-
-            Logic.Providers.UserProvider provider = new Logic.Providers.UserProvider();
-            var result = await provider.Login(_connectionUtility, request.Email, request.Password, new Logic.Models.LoginSessionProvider());
-
-            if ( result.ResultType == Logic.Enums.AuthenticateResultType.Success)
-            {
-                _sessionCacneProvider.AddSessionModel(result.Session);
-            }
-
-            return result;
-        }
         
-
-        [HttpPost]
-        public async Task<bool> Logout(Logic.Models.LogoutRequest request)
+        [HttpGet]
+        public async Task<Logic.ViewModels.Quiz> FetchQuiz()
         {
-            if ( request == null || request.SessionToken == null || string.IsNullOrEmpty(request.SessionToken)){
-                return false;
-            }
-
-            Logic.Providers.UserProvider provider = new Logic.Providers.UserProvider();
-            return await provider.Logout(_connectionUtility, request.SessionToken);
+            return await _quizProvider.GetQuiz(0, 0);
         }
     }
 }

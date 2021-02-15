@@ -1,0 +1,63 @@
+.question_list {
+    padding: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.quiz_container {
+    margin: 10px;
+}
+
+.timer_progress {
+}
+
+.quiz_row {
+    display: block;
+    padding: 8px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+
+.question_wrapper {
+    padding: 10px;
+    min-height: 300px;
+}
+
+.totalValue {
+    font-weight: bolder;
+    font-size: large;
+}
+
+.total_questions {
+    padding: 5px;
+}
+
+.total_answered_questions {
+    margin-right: 5px;
+}   
+
+.value {
+    margin: 5px;
+}
+
+.totals {
+    margin: 8px;
+    font-weight: bold;
+}
+
+.total_action {
+    text-align: center;
+    align-content: center;
+
+}
+
+.timer {
+    padding-right: 5px;
+}
+
+.timer_container {
+    text-align: center;
+}
