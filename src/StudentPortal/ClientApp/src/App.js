@@ -1,22 +1,31 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router';
-import { Layout } from './components/Layout';
-import { Home } from './components/Home';
-import { FetchData } from './components/FetchData';
-import { Counter } from './components/Counter';
+import { Route, Switch } from 'react-router';
+import { Layout } from './components/layout';
+import CreateAccount from './components/create_account';
+import Login from './components/login';
+import Home from './components/home';
+import Page404 from './components/page_404'
+import ForgotPassword from './components/forgot_password'
+import { AppContextProvider } from './context/app_context';
 
 import './custom.css'
 
-export default class App extends Component {
-  static displayName = App.name;
+const App = (props) => {
 
-  render () {
     return (
-      <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetch-data' component={FetchData} />
-      </Layout>
+        <AppContextProvider>
+            <Layout>
+                <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route path='/register' component={CreateAccount} />
+                    <Route path='/login' component={Login} />
+                    <Route path='/forgotpassword' component={ForgotPassword} />
+                    <Route component={Page404} />
+                </Switch>
+            </Layout>
+        </AppContextProvider>
     );
-  }
-}
+};
+
+export default App;
+

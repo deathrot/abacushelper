@@ -6,9 +6,9 @@ namespace Logic.Question
 {
     public class BeedQuestion : IQuestion
     {
-        public QuestionSubType QuestionType { get; } = QuestionSubType.Beed;
+        public QuestionSubType QuestionSubType { get; } = QuestionSubType.Beed;
 
-        public List<SignedNumber> Numbers { get; set;  } = new List<SignedNumber>();
+        public List<SignedNumber> Numbers { get; } = new List<SignedNumber>();
 
         public decimal Calculate()
         {
