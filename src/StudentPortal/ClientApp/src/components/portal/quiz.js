@@ -3,6 +3,7 @@ import QuestionSubType from '../../common/question_sub_types';
 import AddSub from './questions/add_sub';
 import Sequentials from './questions/sequentials';
 import Multiplication from './questions/multiplication';
+import SimpleDivision from './questions/simple_division';
 import LoadingOverlay from 'react-loading-overlay';
 import { ToastContainer, toast } from 'react-toastify';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -126,6 +127,9 @@ const Quiz = (props) => {
 
                             {currentQuestion && currentQuestion.question.questionSubType == QuestionSubType.Multiplication &&
                                 <Multiplication data={currentQuestion.question} onQuestionAnswered={(e) => handleQuestionAnswered(e)} />}
+
+                            {currentQuestion && currentQuestion.question.questionSubType == QuestionSubType.SimpleDivision &&
+                                <SimpleDivision data={currentQuestion.question} onQuestionAnswered={(e) => handleQuestionAnswered(e)} />}
 
                             {currentQuestion && currentQuestion.question.questionSubType == QuestionSubType.Sequentials &&
                                 <Sequentials data={currentQuestion.question} onQuestionAnswered={(e) => handleQuestionAnswered(e)} />}

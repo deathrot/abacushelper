@@ -5,10 +5,10 @@ namespace Logic.Engine
 {
     public class QuizEngine
     {
-        QuestionCylinders.IQuestionCylinder[] cylinders = new QuestionCylinders.IQuestionCylinder[3]{
+        QuestionCylinders.IQuestionCylinder[] cylinders = new QuestionCylinders.IQuestionCylinder[]{
             new QuestionCylinders.AddSubQuestionCylinder(),
             new QuestionCylinders.MultiplicationCylinder(),
-            new QuestionCylinders.SequentialCylinder()
+            new QuestionCylinders.SimpleDividisionCylinder()
         };
         
         public ViewModels.Quiz CreateQuiz(decimal minLevel, decimal maxLevel)
