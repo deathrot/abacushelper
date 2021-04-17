@@ -19,10 +19,6 @@ namespace Logic.Question
             {
                 result += i;
             }
-            foreach(var t in Numbers.OrderBy(x => x.SortOrder))
-            {
-                result += t.Number;
-            }
             return result;
         }
 
@@ -34,6 +30,40 @@ namespace Logic.Question
             }
 
             return false;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            var q = (AddSubQuestion)obj;
+            if ( q.Numbers.Count != this.Numbers.Count || q.Calculate() != this.Calculate())
+            {
+                return false;
+            }
+
+            foreach(var t in q.Numbers)
+            {
+                if ( !this.Numbers.Any(x => x.Number == t.Number))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return string.Join(",", Numbers.OrderBy(x => x.Number).Select(x => x.Number)).GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return Constants.Constants.OutputToString(this);
         }
     }
 }

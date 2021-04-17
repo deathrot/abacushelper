@@ -10,11 +10,11 @@ import { green, red } from '@material-ui/core/colors';
 import { getEllapsedSeconds } from '../utility_methods';
 
 const calculateAnswer = (data) => {
-    if ( !_.isUndefined(data) && !_.isUndefined(data.numbers)){
+    if (!_.isUndefined(data) && !_.isUndefined(data.numbers)) {
         let count = 0;
 
-        for(let i=1;i<=data.numbers[0].number;i++) {
-            count +=i; 
+        for (let i = 1; i <= data.numbers[0].number; i++) {
+            count += i;
         }
         return count;
     }
@@ -22,7 +22,7 @@ const calculateAnswer = (data) => {
     return null;
 }
 
-const Sequentials = ({onQuestionAnswered, data}) => {
+const Sequentials = ({ onQuestionAnswered, data }) => {
     const onQuestionAnsweredEvent = onQuestionAnswered;
     const [answer, setAnswer] = useState();
     const [answerValid, setAnswerValid] = useState(false);
@@ -32,21 +32,22 @@ const Sequentials = ({onQuestionAnswered, data}) => {
 
     useEffect(() => {
         setStart(Date.now());
-    }, []);
-    
+        setAnswer('');
+    }, [data]);
+
     const handleAnswerKeyDown = (e) => {
-        if(e.key === 'Enter'){
+        if (e.key === 'Enter') {
 
             let totalSecondsTaken = getEllapsedSeconds(start);
 
             setTotalSeconds(totalSecondsTaken);
 
-            if ( answer == correctAnswer ) {
-                onQuestionAnsweredEvent({result: true, totalSeconds: totalSecondsTaken});
+            if (answer == correctAnswer) {
+                onQuestionAnsweredEvent({ result: true, totalSeconds: totalSecondsTaken });
                 setAnswerValid(true);
             }
             else {
-                onQuestionAnsweredEvent({result: false, totalSeconds: totalSecondsTaken});
+                onQuestionAnsweredEvent({ result: false, totalSeconds: totalSecondsTaken });
                 setAnswerValid(false);
             }
         }
@@ -54,38 +55,38 @@ const Sequentials = ({onQuestionAnswered, data}) => {
 
     return (
         <React.Fragment>
-        {data && data.numbers && 
-            <div class="container question_container">   
-            {_.map(Array(data.numbers[0].number), (item, index) => {
-                return <div class="row">
-                    <div class="col-xs sign">
-                        {(index+1) >= 0 ? '+' : '-' }
+            {data && data.numbers &&
+                <div class="container question_container">
+                    {_.map(Array(data.numbers[0].number), (item, index) => {
+                        return <div class="row">
+                            <div class="col-xs sign">
+                                {(index + 1) >= 0 ? '+' : '-'}
+                            </div>
+                            <div class="col-sm number">
+                                {Math.abs(index + 1)}
+                            </div>
+                            <div class="col-xxl">
+                                &nbsp;
                     </div>
-                    <div class="col-sm number">
-                        {Math.abs(index+1)}
-                    </div>
-                    <div class="col-xxl">
-                        &nbsp;
-                    </div>
+                        </div>
+                    })}
+                    <div class="row">
+                        <div class="col-xs sign">
+                            Answer:
                 </div>
-            })}
-            <div class="row">
-                <div class="col-xs sign">
-                    Answer:
-                </div>
-                <div class="col-sm total number">
-                    <TextField type="number" value={answer} size="small" InputProps={{autoFocus: true}} onChange={(e) => setAnswer(e.target.value)} 
-                        onKeyPress={(e) => handleAnswerKeyDown(e)} />
-                    {answerValid && <CheckIcon style={{ color: green[500] }} /> }
-                    {!answerValid && <ClearIcon style={{ color: red[500] }} /> }
-                    {answerValid && <div>You took {totalSeconds} sec</div>}
-                </div>
-                <div class="col-xxl">
-                    &nbsp;
+                        <div class="col-sm total number">
+                            <TextField type="number" value={answer} size="small" InputProps={{ autoFocus: true }} onChange={(e) => setAnswer(e.target.value)}
+                                onKeyPress={(e) => handleAnswerKeyDown(e)} />
+                            {answerValid && <CheckIcon style={{ color: green[500] }} />}
+                            {!answerValid && <ClearIcon style={{ color: red[500] }} />}
+                            {answerValid && <div>You took {totalSeconds} sec</div>}
+                        </div>
+                        <div class="col-xxl">
+                            &nbsp;
             </div>
-            </div>
-        </div>
-        }
+                    </div>
+                </div>
+            }
         </React.Fragment>
     );
 }

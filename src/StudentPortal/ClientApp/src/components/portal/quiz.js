@@ -82,7 +82,7 @@ const Quiz = (props) => {
     }
 
     const handleQuestionAnswered = (e) => {
-
+        
         let totalA = totalQuestionAnswered + 1;
 
         setTotalQuestionAnswered(totalA);
@@ -93,6 +93,7 @@ const Quiz = (props) => {
         }
         if (totalA < totalQuestion) {
             let question = getNextQuestion(quizObj.questions, currentQuestion.sortOrder);
+            console.log(question);
             setCurrentQuestion(question);
         }
         else {

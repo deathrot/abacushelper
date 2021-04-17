@@ -26,6 +26,7 @@ const Multiplication = ({onQuestionAnswered, data}) => {
 
     useEffect(() => {
         setStart(Date.now());
+        setAnswer('');
     }, []);
     
     const handleAnswerKeyDown = (e) => {

@@ -30,7 +30,7 @@ namespace StudentPortal.Controllers
         [HttpGet]
         public async Task<Logic.ViewModels.Quiz> FetchQuiz()
         {
-            return await _quizProvider.GetQuiz(0, 0);
+            return await _quizProvider.GetQuiz(0, 3);
         }
     }
 }
