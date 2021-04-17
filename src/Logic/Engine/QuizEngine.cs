@@ -8,7 +8,8 @@ namespace Logic.Engine
         QuestionCylinders.IQuestionCylinder[] cylinders = new QuestionCylinders.IQuestionCylinder[]{
             new QuestionCylinders.AddSubQuestionCylinder(),
             new QuestionCylinders.MultiplicationCylinder(),
-            new QuestionCylinders.SimpleDividisionCylinder()
+            new QuestionCylinders.SimpleDividisionCylinder(),
+            new QuestionCylinders.AverageCylinder()
         };
         
         public ViewModels.Quiz CreateQuiz(decimal minLevel, decimal maxLevel)

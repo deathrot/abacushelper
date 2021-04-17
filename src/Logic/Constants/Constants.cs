@@ -26,6 +26,10 @@ namespace Logic.Constants
                     sb.Append($"{n.Number}{sign}");
                 }
             }
+            else if (question.QuestionSubType == Enums.QuestionSubType.Average)
+            {
+                sb.Append(string.Join(" , ", question.Numbers.OrderBy(x => x.SortOrder).Select(x => x.Number)));
+            }
             else if (question.QuestionSubType == Enums.QuestionSubType.Multiplication)
             {
                 sb.Append(string.Join(" X ", question.Numbers.OrderBy(x => x.SortOrder).Select(x => x.Number)));

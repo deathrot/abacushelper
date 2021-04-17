@@ -28,8 +28,7 @@ const Average = ({onQuestionAnswered, data}) => {
     const correctAnswer = calculateAnswer(data);
 
     useEffect(() => {
-
-        setTotalSeconds(totalSeconds);
+        setTotalSeconds(0);
         setAnswerValid(false);
         setAnswer('');
         setStart(Date.now());
@@ -88,4 +87,4 @@ const Average = ({onQuestionAnswered, data}) => {
     );
 }
 
-export default AddSub;
+export default Average;
