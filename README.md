@@ -5,13 +5,20 @@ Abacus helper is a web app I created to help my kid with his abacus skills like 
 This repository contains:
 
 1. .Net core web application called App
-2. Business library project
-3. Test NUnit test project
-
+2. .Net core web application called StudentPortal
+3. Business library project
+4. Test NUnit test project
 
 ## Background
 
-This app is designed to keep my kids abacus skills sharp, track his progress and generate reports for the parent to take action on.
+I designed this app to keep my son's abacus skills sharp while in the lockdown. The app got expanded to what it is right now... 
+
+1. English questions
+2. Advanced questions type like equation
+3. Configurable Quiz(IN PROGRESS)
+4. Level promotions(IN PROGRESS)
+5. Configural study plans(IN PROGRESS)
+
 
 ## Components
 
