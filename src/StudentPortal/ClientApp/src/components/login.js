@@ -136,7 +136,7 @@ const Login = (props) => {
                             helperText="enter your password..." variant="outlined"></TextField>
                     </div>
                     <div class="input center">
-                        <Button variant="contained" style={{ margin: 8 }} onClick={(e) => handleLogin(e)} color="primary">Login</Button>
+                        <Button variant="contained" type="submit" style={{ margin: 8 }} onClick={(e) => handleLogin(e)} color="primary">Login</Button>
                     </div>
                     <div class="login_links">
                         <Link to="/register">Create Account</Link> <span class="spacer" /> <Link to="/ForgotPassword">Forgot Password</Link>

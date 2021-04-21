@@ -11,21 +11,21 @@ const NavMenu = (props) => {
     
     return (
         <header>
-            <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
+            <Navbar className="navbar-expand-sm navbar-toggleable-sm bg-info border-bottom box-shadow mb-3"    >
                 <Container>
-                    <NavbarBrand tag={Link} to="/">StudentPortal</NavbarBrand>
+                    <NavbarBrand className="text-light" tag={Link} to="/">StudentPortal</NavbarBrand>
                     <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen navbar>
                         <ul className="navbar-nav flex-grow">
                             <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
+                                <NavLink tag={Link} className="text-light" to="/">Home</NavLink>
                             </NavItem>
                             {!state.isLoggedIn &&
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/Login">Login</NavLink>
+                                    <NavLink tag={Link} className="text-light" to="/Login">Login</NavLink>
                                 </NavItem>}
                             {!state.isLoggedIn &&
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/register">Register</NavLink>
+                                    <NavLink tag={Link} className="text-light" to="/register">Register</NavLink>
                                 </NavItem>
                             }
                         </ul>

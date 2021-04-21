@@ -4,10 +4,9 @@ import AppContextActions from './app_context_actions';
 import _ from 'lodash';
 
 const initial_state = {
-    sesison_token: null,
+    sessionToken: null,
     user_name: null,
-    isLoggedIn: false,
-    
+    isLoggedIn: false,    
 };
 
 const stateReducer = (state, action) => {
@@ -18,12 +17,15 @@ const stateReducer = (state, action) => {
                 userId: null, 
                 isLoggedIn: false };
         case AppContextActions.Login:
+            debugger;
             let session = action.payload.session;
-            return { ...state, sessionToken: session.sessionToken, 
+            let s = { ...state, sessionToken: session.sessionToken, 
                     displayName: session.displayName, 
                     email: session.emailAddress, 
                     userId: session.userId, 
                     isLoggedIn: true };
+            console.log(s);
+            return s;
     }
 
     return state;

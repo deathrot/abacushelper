@@ -31,6 +31,8 @@ const Sequentials = ({ onQuestionAnswered, data }) => {
     const correctAnswer = calculateAnswer(data);
 
     useEffect(() => {
+        setTotalSeconds(0);
+        setAnswerValid(false);
         setStart(Date.now());
         setAnswer('');
     }, [data]);

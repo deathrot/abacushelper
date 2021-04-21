@@ -17,6 +17,7 @@ const App = (props) => {
             <Layout>
                 <Switch>
                     <Route exact path="/" component={Home} />
+                    <Route exact path="/Home" component={Home} />
                     <Route path='/register' component={CreateAccount} />
                     <Route path='/login' component={Login} />
                     <Route path='/forgotpassword' component={ForgotPassword} />

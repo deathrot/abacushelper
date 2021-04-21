@@ -13,10 +13,7 @@ const Portal = (props) => {
     const { state, dispatch } = useContext(AppContext);
     return (
         <div>
-            <h3>Portal</h3>
-            <div>
-                <Quiz />
-            </div>
+            <Quiz />
         </div>
     );
 }
