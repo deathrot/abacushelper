@@ -1,10 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import QuestionSubType from '../../common/question_sub_types';
-import DisplayQuestion from './display_question';
-import Sequentials from './questions/sequentials';
-import Multiplication from './questions/multiplication';
-import SimpleDivision from './questions/simple_division';
-import Average from './questions/average';
+
 import LoadingOverlay from 'react-loading-overlay';
 import { ToastContainer, toast } from 'react-toastify';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -24,7 +20,7 @@ const getNextQuestion = (questions, lastQuestionSortOrder) => {
     return _.first(_.sortBy(questions, 'sortOrder'));
 }
 
-const Quiz = (props) => {
+const Practice = (props) => {
     const [quizObj, setQuizObj] = useState({});
     const [currentQuestion, setCurrentQuestion] = useState(null);
 
@@ -33,34 +29,6 @@ const Quiz = (props) => {
     const [totalCorrect, setTotalCorrect] = useState(0);
     const [totalQuestion, setTotalQuestion] = useState(0);
     const [totalQuestionAnswered, setTotalQuestionAnswered] = useState(0);
-
-    const testQuestion = {
-        "level": 0,
-        "questionType": 0,
-        "questionSubType": 0,
-        "sortOrder": 8,
-        "question": {
-            "questionSubType": 1,
-            "numbers": [
-                {
-                    "number": 5,
-                    "sortOrder": 0
-                },
-                {
-                    "number": 2,
-                    "sortOrder": 1
-                },
-                {
-                    "number": 17,
-                    "sortOrder": 2
-                },
-                {
-                    "number": 18,
-                    "sortOrder": 3
-                }
-            ]
-        }
-    };
 
     const [fetchingQuiz, setFetchingQuiz] = useState(false);
 
@@ -145,20 +113,13 @@ const Quiz = (props) => {
     return (<LoadingOverlay
         active={fetchingQuiz}
         spinner
-        text='Fetching quiz...'>
-        <h1 class="display-4">Quiz</h1>
+        text='Fetching practice...'>
+        <h1 class="display-4">Practice</h1>
 
         <div class="container-fluid">
             {quizStatus == 1 &&
                 <div>
-                    <DisplayQuestion currentQuestion={currentQuestion} onQuestionAnswered={(e) => handleQuestionAnswered(e)} />
-
-                    <div class="question_list">
-                        <p>&nbsp;</p>
-                        <div class="timer_progress">
-                            <LinearProgress variant="determinate" color="primary" value={getProgress()} />
-                        </div>
-                    </div>
+                    
                 </div>
             }
             {quizStatus == 0 &&
@@ -184,7 +145,7 @@ const Quiz = (props) => {
                     </div>
                 </div>
             }
-
+                
             {quizStatus == 2 &&
                 <div class="card">
                     <div class="card-body">
@@ -196,7 +157,7 @@ const Quiz = (props) => {
                                 <li>Total Correct: {totalCorrect}</li>
                                 <li>Total Time: {getTimerDisplay()}</li>
                             </ul>
-
+                            
                             <Button color="primary" variant="contained" onClick={(e) => handleTryAgain(e)}>Try Again</Button>
                         </p>
                     </div>
@@ -217,4 +178,4 @@ const Quiz = (props) => {
     </LoadingOverlay>);
 }
 
-export default Quiz;
+export default Practice;

@@ -21,14 +21,14 @@ Create table IF NOT EXISTS settings(
 Create table IF NOT EXISTS questions(
 	id varchar(36) not null primary key,
 	severity INTEGER NOT NULL, 
-	level INTEGER NOT NULL, 
-	sub_level INTEGER NOT NULL, 
+	min_level DECIMAL(18,5) NOT NULL, 
+	max_level DECIMAL(18,5) NOT NULL, 
 	question_type INTEGER NOT NULL,
 	question_sub_type INTEGER NOT NULL,
+	base_question_sub_type INTEGER,
 	record_name VARCHAR(256),
 	record_description VARCHAR(512),
 	question JSON NOT NULL,
-	sort_order integer,
 	is_deleted boolean NOT NULL default(FALSE),
 	modified_on datetime not NULL
 );

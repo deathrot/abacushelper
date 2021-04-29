@@ -96,7 +96,7 @@ namespace Logic.Engine.QuestionCylinders
             System.Collections.Generic.Dictionary<int, AverageConstraint> constraintsByLevelId = 
                 new System.Collections.Generic.Dictionary<int, AverageConstraint>();
 
-            constraintsByLevelId.Add(1, new AverageConstraint(1){
+            constraintsByLevelId.Add(1, new AverageConstraint(1, 0){
                      AllowDecimal = false,
                      MaxNumber = 5,
                      MinNumber = 1,
@@ -104,7 +104,7 @@ namespace Logic.Engine.QuestionCylinders
                      MinTotalNumbers = 2
                 });
 
-            constraintsByLevelId.Add(2, new AverageConstraint(1){
+            constraintsByLevelId.Add(2, new AverageConstraint(2, constraintsByLevelId[1].MaxScore){
                      AllowDecimal = false,
                      MaxNumber = 10,
                      MinNumber = 3,
@@ -112,7 +112,7 @@ namespace Logic.Engine.QuestionCylinders
                      MinTotalNumbers = 2
                 });
 
-            constraintsByLevelId.Add(3, new AverageConstraint(1){
+            constraintsByLevelId.Add(3, new AverageConstraint(3, constraintsByLevelId[2].MaxScore){
                      AllowDecimal = false,
                      MaxNumber = 12,
                      MinNumber = 3,
@@ -120,7 +120,7 @@ namespace Logic.Engine.QuestionCylinders
                      MinTotalNumbers = 2
                 });
 
-            constraintsByLevelId.Add(4, new AverageConstraint(1){
+            constraintsByLevelId.Add(4, new AverageConstraint(4, constraintsByLevelId[3].MaxScore){
                      AllowDecimal = true,
                      MaxNumber = 15,
                      MinNumber = 5,
@@ -128,7 +128,7 @@ namespace Logic.Engine.QuestionCylinders
                      MinTotalNumbers = 2
                 });
 
-            constraintsByLevelId.Add(5, new AverageConstraint(1){
+            constraintsByLevelId.Add(5, new AverageConstraint(5, constraintsByLevelId[4].MaxScore){
                      AllowDecimal = true,
                      MaxNumber = 20,
                      MinNumber = 5,

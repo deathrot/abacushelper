@@ -8,8 +8,14 @@ namespace Logic.Engine.Constraints
         public Logic.Enums.QuestionType QuestionType { get; } = Logic.Enums.QuestionType.Math;
 
         public Logic.Enums.QuestionSubType QuestionSubType { get; } = Logic.Enums.QuestionSubType.AddSub;
+        
+        public decimal MaxLevel { get; }
 
-        public int Level { get; }
+        public decimal MinLevel {get;}
+
+        public string ConstraintType {get; set;} = "MulDiv";
+
+        public decimal Version {get; set;} = 1;
 
         public decimal MaxNumber { get; set; }
 
@@ -32,9 +38,9 @@ namespace Logic.Engine.Constraints
             get; private set;
         }
 
-        public MultiplicationConstraints(int level, decimal minScore)
+        public MultiplicationConstraints(decimal maxLevel, decimal minScore)
         {
-            this.Level = level;
+            this.MaxLevel = maxLevel;
             this.MinScore = minScore;
         }
        

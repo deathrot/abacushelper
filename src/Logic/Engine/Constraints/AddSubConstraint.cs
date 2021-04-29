@@ -9,7 +9,13 @@ namespace Logic.Engine.Constraints
 
         public Logic.Enums.QuestionSubType QuestionSubType { get; } = Logic.Enums.QuestionSubType.AddSub;
 
-        public int Level { get; }
+        public decimal MaxLevel { get; }
+
+        public decimal MinLevel {get;}
+
+        public string ConstraintType {get; set;} = "AddSub";
+
+        public decimal Version {get; set;} = 1;
 
         public decimal MaxScore { 
             get
@@ -32,9 +38,9 @@ namespace Logic.Engine.Constraints
 
         public bool AllowNegative {get; set;} = false;
 
-        public AddSubConstraint(int level, decimal minScore)
+        public AddSubConstraint(decimal maxLevel, decimal minScore)
         {
-            this.Level = level;
+            this.MaxLevel = maxLevel;
             this.MinScore = minScore;
         }
 

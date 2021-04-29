@@ -6,8 +6,14 @@ namespace Logic.Engine.Constraints
         public Logic.Enums.QuestionType QuestionType { get; } = Logic.Enums.QuestionType.Math;
 
         public Logic.Enums.QuestionSubType QuestionSubType { get; } = Logic.Enums.QuestionSubType.AddSub;
+        
+        public decimal MaxLevel { get; }
 
-        public int Level { get; }
+        public decimal MinLevel {get;}
+
+        public string ConstraintType {get; set;} = "Seq";
+
+        public decimal Version {get; set;} = 1;
 
         public decimal MaxScore { 
             get
@@ -26,9 +32,9 @@ namespace Logic.Engine.Constraints
 
         public bool AllowNegative {get; set;}
 
-        public SequentialConstraints(int level, decimal minScore)
+        public SequentialConstraints(decimal maxLevel, decimal minScore)
         {
-            this.Level = level;
+            this.MaxLevel = maxLevel;
             this.MinScore = minScore;
         }
 

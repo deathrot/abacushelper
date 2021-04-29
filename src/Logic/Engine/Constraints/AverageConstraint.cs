@@ -9,7 +9,13 @@ namespace Logic.Engine.Constraints
 
         public Logic.Enums.QuestionSubType QuestionSubType { get; } = Logic.Enums.QuestionSubType.Average;
 
-        public int Level { get; }
+        public decimal MaxLevel { get; }
+
+        public decimal MinLevel {get;}
+
+        public string ConstraintType {get; set;} = "Avg";
+
+        public decimal Version {get; set;} = 1;
 
         public decimal MaxScore { 
             get
@@ -19,10 +25,7 @@ namespace Logic.Engine.Constraints
         }
         
         public decimal MinScore { 
-            get
-            {
-                return Math.Abs(MinNumber)*MinTotalNumbers; 
-            }
+            get; private set;
         }
 
         public decimal MaxNumber { get; set; }
@@ -35,9 +38,10 @@ namespace Logic.Engine.Constraints
 
         public bool AllowDecimal { get; set; } = false;
 
-        public AverageConstraint(int level)
+        public AverageConstraint(decimal maxLevel, decimal minScore)
         {
-            this.Level = level;
+            this.MaxLevel = maxLevel;
+            this.MinScore = minScore;
         }
 
     }

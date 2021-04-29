@@ -86,7 +86,7 @@ namespace Logic.Engine.QuestionCylinders
             System.Collections.Generic.Dictionary<int, SimpleDivisionConstraint> constraintsByLevelId = 
                 new System.Collections.Generic.Dictionary<int, SimpleDivisionConstraint>();
 
-            constraintsByLevelId.Add(1, new SimpleDivisionConstraint(1){
+            constraintsByLevelId.Add(1, new SimpleDivisionConstraint(1, 0){
                      AllowRemainder = false,
                      MaxDivisor = 5,
                      MinDivisor = 1,
@@ -94,7 +94,7 @@ namespace Logic.Engine.QuestionCylinders
                      MinNumberOfMulitple = 1
                 });
 
-            constraintsByLevelId.Add(2, new SimpleDivisionConstraint(2){
+            constraintsByLevelId.Add(2, new SimpleDivisionConstraint(2, constraintsByLevelId[1].MaxLevel){
                      AllowRemainder = false,
                      MaxDivisor = 10,
                      MinDivisor = 1,
@@ -102,7 +102,7 @@ namespace Logic.Engine.QuestionCylinders
                      MinNumberOfMulitple = 1
                 });
 
-            constraintsByLevelId.Add(3, new SimpleDivisionConstraint(3){
+            constraintsByLevelId.Add(3, new SimpleDivisionConstraint(3, constraintsByLevelId[2].MaxLevel){
                      AllowRemainder = true,
                      MaxDivisor = 10,
                      MinDivisor = 1,
@@ -110,7 +110,7 @@ namespace Logic.Engine.QuestionCylinders
                      MinNumberOfMulitple = 4
                 });
                 
-            constraintsByLevelId.Add(4, new SimpleDivisionConstraint(4){
+            constraintsByLevelId.Add(4, new SimpleDivisionConstraint(4, constraintsByLevelId[3].MaxLevel){
                      AllowRemainder = true,
                      MaxDivisor = 10,
                      MinDivisor = 4,
@@ -118,7 +118,7 @@ namespace Logic.Engine.QuestionCylinders
                      MinNumberOfMulitple = 8
                 });
                 
-            constraintsByLevelId.Add(5, new SimpleDivisionConstraint(5){
+            constraintsByLevelId.Add(5, new SimpleDivisionConstraint(5, constraintsByLevelId[5].MaxLevel){
                      AllowRemainder = true,
                      MaxDivisor = 20,
                      MinDivisor = 8,

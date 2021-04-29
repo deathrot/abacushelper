@@ -9,7 +9,13 @@ namespace Logic.Engine.Constraints
 
         public Logic.Enums.QuestionSubType QuestionSubType { get; } = Logic.Enums.QuestionSubType.SimpleDivision;
 
-        public int Level { get; }
+        public decimal MaxLevel { get; }
+
+        public decimal MinLevel {get;}
+
+        public string ConstraintType {get; set;} = "MulDiv";
+
+        public decimal Version {get; set;} = 1;
 
         public bool AllowRemainder { get; set; } = false;
 
@@ -31,15 +37,13 @@ namespace Logic.Engine.Constraints
         
         public decimal MinScore 
         {
-            get
-            {
-                return MinDivisor*MinNumberOfMulitple;
-            }
+            get; private set;
         }
 
-        public SimpleDivisionConstraint(int level)
+        public SimpleDivisionConstraint(decimal maxLevel, decimal minScore)
         {
-            this.Level = level;
+            this.MaxLevel = maxLevel;
+            this.MinScore = minScore;
         }
 
     }
