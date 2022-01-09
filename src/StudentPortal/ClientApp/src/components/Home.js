@@ -12,17 +12,15 @@ const Home = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    if(!state.isLoggedIn) {
+    /*if(!state.isLoggedIn) {
       history.push({ pathname: '/Login' });
-    }
+    }*/
   }, []);
 
 
   return (
     <div>
-      <AppContextProvider>
-          <Portal />
-      </AppContextProvider>
+        <Portal />
     </div>
   );
 }

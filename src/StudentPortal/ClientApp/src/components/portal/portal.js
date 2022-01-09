@@ -8,12 +8,13 @@ import AddSub from './questions/add_sub';
 import Multiplication from './questions/multiplication';
 import Sequentials from './questions/sequentials';
 import Quiz from './quiz';
+import ConfigurePractice from './configure_practice';
 
 const Portal = (props) => {
     const { state, dispatch } = useContext(AppContext);
     return (
         <div>
-            <Quiz />
+            <ConfigurePractice />
         </div>
     );
 }

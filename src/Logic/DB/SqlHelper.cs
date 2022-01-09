@@ -33,7 +33,22 @@ namespace Logic.DB
             {
                 return DbType.Int32;
             }
-            
+
+            if (value.GetType() == typeof(System.Decimal))
+            {
+                return DbType.Decimal;
+            }
+
+            if (value.GetType() == typeof(System.Int64))
+            {
+                return DbType.Int64;
+            }
+
+            if (value.GetType() == typeof(System.Double))
+            {
+                return DbType.Double;
+            }
+
             if (value.GetType() == typeof(System.String))
             {
                 return DbType.String;

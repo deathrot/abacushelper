@@ -1,5 +1,6 @@
 import React, { Component, useContext } from 'react';
 import _ from 'lodash';
+import QuestionSubType from '../../common/question_sub_types';
 import AddSub from './questions/add_sub';
 import Sequentials from './questions/sequentials';
 import Multiplication from './questions/multiplication';
